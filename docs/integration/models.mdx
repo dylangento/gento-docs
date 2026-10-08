@@ -1,0 +1,30 @@
+---
+title: Simulation models
+description: Simulation models · Gento Marvin Pro
+source_revision: Drive inventory · 2026-10-01
+source_ids:
+- inventory
+review_status: pending
+translation_status: pending
+source_zh_sha256: 27acae3bc65fe45b88cc84b76fe67e09223454e623d2efb0f51d9ae12109a7ea
+---
+Marvin Pro simulation models are configuration-specific. Choose the model matching the actual gripper, force/torque sensor, and camera bracket.
+
+## Available model packages
+
+| Resource name | Configuration indicated by its name |
+| --- | --- |
+| `Marvin-Pro-M6_URDF_wGripper` | M6 with gripper |
+| `Marvin-Pro-M6_URDF_wGripper&FTSensor` | M6 with gripper and force/torque sensor |
+| `marvin_gripper_description.zip` | Gripper description |
+| `Pro-m6-809-gripper.zip` | M6-809 with gripper |
+
+Download the packages from the Marvin Pro tab of [manuals & resources](../resources/downloads.mdx). End-effector adapter CAD is not published; contact [Gento support](mailto:support@gentorobotics.ai) if you need it.
+
+The packages contain URDF files and meshes for simulation and visualization. Check joint limits, frames, and payload settings against your delivered robot before relying on them.
+
+## Before using a model
+
+Check mesh paths, joint order and signs, joint limits, tool mass/inertia, base frames, and TCP definition against the delivered robot and SDK. Keep the model revision with your experiment. A model loading correctly is not evidence that simulation dynamics match the physical robot.
+
+Simulator-specific walkthroughs will be added after the selected packages are inspected and tested.

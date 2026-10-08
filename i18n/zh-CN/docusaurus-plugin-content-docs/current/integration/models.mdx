@@ -1,0 +1,30 @@
+---
+title: 仿真模型
+description: 仿真模型 · Gento Marvin Pro
+source_revision: Drive inventory · 2026-10-01
+source_ids:
+- inventory
+review_status: pending
+translation_status: source
+source_zh_sha256: 27acae3bc65fe45b88cc84b76fe67e09223454e623d2efb0f51d9ae12109a7ea
+---
+Marvin Pro 仿真模型按配置区分。请根据实际夹爪、六维力传感器及相机支架选择模型。
+
+## 可下载的模型包
+
+| 资源名称 | 名称所指的配置 |
+| --- | --- |
+| `Marvin-Pro-M6_URDF_wGripper` | M6 加夹爪 |
+| `Marvin-Pro-M6_URDF_wGripper&FTSensor` | M6 加夹爪及六维力传感器 |
+| `marvin_gripper_description.zip` | 夹爪描述 |
+| `Pro-m6-809-gripper.zip` | M6-809 加夹爪 |
+
+请在[手册与资源](../resources/downloads.mdx)的 Marvin Pro 标签页下载模型包。末端转接件 CAD 不公开发布，如有需要请联系 [Gento 技术支持](mailto:support@gentorobotics.ai)。
+
+模型包包含 URDF 文件和 Mesh，用于仿真和可视化。使用前请对照交付的机器人核对关节限位、坐标系和负载设置。
+
+## 使用模型前
+
+检查网格路径、关节顺序及正方向、关节限位、工具质量与惯量、基坐标系和 TCP 定义是否与交付机器人及 SDK 一致。实验中应记录模型版本。模型能加载，不等于仿真动力学与真机一致。
+
+选定资源包并完成检查测试后，再加入具体仿真器的操作教程。

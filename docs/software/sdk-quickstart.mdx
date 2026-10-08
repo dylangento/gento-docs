@@ -1,0 +1,38 @@
+---
+title: SDK quick start
+description: SDK quick start · Gento Marvin Pro
+source_revision: September 2026
+source_ids:
+- software
+- manual
+review_status: pending
+translation_status: pending
+source_zh_sha256: bb45ad58387af685675ca03ff8cc9f028abdd1fc06f8440922c2012a2e44469f
+---
+Start by connecting and reading feedback in Marvin Platform. The Pro manual recommends learning the application's operation before writing SDK control code.
+
+## Get the matching package
+
+The September software guide points to the full `master` branch of [TJ_FX_ROBOT_CONTRL_SDK](https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK/tree/master).
+
+```bash
+# Retrieve source only. This does not connect to or move a robot.
+git clone --branch master https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK.git
+cd TJ_FX_ROBOT_CONTRL_SDK
+```
+
+Record the checked-out commit and confirm it matches your controller. The guide identifies `ccs_m6_40` calculation files for the M6S-CCS configuration described there; do not apply them to another configuration without verification.
+
+## Follow the package's build instructions
+
+Use the [controller-specific script table](./marvin-platform.mdx) and the README in the selected revision. The Pro V1.0 manual describes Python 3.10+, Pillow, PyInstaller, and matching compiled SDK libraries, but these requirements must be checked against the package you actually use.
+
+## First development milestone
+
+1. Verify SDK/controller compatibility.
+2. Connect using the unit's assigned IP and configured ports.
+3. Read both arms' state and error feedback without sending motion commands.
+4. Disconnect cleanly.
+5. Review the supplied examples before introducing motion.
+
+The Pro manual explicitly describes its SDK demos as R&D examples, not production code. A hardware-tested first-motion example will be added after the target controller, joint conventions, and initial pose are confirmed.

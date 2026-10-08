@@ -1,0 +1,36 @@
+---
+title: Connect & read robot status
+description: Connect & read robot status · Gento Marvin Pro
+source_revision: V1.0 / September 2026
+source_ids:
+- manual
+- software
+- pc-connection
+review_status: pending
+translation_status: pending
+source_zh_sha256: 79c020c3fc94378802999e99e47d94a06363821df31221cf11ae2e97d32de386
+---
+Complete the [hardware connections](./wiring.mdx) and choose the [matching software](./compatibility.mdx) first. This procedure establishes communication and reads status; it does not command motion.
+
+## Connect Marvin Platform
+
+1. Start the Marvin Platform version supplied for your controller.
+2. Connect the computer to the integrated control box and give it an address on the robot's `6.6.7.x` network. See [Connect your PC](../software/connect-pc.mdx).
+3. Enter the motion controller's IP, `6.6.7.190` by default.
+4. Select **Connect Robot** and inspect the live feedback.
+
+The September software guide's example address, `192.168.1.190`, belongs to the standalone Marvin arm controller. If your unit was configured with a different address, use the one recorded for it.
+
+![Connection area in the supplied manual](/img/marvin-pro/platform-connection.webp)
+
+## Confirm live feedback
+
+The software guide notes that UDP communication does not directly return a connection-success flag: verify that fresh feedback is arriving. A stationary arm may have unchanged positions; inspect the stream and other live feedback rather than commanding motion to test the connection.
+
+For disabled, stationary arms, the manual describes control state `0`, drag-button state `0`, low-speed flag `1`, and arm error code `0`. Check both arms.
+
+## If the connection fails
+
+Check power, Ethernet connections, the configured controller IP, host network settings, and the firewall. [Connect your PC](../software/connect-pc.mdx) has a troubleshooting table. For the SDK family in the Pro V1.0 manual, the documented UDP port range is `50000–50010`; verify it against your installed package before changing firewall rules.
+
+Next: [understand the feedback fields](../software/marvin-platform.mdx).

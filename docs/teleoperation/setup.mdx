@@ -1,0 +1,34 @@
+---
+title: Install Apex teleoperation
+description: Install Apex teleoperation · Gento Marvin Pro
+source_revision: '2026-09-04'
+source_ids:
+- vr
+- manual
+review_status: pending
+translation_status: pending
+source_zh_sha256: 899f2b946fc0aa53c550865a1fb0ca31c0abfa93abe06a7627b66b2d98edffbb
+---
+The September 4 VR resource guide separates installation into robot-side, desktop, and headset packages. The Pro manual notes that purchased teleoperation kits may arrive with software preinstalled. Check installed versions before reinstalling.
+
+![Operator teleoperating Marvin Pro with a VR headset](/img/marvin-pro/vr-teleoperation.webp)
+
+## Software packages
+
+| Runs on | Package | Source |
+| --- | --- | --- |
+| ARM64 NVIDIA Jetson | Robot-side Debian packages | [KernelMind_Apex_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Deb) |
+| Operator computer | Apex desktop interface | [KernelMind_Apex_Web_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Web_Deb) |
+| VR headset | Matching headset APK | [KernelMind_Apex_VR_Apk](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_VR_Apk) |
+
+## Installation order
+
+1. Open each repository's Releases page and select packages matching your hardware and software release.
+2. Install the robot-side Debian packages on the supported compute unit, following that release's instructions.
+3. Install the `kernelmind-apex` desktop application on the operator computer.
+4. Install the matching VR APK on the headset using SideQuest, as described in the resource guide.
+5. Follow the [Apex documentation center](https://klmmotion.github.io/Apex_doc_center/) for configuration and connection.
+
+The resource guide mentions Orin and Thor. Package architecture alone is not proof that a particular release supports both; verify its release notes. The source material also distinguishes earlier and newer Pro hardware.
+
+Next: [pre-operation checks](./operation.mdx).

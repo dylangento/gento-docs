@@ -1,0 +1,38 @@
+---
+title: Marvin Platform 与反馈数据
+description: Marvin Platform 与反馈数据 · Gento Marvin Pro
+source_revision: September 2026
+source_ids:
+- software
+- manual
+review_status: pending
+translation_status: source
+source_zh_sha256: 5fa94ae6ed74298333464f8800f06a9a68f172fa0919c842432659aa814fc960
+---
+Marvin Platform 是用于配置机器人、监视反馈和操作控制器运动功能的上位机。9 月中文软件指南描述其支持 Linux x86 和 Windows 64 位平台。
+
+## 源指南中的编译脚本
+
+| 指南中的控制器标识 | Windows 脚本 | Ubuntu 脚本 |
+| --- | --- | --- |
+| “41” | `marvinSDK_windows.bat` | `marvinSDK_ubuntu.sh` |
+| “43” | `marvinSDK_windows_100343.bat` | `marvinSDK_ubuntu_100343.sh` |
+
+指南将 `ui_EN.py` 列为 SDK 编译后的上位机入口文件。使用脚本前，请确认完整控制器版本和仓库修订版。参见 [SDK 入门](./sdk-quickstart.mdx)。
+
+## 反馈字段
+
+![Marvin Platform 反馈界面](/img/marvin-pro/platform-feedback.webp)
+
+| 字段 | 软件指南中的含义 |
+| --- | --- |
+| Position | 电机端编码器转换得到的关节角度 |
+| Velocity | 关节速度 |
+| Torque | 扭矩传感器反馈 |
+| Current | 关节额定电流的千分比 |
+| Temperature | 温度；Pro 手册提醒此字段可能随版本变化 |
+| PositionEX | 减速机输出端编码器转换得到的关节角度 |
+| CmdPosition | 关节指令位置 |
+| ForceEST | 各关节外部负载估计值 |
+
+扭矩传感器反馈与外部负载估计是不同数据。该界面中的电流数值不是直接以安培表示。用于录制或控制之前，请核对 SDK 中的单位和消息定义。

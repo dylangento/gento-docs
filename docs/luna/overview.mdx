@@ -1,0 +1,59 @@
+---
+title: Luna overview
+description: Luna overview · Gento Luna
+source_revision: V2.1 · 2026-08
+source_ids:
+- luna-manual
+- luna-brochure
+review_status: pending
+translation_status: pending
+source_zh_sha256: 19d7678b90bf15cae1e37b69f08228243467cada795512149cea221cc96acf87
+---
+Gento Luna is a wheeled, foldable humanoid robot. It carries Marvin Series M6 Lite dual arms on an omnidirectional chassis with independent four-wheel steering and four-wheel drive. The standard compute platform is NVIDIA Orin, with an optional high-compute NVIDIA Thor. Luna has 26 DoF in total (excluding end effectors), whole-body force control as standard, 3D SLAM navigation, autonomous obstacle avoidance, VR teleoperation, and an SDK for development.
+
+![Gento Luna wheeled humanoid robot](/img/luna/hero.webp)
+
+It stands 1700 mm tall and folds down to 790 mm, so it fits in elevators, narrow spaces, and storage.
+
+## Degrees of freedom
+
+![Luna front, rear, and side views](/img/luna/three-views.webp)
+
+| Section | DoF |
+| --- | --- |
+| Head | 2 |
+| Arms | 7 × 2 |
+| Waist | 3 |
+| Legs | 3 |
+| Chassis | 4 |
+| Total | 26 (excluding end effectors) |
+
+## Main components
+
+| Component | Role |
+| --- | --- |
+| NVIDIA Orin edge AI computer (domain controller) | AI algorithms, sensor fusion, device management, network scheduling; runs the teleoperation back end |
+| Tianji Motion Control Computing Platform (motion controller) | Torso and arm motion control; EtherCAT master for all joint drivers |
+| RDK S100 chassis controller | Chassis motion control, status feedback, and system management |
+| 3D LiDARs, ultrasonic sensors, chassis stereo camera | Mapping, localization, navigation, and obstacle avoidance |
+| Head, wrist (and optional chest) cameras | Scene perception and close-range manipulation views |
+| Two LiFePO4 batteries | Robot power; manual charging, auto-return charging, and battery swap |
+
+Luna complies with FCC Part 15B.
+
+## Suggested reading order
+
+The manual follows the real order of use. On first use, read in this order:
+
+1. [Specifications](./specifications.mdx): hardware capabilities and limits
+2. [Unboxing & first use](./first-use.mdx): checks, power-on, and driving the chassis with the gamepad
+3. [Interfaces & network](./interfaces.mdx): rear panel, IP addresses, and communication architecture
+4. [GentoPlatform](./gentoplatform.mdx): controlling body and arm motion
+5. [SDK & teleoperation](./sdk-teleoperation.mdx): development and VR teleoperation
+6. [Maintenance & safety](./maintenance.mdx): routine checks and safety rules
+
+:::warning Before operating
+Luna is high-power moving equipment; improper operation may cause injury or damage. Read the safety precautions in [maintenance & safety](./maintenance.mdx) before operating it.
+:::
+
+Manuals and product documents are listed in [manuals & source resources](../resources/downloads.mdx).

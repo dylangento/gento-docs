@@ -1,0 +1,12 @@
+node_modules/
+build/
+.docusaurus/
+.sites-runtime/
+.env*
+!.env.example
+.DS_Store
+*.log
+
+# Local-only: source review records and the old offline preview (never published)
+review/
+START-PREVIEW.html

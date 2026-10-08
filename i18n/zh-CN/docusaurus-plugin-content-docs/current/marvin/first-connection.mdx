@@ -1,0 +1,43 @@
+---
+title: 连接上位机
+description: 连接上位机 · Gento Marvin
+source_revision: V2.2 · 2025-09
+source_ids:
+- marvin-manual
+- marvin-inventory
+review_status: pending
+translation_status: source
+source_zh_sha256: dc5935800ffb326c04cdacc96807aad4db0bc80f24a14a0c46e4e7b64e2819d8
+---
+确保手臂和控制器已固定牢固、无碰撞风险，且接线正确后，再连接上位机。
+
+## FxStation
+
+FxStation 是 V2.2 说明书中 Marvin 双臂控制系统的上位机调试软件，支持点动、自动、拖动和关节阻抗等模式。请联系 Gento 技术支持获取软件。
+
+1. 用网线连接控制器 ETH1 或 ETH3 网口。
+2. 将上位机 IP 设置为 192.168.1.165（控制器默认 IP 为 192.168.1.190）。网络和防火墙设置见[连接用户电脑](../software/connect-pc.mdx)。
+3. 打开 FxStation，点击"连接机器人"。
+4. 连接成功后，底部状态栏显示左臂、右臂状态。
+
+进入拖动模式后，需要按住末端法兰上的拖动按钮才能拖动手臂。
+
+:::tip 软件版本
+Marvin 资料文件夹中的"软件与 SDK"部分还包含 2026 年 9 月的 Marvin Platform 软件使用说明。使用前请确认哪款上位机软件适用于您的控制器版本。
+:::
+
+## DriveMaster2.0
+
+DriveMaster2.0 通过调试 485 线连接单个关节驱动，用于驱动调试和固件升级，不用于日常运动控制。
+
+1. 在上位机上安装 USB 转 485 线的驱动程序，并连接 USB 端。
+2. 打开 DriveMaster2.exe，选择正确的 COM 口。
+3. 输入模块地址：J1–J7 分别为 1–7。
+4. 点击"确定"进入主界面。
+
+操作详情见《DriveMaster2.0 用户快速操作说明》。
+
+## 下一步
+
+- 驱动报警：查阅《JMDT 驱动器报警故障和原因措施说明书》（见[手册与源资料](../resources/downloads.mdx)）。
+- 二次开发：Marvin.SDK 提供实时力控和位置控制接口，最高 1 kHz 控制频率。SDK 仓库见 [SDK 目录](../software/sdk-directory.mdx)，并确认与控制器版本匹配。

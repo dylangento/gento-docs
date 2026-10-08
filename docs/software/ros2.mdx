@@ -1,0 +1,30 @@
+---
+title: ROS 2 integration
+description: ROS 2 integration · Gento Marvin Pro
+source_revision: V1.0 · 2026-06-27
+source_ids:
+- manual
+- vr
+review_status: pending
+translation_status: pending
+source_zh_sha256: 006863b08ae4230125a28b6e5dd553612f52114f0c13655b68d85d8cbdbfc533
+---
+In the Pro manual's Apex architecture, the robot-side computer runs ROS 2 nodes, motion control, camera capture, and recording services. The desktop application manages the connection and operator workflow.
+
+## Interface documentation
+
+Use the [Apex documentation center](https://klmmotion.github.io/Apex_doc_center/) and choose its Marvin Pro customer interface documentation for the installed release. Confirm topic names, message types, units, frames, and update behavior from that release before writing a client.
+
+## Keep interfaces distinct
+
+| Interface | Role |
+| --- | --- |
+| Marvin motion SDK | Communication with the robot controller |
+| Apex ROS 2 interfaces | Robot-side application integration and telemetry |
+| Apex desktop application | Operator connection, mode selection, and recording |
+
+ROS 2 integration does not imply that every SDK function is exposed as a topic or service. Do not assume Luna/Skye message definitions or controller settings apply to Marvin Pro.
+
+## Before sending commands
+
+Confirm which process owns robot control, how control is handed over, and which coordinate frame and units the command uses. For the current topic, service, and message definitions, see the [Apex documentation center](https://klmmotion.github.io/Apex_doc_center/).

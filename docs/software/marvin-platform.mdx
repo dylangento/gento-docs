@@ -1,0 +1,38 @@
+---
+title: Marvin Platform & feedback
+description: Marvin Platform & feedback · Gento Marvin Pro
+source_revision: September 2026
+source_ids:
+- software
+- manual
+review_status: pending
+translation_status: pending
+source_zh_sha256: 5fa94ae6ed74298333464f8800f06a9a68f172fa0919c842432659aa814fc960
+---
+Marvin Platform is the desktop interface for configuring the robot, monitoring feedback, and using the controller's motion functions. The September Chinese software guide describes Linux x86 and Windows 64-bit support.
+
+## Build selection in the source guide
+
+| Controller label in guide | Windows script | Ubuntu script |
+| --- | --- | --- |
+| “41” | `marvinSDK_windows.bat` | `marvinSDK_ubuntu.sh` |
+| “43” | `marvinSDK_windows_100343.bat` | `marvinSDK_ubuntu_100343.sh` |
+
+The guide names `ui_EN.py` as the application entry point after the SDK is built. Confirm the full controller version and repository revision before using these scripts. See [SDK quick start](./sdk-quickstart.mdx).
+
+## Feedback fields
+
+![Marvin Platform feedback interface](/img/marvin-pro/platform-feedback.webp)
+
+| Field | Meaning in the software guide |
+| --- | --- |
+| Position | Joint angle derived from the motor-side encoder |
+| Velocity | Joint velocity |
+| Torque | Torque-sensor feedback |
+| Current | Thousandths of the joint's rated current |
+| Temperature | Temperature; the Pro manual notes version-dependent use of this field |
+| PositionEX | Joint angle derived from the output-side encoder |
+| CmdPosition | Commanded joint position |
+| ForceEST | Estimated external joint load |
+
+Torque-sensor feedback and estimated external load are separate values. Current is not presented as amperes in this interface. Confirm units and message definitions in the SDK before recording or controlling from these fields.

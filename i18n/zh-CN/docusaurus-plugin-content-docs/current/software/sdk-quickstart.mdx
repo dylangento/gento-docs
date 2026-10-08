@@ -1,0 +1,38 @@
+---
+title: SDK 快速入门
+description: SDK 快速入门 · Gento Marvin Pro
+source_revision: September 2026
+source_ids:
+- software
+- manual
+review_status: pending
+translation_status: source
+source_zh_sha256: bb45ad58387af685675ca03ff8cc9f028abdd1fc06f8440922c2012a2e44469f
+---
+先在 Marvin Platform 中建立连接并读取反馈。Pro 手册建议熟悉上位机的操作逻辑后，再进行 SDK 控制开发。
+
+## 获取匹配的软件包
+
+9 月软件指南引用 [TJ_FX_ROBOT_CONTRL_SDK](https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK/tree/master) 的完整 `master` 分支。
+
+```bash
+# 仅获取源码，不连接或驱动机器人。
+git clone --branch master https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK.git
+cd TJ_FX_ROBOT_CONTRL_SDK
+```
+
+记录检出的提交版本，确认与控制器匹配。指南为其描述的 M6S-CCS 配置指定 `ccs_m6_40` 计算文件；未经核对，不要用于其他配置。
+
+## 按软件包说明编译
+
+查看[控制器对应脚本表](./marvin-platform.mdx)及所选修订版的 README。Pro V1.0 手册描述 Python 3.10+、Pillow、PyInstaller 及配套编译库要求，但应与实际采用的软件包再次核对。
+
+## 第一个开发目标
+
+1. 验证 SDK 与控制器兼容性。
+2. 使用交付设备的 IP 和配置端口连接。
+3. 不发送运动指令，先读取两条机械臂的状态和错误反馈。
+4. 正常断开连接。
+5. 引入运动前，审阅软件包中的示例。
+
+Pro 手册明确说明 SDK demo 属于研发参考示例，不是生产代码。确认目标控制器、关节约定和初始姿态后，再加入经过实机验证的首次运动示例。

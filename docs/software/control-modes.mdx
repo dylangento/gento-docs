@@ -1,0 +1,33 @@
+---
+title: Control modes & limitations
+description: Control modes & limitations · Gento Marvin Pro
+source_revision: V1.0 / September 2026
+source_ids:
+- manual
+- software
+review_status: pending
+translation_status: pending
+source_zh_sha256: 55ea9fde4ba02e9760224c00e9c06dc1fb8d2f4707aa7524e1d5c3ee7b03c799
+---
+The Chinese manuals describe the modes below. Mode availability and parameter ranges depend on the controller and SDK version.
+
+| Mode | Purpose | State shown in the source UI |
+| --- | --- | --- |
+| Joint position following | Move using joint targets | 1 |
+| PVT | Execute an uploaded time-based joint trajectory | 2 |
+| Joint impedance | Compliant motion in joint space | 3 |
+| Cartesian impedance | Compliant motion in a base or TCP frame | 3 |
+| Impedance force control | Apply force in a selected direction | See matching guide |
+| Drag teaching | Guide the arm and optionally record a trajectory | See matching guide |
+
+## PVT requires an explicit trajectory
+
+The manual gives a 2 ms point interval for its PVT implementation. It warns against selecting Run before uploading the intended trajectory: a pre-existing trajectory may already be stored under an identifier. Review positions, timing, velocity, and the physical path before execution.
+
+## Impedance parameters are version-specific
+
+Cartesian stiffness limits differ between controller and software versions, so there is no single default gain set. Use the values for your arm, tool, and controller.
+
+## Advanced control and service functions
+
+MIT / PD feedforward control, brake release, encoder zeroing, and sensor-offset changes are advanced service functions and aren't covered in these getting-started guides. Contact [Gento support](mailto:support@gentorobotics.ai) before using them.

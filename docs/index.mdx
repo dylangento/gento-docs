@@ -1,0 +1,55 @@
+---
+title: Gento documentation
+description: Gento documentation · Gento Marvin Pro, Marvin, Luna, Skye
+source_revision: '2026-10-01'
+source_ids:
+- readme
+- marvin-manual
+- luna-manual
+- skye-readme
+- product-photos
+review_status: pending
+translation_status: pending
+source_zh_sha256: 8a8bb90d824742834b327fe871bbb613e1eedc216ac6c6899e2263f1e3abb327
+slug: /
+sidebar_label: Start here
+---
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+<div className="home-hero">
+<div className="eyebrow">Developer documentation</div>
+<p className="doc-lead">Set up your robot. Connect your software. Build your first workflow.</p>
+<div className="home-hero__stage"><img src={useBaseUrl("/img/products/lineup.webp")} alt="The Gento product family: Marvin dual arms, Marvin Pro, Luna, and Skye" /><div className="home-hero__labels"><span style={{left: '14.8%'}}>Marvin</span><span style={{left: '41.6%'}}>Marvin Pro</span><span style={{left: '64.9%'}}>Luna</span><span style={{left: '87.9%'}}>Skye</span></div></div>
+</div>
+
+## Products
+
+<div className="product-grid">
+<a className="product-card" href="./marvin-pro/overview/"><div className="product-card__media"><img src={useBaseUrl("/img/products/marvin-pro.webp")} alt="Marvin Pro" /></div><div className="product-card__body"><span>FIXED-BASE PLATFORM</span><strong>Marvin Pro</strong><p>Dual-arm platform with stand and integrated cabinet, for manipulation, teleoperation, and data collection.</p></div></a>
+<a className="product-card" href="./marvin/overview/"><div className="product-card__media"><img src={useBaseUrl("/img/products/marvin.webp")} alt="Marvin dual arms" /></div><div className="product-card__body"><span>DUAL ARMS</span><strong>Marvin</strong><p>Force-controlled 7-DoF humanoid arms and dual-arm controller for your own torso or machine.</p></div></a>
+<a className="product-card" href="./luna/overview/"><div className="product-card__media"><img src={useBaseUrl("/img/products/luna.webp")} alt="Luna" /></div><div className="product-card__body"><span>WHEELED HUMANOID</span><strong>Luna</strong><p>Foldable wheeled humanoid with 26 DoF, omnidirectional chassis, and NVIDIA Orin compute.</p></div></a>
+<a className="product-card product-card--soon" href="./skye/overview/"><div className="product-card__media"><img src={useBaseUrl("/img/products/skye.webp")} alt="Skye" /></div><div className="product-card__body"><span>COMING SOON</span><strong>Skye</strong><p>Wheeled lifting robot with whole-body force control. Documentation is in progress.</p></div></a>
+</div>
+
+## Popular guides
+
+<div className="path-grid">
+<a className="path-card" href="./marvin-pro/unboxing/"><span>MARVIN PRO / SET UP</span><strong>Install your Marvin Pro</strong><p>Unpack, identify the connections, and prepare for first power-on.</p></a>
+<a className="path-card" href="./marvin/installation/"><span>MARVIN / INSTALL</span><strong>Mount the Marvin arms</strong><p>Handling, environment, fasteners, and zero calibration.</p></a>
+<a className="path-card" href="./luna/first-use/"><span>LUNA / FIRST USE</span><strong>Power on and drive Luna</strong><p>Pre-use checks, gamepad control, indicator lights, and charging.</p></a>
+<a className="path-card" href="./luna/gentoplatform/"><span>LUNA / SOFTWARE</span><strong>Control Luna with GentoPlatform</strong><p>Connect, switch control modes, and plan joint and Cartesian motion.</p></a>
+<a className="path-card" href="./software/sdk-quickstart/"><span>MARVIN PRO / DEVELOP</span><strong>Connect with the SDK</strong><p>Choose the matching SDK and understand controller compatibility.</p></a>
+<a className="path-card" href="./teleoperation/setup/"><span>MARVIN PRO / TELEOPERATE</span><strong>Set up Apex VR</strong><p>Find the robot, desktop, and headset software packages.</p></a>
+</div>
+
+## Before you begin
+
+Every robot connects to your PC the same way. Start with [Connect your PC](./software/connect-pc.mdx) to set up the cable, IP address, and firewall.
+
+Check the robot model, controller version, and installed software. Instructions and configuration files are version-specific. For Marvin Pro, start with [compatibility](./marvin-pro/compatibility.mdx) if you are unsure which guide applies.
+
+If the English and Chinese versions differ, the Chinese version applies. Contact [Gento support](mailto:support@gentorobotics.ai) if anything is unclear.
+
+## Product documentation
+
+These docs cover Marvin Pro, Marvin, and Luna. Skye documentation is coming soon. The shared Software & development and Teleoperation sections were written for Marvin Pro; Luna has its own software and SDK pages.

@@ -1,0 +1,100 @@
+---
+title: GentoPlatform
+description: GentoPlatform · Gento Luna
+source_revision: V2.1 · 2026-08
+source_ids:
+- luna-manual
+review_status: pending
+translation_status: pending
+source_zh_sha256: 9e338fd2ccb936ae8d7e8e34ffdccd4664e8db94ca2383e6d6017c1e44b7b687
+---
+GentoPlatform (FX_Platform) is the host application for Tianji robots. It controls arm and torso motion, configures parameters, plans motion, and supports system debugging. This page is based on version V1004.
+
+## Get and run the software
+
+FX_Platform ships with the SDK and is only for Gento series robots; the current version targets controller major version 1004. It is in a subdirectory of the [Tianji Gento series SDK repository](https://github.com/tianjizn/tianji-robot-SDK/tree/Gento_Skye+Luna).
+
+Officially tested environments are Windows and Ubuntu 20.04 x86. For other environments, download the source and build it yourself.
+
+Before running, confirm:
+
+- Python 3.10 or later, with pyinstaller and pillow installed
+- `./contrlSDK` and `./kinematicsSDK` under `SDK_PYTHON` contain the latest compiled `libMarvinSDK.so` and `libKine.so`
+
+To start:
+
+- From source: `python ui.py`
+- Build an executable: `python setup.py`, for computers without Python
+
+## Connect to the robot
+
+First confirm the controller is powered, the Ethernet cable is secure (one end in the controller's CAT.6 port, the other in the computer or a switch), and the E-stop is released.
+
+1. In the connection area at the top left, enter the motion controller's IP (default 6.6.7.190).
+2. Click connect. When it succeeds, the button turns green and shows **Connected**.
+
+If it fails, check that the computer and controller are on the same LAN, recheck the IP, and check power and network settings.
+
+## Status and parameters
+
+The left status bar shows the robot state (idle, position, impedance, and so on), drag button state, whether the robot is fully stationary, and the current error code.
+
+- **Speed / acceleration:** adjustable 0–100%. Use 5–10% on first use or during testing.
+- **Impedance:** stiffness K and damping D. In force mode, set forces and torques in x, y, z from -50 to 50 and the maximum detection distance.
+- **Drag teaching:** press **Drag** to enter drag mode, with X / Y / Z Cartesian and rotational dragging. Hold the physical button on the end flange to guide the arm.
+
+## Control modes
+
+| Mode | Description |
+| --- | --- |
+| Idle (IDLE) | Disabled; ignores motion commands. For configuration, parameter changes, or mode switching |
+| Position | Executes absolute position commands precisely |
+| Joint impedance (JointImp) | Compliance in joint space, for physical human-robot collaboration |
+| Cartesian impedance (CartImp) | Compliance at the end effector, for constant-contact tasks |
+| Force (ForceImp) | Closed-loop force/torque control for grinding, polishing, and assembly |
+| Drag | Hand-guided teaching |
+
+## Error handling
+
+| Button | Function |
+| --- | --- |
+| Reset | Clears servo errors |
+| Get Error | Reads detailed error codes for each axis |
+| Brake / Release brake | Locks or releases the motor brakes |
+| CR collaborative release | Applies force compensation to make the robot easy to release |
+
+Process: read the error code → look it up in the manual → reset. Do not operate the robot at random when an error appears.
+
+## Joint angle commands
+
+1. Click **GetCurPos** to read all current joint angles into the point list.
+2. Or type target angles and click **Add** to add a point.
+3. Select a point from the drop-down and click **run** to move at the speed and acceleration set in the interface.
+4. To remove a point, select it, click **delete**, and confirm.
+
+## Tools and utilities
+
+- **Software E-stop:** a backup when the physical E-stop cannot be reached; each mechanical unit has Reset to return to standby.
+- **Dynamics parameters** (10): tool mass M; center of mass Mx, My, Mz; inertia Ixx, Ixy, Ixz, Iyy, Iyz, Izz. Setting these makes impedance control more reliable.
+- **Kinematics parameters** (6): tool frame relative to the flange, X, Y, Z, Rx, Ry, Rz (X-Y-Z Euler angles), for TCP motion and FK/IK.
+- **Tool dynamics identification:** More Features → Tool Dynamics Identification. Return the arms and body to zero and disable them, collect no-load (**Noload**) and loaded (**Load**) data, click **Identify**, then **Use last result** and **Set Tool dynamics**. Arm0 is the left arm, Arm1 the right; trajectory files are in the SDK directory.
+- **CAN / 485 test:** More Features → CAN/485. COM1 and COM2 are 485 CH1 and CH2.
+- **Sensors / encoders** (in IDLE only): reset the sensors if readings at the mechanical zero are 0.5 N·m or more; if zero encoder values are wrong, move the arm to mechanical zero with DriveMaster, then zero and clear the encoders; soft limits can be disabled temporarily and return on the next enable.
+
+## Motion planning
+
+![Planned arm motion illustrated on Luna](/img/luna/motion.webp)
+
+| Function | Description |
+| --- | --- |
+| Joint space motion | Interpolates each joint; the end follows a curve. Fast, for large moves. 50 Hz cycle |
+| Joints to joints (linear) | Start and end joint angles; IK keeps the TCP on a straight line. Speed/acceleration range 1–1000 |
+| Linear | End pose XYZABC; straight-line interpolation with smooth orientation change |
+| Linear (multi-segment) | Several points in sequence along a continuous polyline; arrival tolerance and null-space constraints |
+| Arms Synchronous Linear | Both arms start and finish straight-line moves together, for coordinated grasping |
+
+## System update
+
+More Features → System Update: select the update package and ini configuration file, click **update**, and restart the motion controller when it succeeds.
+
+Next: [SDK & teleoperation](./sdk-teleoperation.mdx).

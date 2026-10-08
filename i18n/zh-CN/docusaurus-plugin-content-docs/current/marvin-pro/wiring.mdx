@@ -1,0 +1,36 @@
+---
+title: 接线与首次上电
+description: 接线与首次上电 · Gento Marvin Pro
+source_revision: V1.0 · 2026-06-27
+source_ids:
+- manual
+review_status: pending
+translation_status: source
+source_zh_sha256: 6d727b7cc5c045d8881ee0098a87d8f14dffb0d7ec4f2be673b0d0551ba93b70
+---
+接线前先识别每个接口。下图为 Pro V1.0 手册中的一体化电箱背板，请与实际交付设备核对。
+
+![Marvin Pro 一体化电箱背面接口](/img/marvin-pro/rear-panel.webp)
+
+| 标记 | 用途 |
+| --- | --- |
+| AC IN | 随机市电电源线 |
+| ESTOP | 随机急停线束 |
+| ETHERNET1 / ETHERNET2 | 连接上位机的以太网接口 |
+| USB1 / USB2 | USB 外设 |
+| HDMI | 显示器 |
+| POWER | 电源开关 |
+
+## 连接随机线束
+
+断电状态下，将电源线接入 **AC IN**，顺时针旋转固定环。确认现场供电符合交付系统铭牌要求；不能直接假设美国交付设备适用折页中的 AC 220 V 供电。
+
+将急停 8-pin 线束接入 **ESTOP**，对齐线束插头红点与接口凹槽。将以太网线一端接入 **ETHERNET1** 或 **ETHERNET2**，另一端连接上位机。
+
+## 首次上电
+
+完成使用前检查和接线检查后，确认急停已释放，再打开电源开关。手册描述绿色指示灯表示开机成功。下发运动指令前，先[连接软件并查看反馈](./first-connection.mdx)。
+
+:::warning 末端接口属于另一套接口
+电箱急停接口与机械臂末端的 8-pin 接口用途不同。源资料中的末端电压描述存在差异。连接外部设备前，请取得对应机械臂的准确引脚定义及电压。
+:::

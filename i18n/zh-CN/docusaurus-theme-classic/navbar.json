@@ -1,0 +1,46 @@
+{
+  "title": {
+    "message": "文档",
+    "description": "The title in the navbar"
+  },
+  "item.label.Software & SDKs": {
+    "message": "软件与 SDK",
+    "description": "Navbar item with label Software & SDKs"
+  },
+  "item.label.Resources": {
+    "message": "资源",
+    "description": "Navbar item with label Resources"
+  },
+  "logo.alt": {
+    "message": "Gento",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.gentorobotics.ai": {
+    "message": "gentorobotics.ai",
+    "description": "Navbar item with label gentorobotics.ai"
+  },
+  "item.label.Products": {
+    "message": "产品",
+    "description": "Navbar item with label Products"
+  },
+  "item.label.Marvin Pro": {
+    "message": "Marvin Pro",
+    "description": "Navbar item with label Marvin Pro"
+  },
+  "item.label.Marvin": {
+    "message": "Marvin",
+    "description": "Navbar item with label Marvin"
+  },
+  "item.label.Luna": {
+    "message": "Luna",
+    "description": "Navbar item with label Luna"
+  },
+  "item.label.Skye (coming soon)": {
+    "message": "Skye（即将推出）",
+    "description": "Navbar item with label Skye (coming soon)"
+  },
+  "item.label.Video demos": {
+    "message": "视频演示",
+    "description": "Navbar item with label Video demos"
+  }
+}

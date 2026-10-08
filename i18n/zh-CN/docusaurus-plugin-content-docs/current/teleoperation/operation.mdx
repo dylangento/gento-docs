@@ -1,0 +1,32 @@
+---
+title: 遥操作与服务检查
+description: 遥操作与服务检查 · Gento Marvin Pro
+source_revision: V1.0 · 2026-06-27
+source_ids:
+- manual
+review_status: pending
+translation_status: source
+source_zh_sha256: 79412542a0494e2b6c2de4e010c24939acaab19b236305c1b41dc65c9b4d7ab1
+---
+## 佩戴头显前
+
+检查急停、控制器供电、网线、U 盘和头显电量。Pro 手册建议优先使用头显有线网络，不建议用 Wi-Fi 遥操。
+
+修改 IP、负载、刚度、阻尼、Home 点或 TCP 偏移前，备份原始配置。根据已安装 Apex 版本的说明进行佩戴与标定。
+
+## Pro 手册中的服务
+
+| 服务 | 功能 |
+| --- | --- |
+| `apex-backend.service` | HTTP/WebSocket API 入口 |
+| `apex-camera.service` | 四路 GMSL 相机服务 |
+| `apex-robot.service` | ROS 机器人控制与状态发布 |
+| `apex-teleop.service` | IK、规划及指令多路复用 |
+
+以上名称适用于手册中的软件版本。四路 GMSL 服务不代表平台总共只有四台相机。
+
+## 操作期间及结束后
+
+不遥操时切换到待机，避免误触。头显没电、关机或异常时，应立即停止遥操作。如果上位机无法连接，先检查供电、网线、路由器/交换机以及 IP 网段。
+
+模式选择、标定及恢复应参照对应版本的 Apex 指南。活动任务期间，不要在未按说明停止任务的情况下重启或重配运动服务。

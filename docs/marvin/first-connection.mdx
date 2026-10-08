@@ -1,0 +1,43 @@
+---
+title: Connect the host software
+description: Connect the host software · Gento Marvin
+source_revision: V2.2 · 2025-09
+source_ids:
+- marvin-manual
+- marvin-inventory
+review_status: pending
+translation_status: pending
+source_zh_sha256: dc5935800ffb326c04cdacc96807aad4db0bc80f24a14a0c46e4e7b64e2819d8
+---
+Connect the host computer only after the arms and controller are securely fixed, free of collision risk, and correctly wired.
+
+## FxStation
+
+In the V2.2 manual, FxStation is the host debugging software for the Marvin dual-arm control system. It supports jog, automatic, drag, and joint impedance modes. Request the software from Gento support.
+
+1. Connect an Ethernet cable to controller port ETH1 or ETH3.
+2. Set the host computer's IP to 192.168.1.165 (the controller defaults to 192.168.1.190). For network and firewall setup, see [Connect your PC](../software/connect-pc.mdx).
+3. Open FxStation and click **Connect robot**.
+4. When connected, the bottom status bar shows the left and right arm status.
+
+In drag mode, hold the drag button on the end flange to move the arm by hand.
+
+:::tip Software version
+The Software & SDK part of the Marvin resource folder also contains the September 2026 Marvin Platform user guide. Confirm which host application applies to your controller version before use.
+:::
+
+## DriveMaster2.0
+
+DriveMaster2.0 connects to one joint driver at a time over the debug RS-485 cable. It is for driver tuning and firmware updates, not routine motion control.
+
+1. Install the USB-to-485 adapter driver on the host and plug in the USB end.
+2. Open DriveMaster2.exe and select the correct COM port.
+3. Enter the module address: J1–J7 are 1–7.
+4. Click **OK** to open the main screen.
+
+See the DriveMaster2.0 quick operation guide for details.
+
+## Next steps
+
+- Driver alarms: see the JMDT driver alarm and fault manual (listed in [manuals & source resources](../resources/downloads.mdx)).
+- Development: Marvin.SDK provides real-time force and position control interfaces at up to 1 kHz. Find the repositories in the [SDK directory](../software/sdk-directory.mdx) and confirm they match your controller version.

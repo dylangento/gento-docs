@@ -1,0 +1,55 @@
+---
+title: Gento 技术文档
+description: Gento 技术文档 · Gento Marvin Pro、Marvin、Luna、Skye
+source_revision: '2026-10-01'
+source_ids:
+- readme
+- marvin-manual
+- luna-manual
+- skye-readme
+- product-photos
+review_status: pending
+translation_status: source
+source_zh_sha256: 8a8bb90d824742834b327fe871bbb613e1eedc216ac6c6899e2263f1e3abb327
+slug: /
+sidebar_label: 从这里开始
+---
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+<div className="home-hero">
+<div className="eyebrow">开发者文档</div>
+<p className="doc-lead">安装机器人、连接控制软件，开始您的第一个工作流程。</p>
+<div className="home-hero__stage"><img src={useBaseUrl("/img/products/lineup.webp")} alt="Gento 产品家族：Marvin 双臂、Marvin Pro、Luna 和 Skye" /><div className="home-hero__labels"><span style={{left: '14.8%'}}>Marvin</span><span style={{left: '41.6%'}}>Marvin Pro</span><span style={{left: '64.9%'}}>Luna</span><span style={{left: '87.9%'}}>Skye</span></div></div>
+</div>
+
+## 产品
+
+<div className="product-grid">
+<a className="product-card" href="./marvin-pro/overview/"><div className="product-card__media"><img src={useBaseUrl("/img/products/marvin-pro.webp")} alt="Marvin Pro" /></div><div className="product-card__body"><span>固定式平台</span><strong>Marvin Pro</strong><p>带支架和一体化电箱的双臂平台，用于操作、遥操作和数据采集。</p></div></a>
+<a className="product-card" href="./marvin/overview/"><div className="product-card__media"><img src={useBaseUrl("/img/products/marvin.webp")} alt="Marvin 双臂" /></div><div className="product-card__body"><span>双臂</span><strong>Marvin</strong><p>全力控 7 自由度人形双臂及一拖二控制器，可集成到您的躯体或设备上。</p></div></a>
+<a className="product-card" href="./luna/overview/"><div className="product-card__media"><img src={useBaseUrl("/img/products/luna.webp")} alt="Luna" /></div><div className="product-card__body"><span>轮式人形</span><strong>Luna</strong><p>26 自由度轮式折叠人形机器人，全向移动底盘，NVIDIA Orin 算力平台。</p></div></a>
+<a className="product-card product-card--soon" href="./skye/overview/"><div className="product-card__media"><img src={useBaseUrl("/img/products/skye.webp")} alt="Skye" /></div><div className="product-card__body"><span>即将推出</span><strong>Skye</strong><p>全身力控轮式升降机器人。文档正在编写中。</p></div></a>
+</div>
+
+## 常用指南
+
+<div className="path-grid">
+<a className="path-card" href="./marvin-pro/unboxing/"><span>MARVIN PRO / 安装</span><strong>安装 Marvin Pro</strong><p>开箱、识别接口，并准备首次上电。</p></a>
+<a className="path-card" href="./marvin/installation/"><span>MARVIN / 安装</span><strong>安装 Marvin 双臂</strong><p>搬运、环境要求、紧固件与零点标定。</p></a>
+<a className="path-card" href="./luna/first-use/"><span>LUNA / 首次使用</span><strong>开机并移动 Luna</strong><p>使用前检查、手柄控制、指示灯与充电。</p></a>
+<a className="path-card" href="./luna/gentoplatform/"><span>LUNA / 软件</span><strong>用 GentoPlatform 控制 Luna</strong><p>连接机器人、切换控制模式，规划关节与笛卡尔运动。</p></a>
+<a className="path-card" href="./software/sdk-quickstart/"><span>MARVIN PRO / 开发</span><strong>通过 SDK 连接</strong><p>选择匹配的 SDK，确认控制器版本兼容性。</p></a>
+<a className="path-card" href="./teleoperation/setup/"><span>MARVIN PRO / 遥操作</span><strong>配置 Apex VR</strong><p>获取机器人端、电脑端和头显端的软件。</p></a>
+</div>
+
+## 开始之前
+
+所有机器人与电脑的连接方式相同。请先阅读[连接用户电脑](./software/connect-pc.mdx)，完成网线、IP 地址和防火墙设置。
+
+确认机器人型号、控制器版本和已安装的软件。操作说明及配置文件具有版本适用范围。使用 Marvin Pro 时，如不确定适用哪份指南，先阅读[版本兼容性](./marvin-pro/compatibility.mdx)。
+
+中英文版本如有差异，以中文版本为准。如有任何疑问，请联系 [Gento 技术支持](mailto:support@gentorobotics.ai)。
+
+## 产品文档
+
+本文档涵盖 Marvin Pro、Marvin 和 Luna，Skye 文档即将推出。共用的"软件与开发"和"遥操作与数据"部分针对 Marvin Pro 编写；Luna 有单独的软件与 SDK 页面。

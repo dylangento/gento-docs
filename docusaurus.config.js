@@ -1,0 +1,39 @@
+const config = {
+  title: 'Gento Docs',
+  tagline: 'Robot setup, software, and development',
+  favicon: 'img/favicon.svg',
+  url: process.env.DOCS_URL || 'https://docs.gentorobotics.ai',
+  baseUrl: process.env.DOCS_BASE_URL || '/',
+  organizationName: 'dylangento',
+  projectName: 'gento-docs',
+  trailingSlash: true,
+  onBrokenLinks: 'throw',
+  markdown: {hooks: {onBrokenMarkdownLinks: 'throw'}},
+  i18n: {defaultLocale: 'en', locales: ['en', 'zh-CN'], localeConfigs: {en: {label: 'English', htmlLang: 'en-US'}, 'zh-CN': {label: '简体中文', htmlLang: 'zh-CN'}}},
+  presets: [['classic', {
+    docs: {routeBasePath: '/', sidebarPath: './sidebars.js', showLastUpdateTime: false},
+    blog: false,
+    theme: {customCss: './src/css/custom.css'},
+  }]],
+  themes: [['@easyops-cn/docusaurus-search-local', {hashed: true, language: ['en','zh'], indexBlog: false, docsRouteBasePath: '/', highlightSearchTermsOnTargetPage: true, forceIgnoreNoIndex: true, searchResultLimits: 10}]],
+  themeConfig: {
+    colorMode: {defaultMode: 'light', respectPrefersColorScheme: false},
+    navbar: {title: 'Docs', logo: {alt: 'Gento', src: 'img/logo.svg', srcDark: 'img/logo-white.svg', width: 144, height: 22}, items: [
+      {type: 'dropdown', label: 'Products', position: 'left', items: [
+        {label: 'Marvin Pro', to: '/marvin-pro/overview'},
+        {label: 'Marvin', to: '/marvin/overview'},
+        {label: 'Luna', to: '/luna/overview'},
+        {label: 'Skye (coming soon)', to: '/skye/overview'},
+      ]},
+      {label: 'Software & SDKs', to: '/software/sdk-directory', position: 'left'},
+      {label: 'Resources', to: '/resources/downloads', position: 'left'},
+      {label: 'Video demos', to: '/videos', position: 'left'},
+      {type: 'localeDropdown', position: 'right'},
+      {href: 'https://www.gentorobotics.ai/', label: 'gentorobotics.ai', position: 'right'},
+    ]},
+    footer: {style: 'light', copyright: '© 2026 Gento Robotics'},
+    tableOfContents: {minHeadingLevel: 2, maxHeadingLevel: 3},
+    prism: {additionalLanguages: ['bash', 'python', 'cpp', 'json']},
+  },
+};
+export default config;

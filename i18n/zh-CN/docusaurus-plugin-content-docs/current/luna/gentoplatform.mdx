@@ -1,0 +1,100 @@
+---
+title: GentoPlatform 上位机
+description: GentoPlatform 上位机 · Gento Luna
+source_revision: V2.1 · 2026-08
+source_ids:
+- luna-manual
+review_status: pending
+translation_status: source
+source_zh_sha256: 9e338fd2ccb936ae8d7e8e34ffdccd4664e8db94ca2383e6d6017c1e44b7b687
+---
+GentoPlatform（FX_Platform）是天机机器人配套的上位机软件，用于控制双臂和躯干运动、参数配置、运动规划和系统调试。本页基于 V1004 版本。
+
+## 获取与运行
+
+FX_Platform 跟随 SDK 发布，仅适用于 Gento 系列产品，当前版本基于控制器主版本 1004。软件位于 SDK 子目录中：[天机 Gento 系列 SDK 仓库](https://github.com/tianjizn/tianji-robot-SDK/tree/Gento_Skye+Luna)。
+
+官方测试环境为 Windows 和 Ubuntu 20.04 x86。其他环境请下载源码后自行编译。
+
+运行前确认：
+
+- Python 3.10 及以上，已安装 pyinstaller、pillow
+- `SDK_PYTHON` 下的 `./contrlSDK` 和 `./kinematicsSDK` 中为最新编译的 `libMarvinSDK.so` 和 `libKine.so`
+
+启动方式：
+
+- 源码运行：`python ui.py`
+- 生成可执行文件：`python setup.py`，便于分发到无 Python 环境的电脑
+
+## 连接机器人
+
+先确认控制器已通电、网线牢固连接（一端接控制器 CAT.6 网口，另一端接电脑或交换机），并且急停按钮处于释放状态。
+
+1. 在界面左上角的连接设置区域输入运控控制器 IP（默认 6.6.7.190）。
+2. 点击连接，成功后按钮变为绿色"已连接"。
+
+连接失败时，确认电脑与控制器在同一局域网，核对 IP，并检查电源和网络配置。
+
+## 状态与参数
+
+左侧状态栏显示运行状态（空闲、位置、阻抗等）、拖动按钮状态、是否完全静止和当前错误码。
+
+- **速度 / 加速度**：0–100% 可调。初次使用或测试时建议设为 5–10%。
+- **阻抗参数**：刚度 K、阻尼 D；力控模式下可设置 xyz 方向 -50 ~ 50 的力和扭矩及最大检测距离。
+- **拖动示教**：按下 Drag 按钮进入拖动模式，支持 X / Y / Z 笛卡尔拖动和旋转拖动。在末端法兰处按住物理按钮即可跟随拖动。
+
+## 控制模式
+
+| 模式 | 说明 |
+| --- | --- |
+| 空闲（IDLE） | 下使能，不响应运动指令；用于配置、修改参数或切换模式 |
+| 位置（Position） | 精确执行绝对位置指令 |
+| 关节阻抗（JointImp） | 关节空间柔顺，适合人机物理协作 |
+| 笛卡尔阻抗（CartImp） | 末端笛卡尔空间柔顺，适合恒定接触力任务 |
+| 力控（ForceImp） | 力 / 力矩闭环控制，用于打磨、抛光、装配 |
+| 拖动示教（Drag） | 手动牵引机器人示教 |
+
+## 错误处理
+
+| 按钮 | 作用 |
+| --- | --- |
+| 重置（Reset） | 清除伺服错误 |
+| 获取伺服错误（Get Error） | 读取各轴详细报错代码 |
+| 抱闸 / 松抱闸 | 锁定或释放电机刹车 |
+| CR 协作释放 | 提供力补偿，便于释放机器人 |
+
+处理流程：查看错误码 → 对照手册分析 → 执行重置或复位。遇到报错时不要随意操作。
+
+## 关节角度命令
+
+1. 点击 **GetCurPos** 读取当前所有关节角度并保存到点位列表。
+2. 或在输入框中填写目标角度，点击 **Add** 加入点位列表。
+3. 从下拉框选择点位，点击 **run** 按界面速度和加速度单点运行。
+4. 选中点位后点击 **delete** 并确认即可删除。
+
+## 工具与辅助功能
+
+- **软急停**：无法触及物理急停时的备用措施；各机械单元可 Reset 恢复待机。
+- **动力学参数**（10 个）：工具质量 M，质心 Mx、My、Mz，惯量 Ixx、Ixy、Ixz、Iyy、Iyz、Izz。设置后阻抗功能更可靠。
+- **运动学参数**（6 个）：工具坐标系相对法兰的 X、Y、Z、Rx、Ry、Rz（X-Y-Z 欧拉角），用于 TCP 运动及正逆解。
+- **工具动力学辨识**：More Features → Tool Dynamics Identification。手臂和身体先回零位并下使能，分别采集空载（Noload）和带载（Load）数据，点击 Identify 后用 **Use last result** 和 **Set Tool dynamics** 设置。Arm0 为左臂，Arm1 为右臂，轨迹文件在 SDK 目录中。
+- **CAN / 485 测试**：More Features → CAN/485，COM1、COM2 分别对应 485 CH1、CH2。
+- **传感器 / 编码器**（需处于 IDLE）：传感器读数在机械零点处不小于 0.5 N·m 时进行传感器重置；零点编码器值异常时，用 DriveMaster 将手臂移到机械零点后清零和清错；可临时取消软限位，再次上使能后恢复。
+
+## 运动规划
+
+![Luna 手臂运动规划示意](/img/luna/motion.webp)
+
+| 功能 | 说明 |
+| --- | --- |
+| 关节空间运动 | 各关节插值运动，末端轨迹为曲线；速度快，适合大范围移位。运动周期 50 Hz |
+| Joints to joints (linear) | 输入起终点关节角度，自动逆解，末端走直线；速度 / 加速度量程 1–1000 |
+| Linear | 输入末端位姿 XYZABC，两点间直线插补，姿态平滑过渡 |
+| Linear（多段） | 依次添加多个点位，连续走完整条折线；可设置到达误差和零空间约束 |
+| Arms Synchronous Linear | 双臂同步启动、同步完成直线运动，用于协同抓取 |
+
+## 系统升级
+
+More Features → System Update：选择升级包和 ini 配置文件，点击 update，成功后重启运控控制器。
+
+下一步：[SDK 与遥操作](./sdk-teleoperation.mdx)。

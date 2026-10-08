@@ -1,0 +1,32 @@
+---
+title: Recording & dataset workflow
+description: Recording & dataset workflow · Gento Marvin Pro
+source_revision: V1.0 · 2026-06-27
+source_ids:
+- manual
+- brochure
+- vr
+review_status: pending
+translation_status: pending
+source_zh_sha256: 0eeb54ca8ce952eee6ce8bd5c4e5f8410ac72a19373d17ee680378dfba6d8fbf
+---
+The brochure describes synchronized robot and video recording: robot data in MCAP, video encoded as MP4, and timestamp alignment for a multimodal dataset. It also names LeRobot conversion and Rerun visualization. HDF5 and RLDS appear in the published format list; verify the exact exporter supported by your installed converter.
+
+## Keep the two recording paths separate
+
+| Path | Source description |
+| --- | --- |
+| Apex recording | Robot and camera data for teleoperation demonstrations |
+| Marvin Platform acquisition | Single-arm, seven-joint data recorded to TXT at 1 kHz in the Pro manual |
+
+The Pro manual also describes downsampling a Marvin Platform trajectory to 50 Hz for its replay workflow. This is a specific replay path, not the controller's universal communication rate.
+
+## Suggested first dataset check
+
+Record a short episode using the release-matched Apex instructions. Inspect whether all expected camera and robot streams are present, whether timestamps and units are understood, and whether the converter can read the episode before collecting a larger dataset.
+
+Keep the raw recording alongside converted outputs. Record the hardware configuration, software versions, converter version, and task description so a dataset can be reproduced.
+
+## Conversion and deployment
+
+Use the [Apex documentation center](https://klmmotion.github.io/Apex_doc_center/) for the KM Data Converter and VLA workflow. Exporting a dataset is a separate step from training or deploying a policy; it does not establish that a trained policy is safe or compatible with a different robot configuration.

@@ -1,0 +1,104 @@
+---
+title: Marvin specifications
+description: Marvin specifications · Gento Marvin
+source_revision: V2.2 · 2025-09
+source_ids:
+- marvin-manual
+- marvin-brochure
+review_status: pending
+translation_status: pending
+source_zh_sha256: 67d8b90cf5078fb1e6846bb07c4e67194f5db8bf3cb6818ee33c2adc2a926ac9
+---
+These values come from Table 4-1 of the Marvin Series Robot User Manual V2.2. Values are model-specific; do not mix them across models.
+
+## Basic specifications
+
+| Item | Marvin M6-CCS | Marvin M6-SRS | Marvin M3-CCS |
+| --- | --- | --- | --- |
+| Wrist | CCS | SRS | CCS |
+| DoF (per arm) | 7 | 7 | 7 |
+| Max. payload | 6 kg | 6 kg | 3 kg |
+| Max. reach | 696 mm | 686 mm | 615 mm |
+| Repeatability | ±0.03 mm | ±0.02 mm | ±0.05 mm |
+| Rated power | 0.4 kW | 0.4 kW | 0.2 kW |
+| Mounting | Floor, wall, inclined, ceiling | Floor, wall, inclined, ceiling | Floor, wall, inclined, ceiling |
+| User I/O | One 8-pin circular connector at the tool flange | Same | Same |
+
+## Range of motion
+
+| Joint | M6-CCS | M6-SRS | M3-CCS |
+| --- | --- | --- | --- |
+| J1 (rotation) | ±178° | ±178° | ±178° |
+| J2 (lower arm) | ±120° | ±120° | ±120° |
+| J3 (upper arm) | ±178° | ±178° | ±178° |
+| J4 (wrist rotation) | -145° to +60° | -145° to +60° | -145° to +60° |
+| J5 (wrist swing) | ±178° | ±178° | ±178° |
+| J6 (wrist turn) | ±60° | ±110° | ±60° |
+| J7 (wrist turn) | ±90° | ±360° | ±90° |
+
+All three models have a maximum speed of 3.14 rad/s (180°/s) on J1–J7. On CCS models, the J6 and J7 ranges are coupled; see Figure 4-4 of the manual.
+
+## Operating environment
+
+| Item | Requirement |
+| --- | --- |
+| Temperature | 0 to 45 °C |
+| Humidity | 20 to 80 %RH (non-condensing) |
+| Vibration | 4.9 m/s² (0.5 G) or less |
+| Altitude | Below 1000 m |
+| Other | No flammable or corrosive gases or liquids; no splashing water, little oil or dust; away from electromagnetic sources and magnetic fields |
+
+## D-H parameters
+
+Frame definitions are in Figure 4-5 (CCS) and Figure 4-6 (SRS) of the manual. Units: a and d in mm, α and θ in degrees.
+
+**Marvin M6-S-L/R-CCS-696-V4.0**
+
+| Joint | aᵢ₋₁ | αᵢ₋₁ | dᵢ | θᵢ |
+| --- | --- | --- | --- | --- |
+| 1 | 0 | 0 | 174.5 | 0 |
+| 2 | 0 | 90 | 0 | 0 |
+| 3 | 0 | -90 | 287 | 0 |
+| 4 | 18 | 90 | 0 | 180 |
+| 5 | 18 | 90 | 314 | 180 |
+| 6 | 0 | 90 | 0 | 90 |
+| 7 | 0 | 90 | 0 | 90 |
+| Flange | 0 | 90 | 95 | 90 |
+
+**Marvin M3-S-L/R-CCS-615-V2.0**
+
+| Joint | aᵢ₋₁ | αᵢ₋₁ | dᵢ | θᵢ |
+| --- | --- | --- | --- | --- |
+| 1 | 0 | 0 | 177 | 0 |
+| 2 | 0 | 90 | 0 | 0 |
+| 3 | 0 | -90 | 272 | 0 |
+| 4 | 18 | 90 | 0 | 180 |
+| 5 | 18 | 90 | 256 | 180 |
+| 6 | 0 | 90 | 0 | 90 |
+| 7 | 0 | 90 | 0 | 90 |
+| Flange | 0 | 90 | 87 | 90 |
+
+**Marvin M6-S-L/R-SRS-686-V4.0**
+
+| Joint | aᵢ₋₁ | αᵢ₋₁ | dᵢ | θᵢ |
+| --- | --- | --- | --- | --- |
+| 1 | 0 | 0 | 174.5 | 0 |
+| 2 | 0 | 90 | 0 | 0 |
+| 3 | 0 | -90 | 287 | 0 |
+| 4 | 18 | 90 | 0 | 0 |
+| 5 | -18 | -90 | 242 | 0 |
+| 6 | 0 | 90 | 0 | 0 |
+| 7 | 0 | -90 | 0 | 0 |
+| Flange | 0 | 0 | 157 | 0 |
+
+## Differences between sources
+
+The product brochure (June 2026) differs from the manual as follows. Follow the manual and confirm against your delivered configuration:
+
+| Item | Manual V2.2 | Product brochure |
+| --- | --- | --- |
+| Arm supply | DC48V ±20%; per arm 300 W typical, 600 W peak | 48 V (±10%); 400 W average, 600 W peak |
+| M6-SRS repeatability | ±0.02 mm | ±0.03 mm |
+| M6-SRS J7 range | ±360° | ±178° |
+
+Tool flange dimensions, payload center-of-gravity limits, and mounting dimensions are in sections 4.6, 4.7, and 2.5 of the manual.

@@ -1,0 +1,36 @@
+---
+title: 连接与读取状态
+description: 连接与读取状态 · Gento Marvin Pro
+source_revision: V1.0 / September 2026
+source_ids:
+- manual
+- software
+- pc-connection
+review_status: pending
+translation_status: source
+source_zh_sha256: 79c020c3fc94378802999e99e47d94a06363821df31221cf11ae2e97d32de386
+---
+先完成[硬件接线](./wiring.mdx)，并选择[匹配的软件](./compatibility.mdx)。本流程只建立通信和读取状态，不下发运动指令。
+
+## 连接 Marvin Platform
+
+1. 启动与控制器配套的 Marvin Platform 版本。
+2. 用网线将电脑连接到一体化控制箱，并为电脑设置机器人 `6.6.7.x` 网段内的地址，参见[连接用户电脑](../software/connect-pc.mdx)。
+3. 输入运控控制器 IP，默认为 `6.6.7.190`。
+4. 点击 **Connect Robot（连接机器人）**，查看实时反馈。
+
+9 月软件指南中的示例地址 `192.168.1.190` 属于独立 Marvin 机械臂控制器。如果交付设备配置了其他地址，请使用为该设备记录的地址。
+
+![交付手册中的软件连接区域](/img/marvin-pro/platform-connection.webp)
+
+## 确认实时反馈
+
+软件指南说明 UDP 通信不会直接返回连接成功标志，应确认反馈持续更新。静止机械臂的位置可能不变化，应查看数据流及其他实时反馈，不要为了验证连接而下发运动指令。
+
+手册描述双臂下使能且静止时：控制状态 `0`、拖动按钮 `0`、低速标志 `1`、臂错误码 `0`。请检查两条机械臂。
+
+## 无法连接时
+
+检查供电、网线、控制器 IP、电脑网络设置和防火墙。[连接用户电脑](../software/connect-pc.mdx)中附有故障排查表。Pro V1.0 手册对应 SDK 的 UDP 端口范围为 `50000–50010`；更改防火墙规则前，请与已安装软件包核对。
+
+下一步：[理解反馈字段](../software/marvin-platform.mdx)。

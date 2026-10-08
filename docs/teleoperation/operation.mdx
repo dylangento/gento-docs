@@ -1,0 +1,32 @@
+---
+title: Operate & check Apex services
+description: Operate & check Apex services · Gento Marvin Pro
+source_revision: V1.0 · 2026-06-27
+source_ids:
+- manual
+review_status: pending
+translation_status: pending
+source_zh_sha256: 79412542a0494e2b6c2de4e010c24939acaab19b236305c1b41dc65c9b4d7ab1
+---
+## Before wearing the headset
+
+Check the E-stop, controller power, Ethernet connections, USB drive, and headset battery. The Pro manual recommends a wired network for the headset rather than Wi-Fi.
+
+Back up the original configuration before changing IP addresses, payload, stiffness, damping, Home points, or TCP offsets. Follow the headset fitting and calibration instructions for the installed Apex version.
+
+## Services described in the Pro manual
+
+| Service | Function |
+| --- | --- |
+| `apex-backend.service` | HTTP/WebSocket API entry point |
+| `apex-camera.service` | Four-channel GMSL camera service |
+| `apex-robot.service` | ROS robot control and state publishing |
+| `apex-teleop.service` | IK, planning, and command multiplexing |
+
+These service names describe the manual's software version. A four-channel GMSL service is not a statement that the platform has only four cameras.
+
+## During and after operation
+
+Switch to standby when not teleoperating to avoid unintended input. Stop teleoperation immediately if the headset loses power, shuts down, or behaves abnormally. If the application cannot connect, first check power, network cabling, the router/switch, and IP subnet settings.
+
+For mode selection, calibration, and recovery, use the release-matched Apex guide. Do not restart or reconfigure motion services during an active task without following its stop procedure.

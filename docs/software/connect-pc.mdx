@@ -1,0 +1,174 @@
+---
+title: Connect your PC to the robot
+description: Connect your PC to the robot · Gento Marvin, Marvin Pro, Luna, Skye
+source_revision: '2026-10-06'
+source_ids:
+- pc-connection
+- marvin-manual
+- luna-manual
+- manual
+review_status: pending
+translation_status: source
+sidebar_label: Connect your PC
+source_zh_sha256: dacef1d165e2867ea3fd2ae75a7b916da6d629dec633f0797ac63bb893dc4251
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Your PC talks to the robot over a direct, wired Ethernet link. Set this up once before you use Marvin Platform, FxStation, GentoPlatform, or the SDK. It takes about five minutes, and the steps are the same for Marvin, Marvin Pro, Luna, and Skye; only the addresses differ.
+
+## Before you start
+
+- A Windows or Ubuntu PC with a free Ethernet port. A USB-to-Ethernet adapter works.
+- An Ethernet cable. For Marvin, supply your own.
+- Administrator rights on the PC, to change network and firewall settings.
+- The robot wired and powered on according to its installation guide.
+
+## 1. Connect the cable
+
+Plug the cable directly from your PC into the robot's control box.
+
+| Robot | Plug the cable into | Robot network |
+| --- | --- | --- |
+| Marvin (arms) | x86 controller box, port ETH1 or ETH3 | `192.168.1.x` |
+| Marvin Pro | Integrated control box | `6.6.7.x` |
+| Luna | Integrated control box, panel port RJ45 1 | `6.6.7.x` |
+| Skye | Integrated control box | `6.6.7.x` |
+
+## 2. Choose an address for your PC
+
+Give your PC a fixed (static) IPv4 address on the robot's network:
+
+| Setting | Marvin | Marvin Pro, Luna, Skye |
+| --- | --- | --- |
+| IPv4 address | `192.168.1.x` | `6.6.7.x` |
+| Subnet mask | `255.255.255.0` | `255.255.255.0` |
+| Gateway and DNS | Leave blank | Leave blank |
+| Example | `192.168.1.165` | `6.6.7.50` |
+
+For **x**, choose any number from 2 to 254 that the robot doesn't already use:
+
+| Last number | Reserved for |
+| --- | --- |
+| `1` | Default gateway |
+| `6` | Mobile base |
+| `100` | AI controller (NVIDIA Jetson Orin or Thor) |
+| `123` | Reserved |
+| `190` | x86 motion controller |
+
+:::warning One address per device
+Two devices with the same address conflict, and the connection drops on and off. If several PCs share the robot's network, give each one a different number.
+:::
+
+## 3. Set the address on your PC
+
+<Tabs groupId="os" queryString="os">
+<TabItem value="windows" label="Windows 10/11">
+
+1. Press **Win + R**, type `ncpa.cpl`, and press **Enter**.
+2. Right-click the Ethernet adapter the robot is plugged into, then select **Properties**.
+3. Select **Internet Protocol Version 4 (TCP/IPv4)**, then **Properties**.
+4. Choose **Use the following IP address** and enter the IPv4 address and subnet mask from step 2. Leave the gateway and DNS fields empty.
+5. Select **OK**, then **Close**.
+
+To check, open PowerShell and run `ipconfig`. The Ethernet adapter should list your new address.
+
+</TabItem>
+<TabItem value="ubuntu" label="Ubuntu">
+
+1. Open **Settings → Network**.
+2. Select the gear icon next to the wired connection.
+3. On the **IPv4** tab, choose **Manual**.
+4. Enter the address and netmask from step 2. Leave the gateway and DNS empty.
+5. Select **Apply**, then turn the wired connection off and on again.
+
+Or set it from a terminal. Replace the connection name and address with yours; `/24` is the same as the mask `255.255.255.0`.
+
+```bash
+nmcli connection show        # find the wired connection's name
+sudo nmcli connection modify "Wired connection 1" ipv4.method manual ipv4.addresses 6.6.7.50/24
+sudo nmcli connection up "Wired connection 1"
+ip -4 addr                   # confirm the new address
+```
+
+</TabItem>
+</Tabs>
+
+:::tip Marvin and 192.168.1.x Wi-Fi
+Many home and office routers also use `192.168.1.x`. If your PC is on a Wi-Fi network like that, it can conflict with the robot's network. Turn Wi-Fi off while you work with Marvin.
+:::
+
+## 4. Turn off the firewall
+
+The robot streams data to your PC over UDP, and a firewall blocks that traffic. When that happens, ping still works but the software receives no feedback. Turn the firewall off for the network the robot is on.
+
+<Tabs groupId="os" queryString="os">
+<TabItem value="windows" label="Windows 10/11">
+
+1. Open **Windows Security → Firewall & network protection**.
+2. Select the network profile marked **(active)** for the robot connection. A direct link to the robot is usually a **Public network**.
+3. Turn **Microsoft Defender Firewall** off.
+
+If you also use public Wi-Fi, turn the firewall back on when you finish with the robot.
+
+</TabItem>
+<TabItem value="ubuntu" label="Ubuntu">
+
+Ubuntu's firewall (ufw) is off by default, but check it:
+
+```bash
+sudo ufw status      # "inactive" means there's nothing to do
+sudo ufw disable
+```
+
+</TabItem>
+</Tabs>
+
+:::caution If you can't turn off the firewall
+If your IT policy requires the firewall, allow inbound UDP from the robot's network instead. In PowerShell, run as administrator (for Marvin, use `192.168.1.0/24`):
+
+```powershell
+New-NetFirewallRule -DisplayName "Gento robot" -Direction Inbound `
+  -Protocol UDP -RemoteAddress 6.6.7.0/24 -Action Allow
+```
+
+To narrow the rule further, the Marvin Pro and Luna SDKs document UDP ports `50000–50010`. Confirm the range for your software version.
+:::
+
+## 5. Test the connection
+
+Ping the robot's controllers from a terminal (PowerShell on Windows):
+
+| Robot | Command | Checks |
+| --- | --- | --- |
+| Marvin | `ping 192.168.1.190` | x86 controller |
+| Marvin Pro, Luna, Skye | `ping 6.6.7.190` | x86 motion controller |
+| Robots with onboard AI compute | `ping 6.6.7.100` | AI controller (Orin or Thor) |
+| Robots with a mobile base, such as Luna | `ping 6.6.7.6` | Mobile base |
+
+A reply means the link works:
+
+```text
+Reply from 6.6.7.190: bytes=32 time<1ms TTL=64
+```
+
+On Ubuntu, ping keeps running until you press **Ctrl + C**. Use `ping -c 4 6.6.7.190` to send just four packets.
+
+Once the controller replies, open your robot's host software:
+
+- Marvin: [Connect the host software](../marvin/first-connection.mdx)
+- Marvin Pro: [Connect & read robot status](../marvin-pro/first-connection.mdx)
+- Luna: [GentoPlatform](../luna/gentoplatform.mdx) or the [SDK](../luna/sdk-teleoperation.mdx)
+
+## Troubleshooting
+
+| Symptom | What to check |
+| --- | --- |
+| `Request timed out` or `Destination host unreachable` | The cable is seated at both ends and in the right port. The robot is powered on and has finished booting. Your PC's address is on the right network (`ipconfig` or `ip -4 addr`). |
+| `General failure` (Windows) or `Network is unreachable` (Ubuntu) | The address is set on a different adapter. Repeat step 3 on the adapter the robot is plugged into. |
+| Ping works, but the software shows no data | The firewall is still on for the active network profile (step 4), or the software has the wrong controller address. |
+| The connection drops on and off | Another device uses the same address. Choose a different last number. |
+| Marvin doesn't reply while Wi-Fi is on | Your Wi-Fi network also uses `192.168.1.x`. Turn Wi-Fi off. |
+| Nothing connects while a VPN is on | Disconnect the VPN. Some VPNs send all traffic through the tunnel. |
+
+Still stuck? Email [support@gentorobotics.ai](mailto:support@gentorobotics.ai) with your robot model, your PC's operating system, and the output of `ipconfig` (Windows) or `ip -4 addr` (Ubuntu).

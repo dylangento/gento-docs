@@ -1,0 +1,118 @@
+---
+title: SDK & teleoperation
+description: SDK & teleoperation · Gento Luna
+source_revision: V2.1 · 2026-08
+source_ids:
+- luna-manual
+review_status: pending
+translation_status: pending
+source_zh_sha256: d42a07863eab45016e483668765cd57a25a0d620688a758b1fb5e72da30e07b6
+---
+Get comfortable with [GentoPlatform](./gentoplatform.mdx) first; understanding how the robot behaves makes code development easier.
+
+## Gento SDK
+
+The motion control SDK wraps the low-level communication (L0) and provides interfaces for system management, motion control, state switching, parameters, kinematics, and trajectory planning.
+
+| Resource | Link |
+| --- | --- |
+| Gento series SDK repository | [tianjizn/tianji-robot-SDK (Gento_Skye+Luna branch)](https://github.com/tianjizn/tianji-robot-SDK/tree/Gento_Skye+Luna) |
+| Motion control SDK API docs | [tianjizn.github.io/api](https://tianjizn.github.io/api/) |
+| Documentation source repository | [tianjizn/tianjizn.github.io](https://github.com/tianjizn/tianjizn.github.io) |
+
+If the API docs are not reachable online, download them from the documentation repository and view them locally.
+
+### Directory structure
+
+```text
+GENTO_SDK/
+├── C_SDK/                  # SDK source (Common, FileClient, Kinematics, L0Control, L1Robot)
+├── C_EXAMPLE/              # C++ examples that call C_SDK source directly
+├── C_EXAMPLE_USE_DLL_SO/   # C++ examples that call the compiled DLL/SO
+├── PYTHON_SDK/             # Python wrapper (GentoRobot.py)
+├── PYTHON_EXAMPLE/         # Python examples
+├── win_auto_compile.bat    # One-step Windows build (source → DLL)
+├── linux_auto_compile.sh   # One-step Linux build (source → SO)
+└── README.md
+```
+
+### Version compatibility
+
+Controller and SDK versions are MAJOR.MINOR.PATCH. The SDK connects only when MAJOR and MINOR match; otherwise the connection returns error -4 "Version incompatible". Call `FX_L1_System_GetSDKVersion()` (Python: `get_sdk_version()`) to get the SDK version, then upgrade or downgrade the controller to match.
+
+### Core modules
+
+| Module | Description |
+| --- | --- |
+| System management | Connect/disconnect, log level, reboot, firmware update, file transfer |
+| State machine | Switch between position, impedance (joint / Cartesian / force), drag teaching, and collaborative release |
+| Real-time feedback | 1 kHz data (joint position, velocity, torque, IMU, F/T) and 500 Hz slow-group data |
+| Parameters | Read and write parameters by name |
+| Terminal communication | Send and receive with external devices over CAN FD or RS485 |
+| Hardware configuration | Brake lock/release, encoder offset reset, soft-limit disable |
+| Runtime motion | E-stop, joint position commands, force/torque control, stiffness/damping |
+| Kinematics & planning | FK/IK, Jacobian, tool transforms, MoveJ/MoveL, multi-segment Cartesian, dual-arm sync |
+| Dynamics identification | Identify payload mass, center of mass, and inertia from recorded data |
+
+### Usage notes
+
+- SDK demo logic and parameters are for R&D reference only, not production code.
+- Stiffness and damping values are references and may change between controller versions; ask Gento support.
+- The SDK uses reliable UDP. Allow UDP on the default ports 50000–50010 in your firewall.
+- `FX_L1_System_Link()` returns a positive latency in microseconds on success; negative values are errors.
+- Always call `FX_L1_System_Unlink()` before your program exits.
+
+## Development environment
+
+- Debug computer: Windows or Ubuntu 20.04 x86, IP in the 6.6.7.x subnet
+- Python 3.10 or later; build contrlSDK and kinematicsSDK and put `libMarvinSDK.so` and `libKine.so` in the matching `SDK_PYTHON` directories
+
+Check connectivity:
+
+```bash
+ping 6.6.7.6    # chassis
+ping 6.6.7.190  # motion controller
+ping 6.6.7.100  # domain controller
+```
+
+Workflow: read the API docs → follow `C_EXAMPLE` / `PYTHON_EXAMPLE` → test at low speed and small range → add complexity step by step → integrate.
+
+For chassis-level development (velocity control, status, sensor data, navigation and obstacle avoidance), see the general robot software interface document supplied by Tianji.
+
+## VR teleoperation
+
+The teleoperation system lets an operator control the robot immersively with a VR headset and controllers. It also includes a toolchain (KM Data Converter) for turning recordings into imitation-learning datasets.
+
+| Part | Description |
+| --- | --- |
+| Front end | Host application for Ubuntu and Windows; preinstalled on the domain controller |
+| Back end | Runs on the Orin domain controller: ROS2 nodes, motion control, cameras, and recording |
+| VR headset | Meta Quest and Pico; the teleoperation app is preinstalled |
+
+Back-end services: `apex-backend.service` (HTTP/WebSocket entry), `apex-camera.service` (four GMSL cameras), `apex-robot.service` (ROS control and state), `apex-teleop.service` (IK, planning, command multiplexing).
+
+Packages and documentation:
+
+- Server: [KernelMind_Apex_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Deb)
+- Front end: [KernelMind_Apex_Web_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Web_Deb)
+- Headset APK: [KernelMind_Apex_VR_Apk](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_VR_Apk)
+- [Apex documentation center](https://gento-teleoperation-apex.github.io/Apex_doc_center/)
+
+### Teleoperation steps
+
+1. After every Orin / Thor power-up, initialize the cameras: log in to the domain controller remotely, run `cd ~/cam_geac && ./rb_camera.sh`, and wait about 20 seconds.
+2. Open the teleoperation front end, enter the controller IP, and connect. Start dnsmasq (for a wired headset) and **Robot**, and check that the URDF pose matches the real robot. Then start **Teleop**, and **Camera** and **Tool** as needed.
+3. Click **Start Robot** to reach Ready, then **Impedance Mode**, then **Home** to go to the teleoperation start pose. With a dexterous hand, switch **Input Mode** to **Teleop**.
+4. Put on and calibrate the body trackers. In the headset client, confirm height, IP, and end effector, then connect. When the front end's VR light turns green, press Y on the left controller to start, and hold the side grip to operate.
+
+:::warning Teleoperation rules
+- Use a wired network; teleoperating over headset WiFi is not recommended.
+- Before starting, check the E-stop, controller power, network cables, USB drive, and headset battery; keep people clear and the E-stop within reach.
+- Watch the real robot, not just the 3D model, when switching modes or running Home.
+- Switch to standby when not teleoperating. Back up configuration files before changing IP, payload, stiffness, damping, Home, or TCP offset.
+- Stop immediately if the headset runs out of battery, loses power, or shuts down.
+:::
+
+Recording, playback, and logs are covered in the Apex documentation center. Before replaying on the real robot, clear the workspace and confirm the start pose matches the recording.
+
+Next: [maintenance & safety](./maintenance.mdx).

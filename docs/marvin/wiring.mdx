@@ -1,0 +1,86 @@
+---
+title: Marvin wiring
+description: Marvin wiring · Gento Marvin
+source_revision: V2.2 · 2025-09
+source_ids:
+- marvin-manual
+review_status: pending
+translation_status: pending
+source_zh_sha256: 1a5d76f8624defc0bb8d9ca84dd16f212cddfd18c6a0b44070735fbd99929b45
+---
+:::warning Before wiring
+External wiring must be done only by trained, authorized engineers. Before power-on, check the voltage rating, wire order, and insulation; the equipment must be reliably grounded. Wire and inspect only after the Power LED is off. Do not touch the joint module components inside the arm base.
+:::
+
+## System layout
+
+A Marvin dual-arm system consists of the arms, the controller module (optional), the power module (optional), the robot stand (optional), and the robot base (optional). See Figure 3-1 of the manual for the wiring diagram.
+
+The optional extension cable kit, power cables, EtherCAT+485 cables, and end 8-pin plug cables are for commissioning only. For the final integration, design suitable cables from the cable specifications, connectors, and terminal part numbers given in the manual. Without the controller module, no extension cable kit is supplied.
+
+## Arm power
+
+| Item | Specification |
+| --- | --- |
+| Supply | DC48V ±20% |
+| Power (per arm, M6) | 300 W typical, 600 W peak |
+| Overvoltage fault | Supply above 58 V |
+| Undervoltage fault | Supply below 30 V |
+| Connector / terminal | HRS DF63W-2EP-3.96C / DF63-1618PCF |
+| Cable | Twisted pair, AWG18 |
+
+The optional power module is a MEAN WELL RSP-2000-48 switching power supply.
+
+## Controller power
+
+The controller main board draws 20 W at DC12V. It has two power inputs; connect only one:
+
+| Input | Use | Specification |
+| --- | --- | --- |
+| Power input 1 | Power adapter (when the board is in the controller box) | Jingsai SG-120400050A, DC12V 4A |
+| Power input 2 | Switching power supply | Molex 5557-04R connector, 5556T terminals, AWG22 twisted pair |
+
+## Regeneration module
+
+At high speed and heavy load, the arms regenerate energy. The regeneration module and braking resistor dissipate it, preventing bus overvoltage faults and stops.
+
+- With a switching power supply, use the regeneration module.
+- With a battery supply, the regeneration module can be omitted.
+
+See Figure 3-7 of the manual for wiring.
+
+## EtherCAT and debug RS-485
+
+Each arm base has an EtherCAT plug and a debug RS-485 plug. EtherCAT goes to the controller. Debug RS-485 goes through a USB-to-485 adapter to DriveMaster2.0 on the host computer, for joint driver tuning and firmware updates.
+
+| Harness label | Arm |
+| --- | --- |
+| 485A-L / 485B-L | Left arm |
+| 485A-R / 485B-R | Right arm |
+
+EtherCAT+485 cable: HRS DF62W-6EP-2.2C connector, AWG24 twisted pair; 8P8C at the RJ45 end. Supply your own USB-to-485 adapter.
+
+## End 8-pin interface
+
+| Pins | Function |
+| --- | --- |
+| 1 / 2 | DC24V power output, 3 A rated |
+| 3 / 4 | RS-485 channel 1 |
+| 5 / 6 | RS-485 channel 2 |
+| 7 / 8 | CAN, CAN FD by default |
+
+The end plug is a Weipu SF810B/P8 with AWG26×4P cable. The end flange also has a drag button for hand-guiding.
+
+## Host debug Ethernet
+
+Controller ports 1 (ETH1) and 3 (ETH3) can both be used for the host computer. The controller's default IP is 192.168.1.190. Supply your own Ethernet cable. See [connect the host software](./first-connection.mdx).
+
+## Emergency stop
+
+The controller E-stop plug is a JST RF-10 with RF-SC2290 terminals and AWG24 cable. Check its orientation; do not insert it reversed.
+
+:::warning Stop category
+The E-stop wiring in the manual is a category 1 stop. If you need a category 0 stop, design it to the relevant technical standards.
+:::
+
+Next: [connect the host software](./first-connection.mdx).

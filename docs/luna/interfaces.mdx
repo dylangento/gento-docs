@@ -1,0 +1,97 @@
+---
+title: Interfaces & network
+description: Interfaces & network · Gento Luna
+source_revision: V2.1 · 2026-08
+source_ids:
+- luna-manual
+review_status: pending
+translation_status: pending
+source_zh_sha256: 76bbb7308a69beb7eae69241a1e760fa5a58f79a761273c631995c2481f3f25c
+---
+## Rear control panel
+
+The rear panel brings together power input, control communication, data transfer, and safety interlock interfaces.
+
+| Interface | Function |
+| --- | --- |
+| E-stop button | Self-locking mushroom-head switch that cuts power to critical motion in an emergency (hardware interlock). Press to trigger; turn clockwise to reset |
+| Panel Ethernet | RJ45 × 3 for internal controller switching, external host communication, or LAN data. Default subnets: RJ45 1 6.6.7.XX, RJ45 2 6.6.8.XX, RJ45 3 6.6.9.XX |
+| USB 3.0 | Type-A × 4 for storage, peripherals, or firmware updates; up to 5 Gbps |
+| External interface | Multi-pin industrial signal connector for an external E-stop |
+| DM-485 | DB-9 RS-485 port to the joint servo drives (debugging) |
+| Panel power | Multi-pin industrial power connector supplying the robot |
+
+### Panel power output pins
+
+| Pins | Definition | Power | Notes |
+| --- | --- | --- | --- |
+| 1 / 7 | 48V / 0V | 200 W | Battery supply, 48–60 V |
+| 2 / 8 | 24V / 0V | 150 W | 24 V ±5% |
+| 3 / 9 | 24V / 0V | 150 W | 24 V ±5% |
+| 4 / 10 | 12V / 0V | 150 W | 12 V ±5% |
+| 5 / 11 | 12V / 0V | 150 W | 12 V ±5% |
+| 6 / 12 | 5V / 0V | 30 W | 5 V ±5% |
+
+### External E-stop
+
+As shipped, pins 1 and 4 are shorted, and pins 3 and 6 are shorted. To add an external E-stop, connect 1–4 and 3–6 to the normally closed contacts of the external E-stop box.
+
+### DM-485 debug pins
+
+| Pins | Definition | Use |
+| --- | --- | --- |
+| 1 / 2 | 485A / 485B | Left-arm driver debugging |
+| 7 / 9 | 485A / 485B | Right-arm driver debugging |
+| 8 / 5 | 485A / 485B | Head and waist debugging |
+
+## Arm end 8-pin interface
+
+| Pins | Function |
+| --- | --- |
+| 1 / 2 | DC24V power output, 3 A rated |
+| 3 / 4 | RS-485 channel 1 |
+| 5 / 6 | RS-485 channel 2 |
+| 7 / 8 | CAN, CAN FD by default |
+
+## Ethernet architecture
+
+The AGV chassis controller, LiDARs, Tianji motion control platform, and external debug ports are linked over Gigabit Ethernet.
+
+| Device | Role |
+| --- | --- |
+| NVIDIA Orin (standard) | Central computer: AI algorithms, sensor fusion, device management, network scheduling |
+| Tianji Motion Control Computing Platform | Torso and arm motion control, peripheral management; EtherCAT master |
+| RJ45 panel debug port | Ethernet debugging and maintenance |
+| RDK S100 | AGV chassis controller |
+| AGV built-in switch | Gigabit Ethernet inside the chassis |
+| Front / rear LiDAR | Perception, mapping, localization, navigation, and obstacle avoidance |
+
+With the optional NVIDIA Thor, Thor becomes the robot's computing center, supports large-model inference (VLA) and multimodal perception, and a chest switch is added for the upper-body network.
+
+## EtherCAT architecture
+
+The Tianji motion control platform is the EtherCAT master for every joint driver:
+
+| Slave | Description |
+| --- | --- |
+| M6 Left × 8 | 7 left-arm joint drivers; the 8th is the end IO board (× 7 with a dexterous hand) |
+| M6 Right × 8 | 7 right-arm joint drivers; the 8th is the end IO board (× 7 with a dexterous hand) |
+| Head Pitch | Head pitch |
+| Head Rotation | Head rotation |
+| Waist Joint 1–6 | Coordinated control of the 6 waist and leg joints |
+
+## IP addresses
+
+Connect a cable to panel port RJ45 1 to reach:
+
+| Device | IP address | Role |
+| --- | --- | --- |
+| Chassis (RDK S100) | 6.6.7.6 | Chassis motion control, status, and system management |
+| Domain controller (Orin / Thor) | 6.6.7.100 | AI algorithms, sensor fusion, device management, network scheduling |
+| Motion controller | 6.6.7.190 | Torso and arm motion control; EtherCAT master |
+
+Set the debug computer to the 6.6.7.x subnet (for example 6.6.7.50) with netmask 255.255.255.0. For step-by-step setup, see [Connect your PC](../software/connect-pc.mdx).
+
+The domain controller supports remote desktop login. Login credentials are supplied with the robot; do not record them in shared documents.
+
+Next: [GentoPlatform](./gentoplatform.mdx).

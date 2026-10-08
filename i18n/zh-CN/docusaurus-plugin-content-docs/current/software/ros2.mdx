@@ -1,0 +1,30 @@
+---
+title: ROS 2 集成
+description: ROS 2 集成 · Gento Marvin Pro
+source_revision: V1.0 · 2026-06-27
+source_ids:
+- manual
+- vr
+review_status: pending
+translation_status: source
+source_zh_sha256: 006863b08ae4230125a28b6e5dd553612f52114f0c13655b68d85d8cbdbfc533
+---
+Pro 手册中的 Apex 架构由机器人端计算机运行 ROS 2 节点、运动控制、相机采集和录制服务。电脑端上位机管理连接及操作流程。
+
+## 接口文档
+
+进入 [Apex 文档中心](https://klmmotion.github.io/Apex_doc_center/)，选择与安装版本对应的 Marvin Pro 客户接口文档。编写客户端前，确认该版本的话题名称、消息类型、单位、坐标系和更新行为。
+
+## 区分接口层级
+
+| 接口 | 作用 |
+| --- | --- |
+| Marvin 运动 SDK | 与机器人控制器通信 |
+| Apex ROS 2 接口 | 机器人端应用集成与状态反馈 |
+| Apex 电脑端应用 | 操作连接、模式选择及录制 |
+
+支持 ROS 2 不代表全部 SDK 功能都通过话题或服务开放。不要默认 Luna/Skye 的消息定义和控制器配置适用于 Marvin Pro。
+
+## 下发指令前
+
+确认控制权属于哪个进程、如何交接，以及指令使用的坐标系和单位。最新的话题、服务和消息定义，请参见 [Apex 文档中心](https://klmmotion.github.io/Apex_doc_center/)。

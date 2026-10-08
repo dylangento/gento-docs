@@ -1,0 +1,107 @@
+---
+title: Luna specifications
+description: Luna specifications · Gento Luna
+source_revision: V2.1 · 2026-08
+source_ids:
+- luna-manual
+- luna-brochure
+review_status: pending
+translation_status: pending
+source_zh_sha256: d5bcec74e0b193c06c80f9f519ea02f85ef1908ac63d66ced62b2cfdc40e9019
+---
+These values come from the Tianji Gento Luna Wheeled Dual-Arm Robot User Manual V2.1 (August 2026, based on SDK 1004).
+
+![Luna with arms extended: front, rear, and side views](/img/luna/t-pose.webp)
+
+## Robot
+
+| Parameter | Value |
+| --- | --- |
+| Dimensions (standing) | L670 × W548 × H1700 mm |
+| Dimensions (folded) | L850 × W548 × H790 mm |
+| Vertical workspace | 0–2100 mm |
+| Weight | 144 kg |
+| Runtime | 4–6 h (standard conditions) |
+| Communication | WiFi / Ethernet |
+| DoF | 26 (head 2, arms 7×2, waist 3, legs 3, chassis 4; excluding end effectors) |
+| Chassis | Four-wheel drive + four steering wheels, omnidirectional |
+| Force control | Standard on the whole robot |
+
+## Arms (Marvin M6 Lite)
+
+| Parameter | Value |
+| --- | --- |
+| Rated payload (per arm) | 5 kg |
+| Reach (J2 axis to end flange) | 615 mm |
+| Max. TCP speed | 1.5 m/s |
+| Repeatability | ±0.03 mm |
+| Force repeatability | ≤0.15 N |
+| Range of motion | J1 ±178°, J2 ±120°, J3 ±178°, J4 +60°/-145°, J5 ±178°, J6 ±60°, J7 ±90° |
+| Max. speed | J1–J7: 180°/s |
+| Communication | 1 kHz EtherCAT |
+| Brakes | J1–J4 only; J5–J7 have no brakes |
+| Functions | Position control, impedance control, automatic payload identification, hybrid force-position control |
+| End interfaces | RS485, CAN FD, EtherCAT, CAN, 24V (3A), 48V |
+| End camera | Senyun SHW5G monocular (standard); RealSense D405GA depth (optional) |
+
+## Waist and legs
+
+| Section | Range of motion (manual) |
+| --- | --- |
+| Waist | JB3 rotation ±170°; JB4 pitch ±30°; JB5 side swing 55°/-110° |
+| Legs | JB6 fold 60°/-140°; JB7 rotation ±90°; JB8 side swing ±11° |
+
+:::note Source difference
+The July 2026 brochure labels JB4 as side swing, JB5 as pitch, and JB7 as pitch, which differs from the manual. Confirm joint definitions against the delivered robot's URDF and controller configuration before planning motion.
+:::
+
+## Chassis
+
+| Parameter | Value |
+| --- | --- |
+| Chassis dimensions | L670 × W548 × H386 mm |
+| Rated load | 100 kg |
+| Power | LiFePO4 battery, DC48V 34.4Ah |
+| Charging | Manual / automatic / battery swap |
+| Charging time | ≤1.5 h (fast charge) |
+| Max. speed | 1.5 m/s |
+| Climbing angle | ≤10° |
+| Stopping accuracy | ±20 mm (position); ±1° (angle) |
+| Positioning accuracy | Up to ±10 mm |
+| Navigation | 3D SLAM; diagonally mounted 3D LiDARs; two ultrasonic sensors each at front, rear, left, and right |
+| Chassis functions | Path planning, dynamic obstacle avoidance, localization, mapping, auto charging, cross-floor travel and automatic doors |
+
+## Electrical and communication
+
+- Operating voltage: LiFePO4 battery DC48V 34.4Ah, operating range DC 36–60 V
+- External communication: WiFi / Ethernet
+- Internal bus: 1 kHz EtherCAT real-time bus
+- Encoders: all rotary joints of the arms and torso have inner and outer encoders
+
+## Cameras
+
+| Position | Camera | Fitment | Resolution @ frame rate | Interface |
+| --- | --- | --- | --- | --- |
+| Head 1 | Intel D455C | Standard | 1280×720@30fps; 848×480@90fps | USB 3.0 |
+| Head 2 | Senyun SHW5G | Standard | 2560×1984@30fps | GMSL2 |
+| Chest | Intel D435 | Optional | 1280×720@30fps; 848×480@90fps | USB 3.0 |
+| Wrist | Senyun SHW5G | Standard | 2560×1984@30fps | GMSL2 |
+| Wrist | Intel D405GA | Optional | 1280×720@30fps; 848×480@90fps | GMSL |
+| Chassis | Linghou LH-DS-51 | Standard | 640×400@30fps | USB 2.0 |
+
+The head tilts 25° down and 30° up, for a maximum vertical field of view of 149°.
+
+## Compute
+
+| Configuration | Platform |
+| --- | --- |
+| Standard | NVIDIA Jetson AGX Orin 64GB (275 TOPS) |
+| High-compute option | NVIDIA Jetson Thor T5000 |
+
+Compute module names come from the product brochure.
+
+## Operating environment
+
+- -10 to 40 °C ambient, below 90 %RH (non-condensing)
+- Indoors on flat, solid, non-slip floors
+- No rain, snow, standing water, corrosive, flammable, explosive, or very dusty environments

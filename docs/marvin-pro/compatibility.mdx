@@ -1,0 +1,32 @@
+---
+title: Versions & compatibility
+description: Versions & compatibility · Gento Marvin Pro
+source_revision: V1.0 / September 2026
+source_ids:
+- manual
+- software
+- vr
+review_status: pending
+translation_status: pending
+source_zh_sha256: 582d95b3affe9c0cc58aa656eb44925a199486fee13be1def116850b6315a84d
+---
+Record the robot model, arm variant, controller firmware, SDK revision, Apex version, and camera/end-effector configuration before installation or an update.
+
+## Two software paths
+
+| Path | Source reference | What to check |
+| --- | --- | --- |
+| Marvin Platform / motion SDK | Chinese software guide, September 2026 | The repository, build script, and calculation files matching the controller |
+| Apex teleoperation | VR resource guide, September 4, 2026 | Robot-side compute architecture, desktop package, and headset package |
+
+The September software guide names `TJ_FX_ROBOT_CONTRL_SDK/master`, while the older Pro manual names `tianji-robot-SDK03/Marvin_Pro`. They are recorded separately in the [SDK directory](../software/sdk-directory.mdx). Do not combine their build instructions or assume one is a drop-in replacement.
+
+## Version checks
+
+The Pro V1.0 manual states that SDK/controller **major and minor** versions must match. It refers to `showcase_check_sdk_type_compat.cpp` and `showcase_check_sdk_type_compat.py`. Use this rule with that SDK family and confirm the rule for other packages.
+
+The September software guide has separate build scripts for controller versions it calls “41” and “43.” Confirm the full firmware version before choosing a script. Installation instructions here do not select a firmware package for you.
+
+## Before changing a working setup
+
+Back up the configuration and record the installed versions. Have the matching package and recovery instructions available. Configuration changes to IP, payload, stiffness, damping, Home points, and TCP offsets should be tracked together with the software version.

@@ -1,0 +1,35 @@
+---
+title: End effectors & tool setup
+description: End effectors & tool setup · Gento Marvin Pro
+source_revision: V1.0 · 2026-06-27
+source_ids:
+- manual
+- inventory
+review_status: pending
+translation_status: pending
+source_zh_sha256: 484f8c7db77c5b2c00eb3af73149c76368918dc9302391b670ed74fd5f6682ec
+---
+Treat mechanical mounting, power, communication, and software integration as separate checks. A flange adapter alone does not establish complete teleoperation or data-recording support.
+
+## Integration checklist
+
+| Area | Confirm for the exact tool |
+| --- | --- |
+| Mechanical | Flange drawing, adapter, fasteners, tool envelope, and cable clearance |
+| Electrical | Voltage, current, connector pinout, and external supply requirements |
+| Communication | Device protocol, bus configuration, and matching driver |
+| Dynamics | Tool mass, center of mass, and inertia configuration |
+| Control | Command mapping, limits, and handover behavior |
+| Recording | Available signals, timestamps, and synchronization |
+
+## Source resources
+
+The mechanical integration folder contains tool dynamics identification instructions and a six-axis force/torque sensor installation guide. The model folder also contains a Wuji Hand 2 / D405GA flange package.
+
+[Open mechanical integration resources](https://drive.google.com/drive/folders/1cqyN_O_FIjH2m0G1-ii0-ZJqn6oobNBP).
+
+## Tool dynamics
+
+The Pro manual describes collecting no-load and loaded trajectories, calculating tool mass, center of mass, and inertia, then applying the tool parameters. These procedures cause motion and require the correct arm configuration and identification trajectory. They are not part of the beginner setup sequence.
+
+Wrist supply voltage depends on the arm configuration, so don't take it from a generic product table. Confirm your arm's electrical interface before attaching a hand or camera.

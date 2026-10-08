@@ -1,0 +1,174 @@
+---
+title: 连接用户电脑
+description: 连接用户电脑 · Gento Marvin、Marvin Pro、Luna、Skye
+source_revision: '2026-10-06'
+source_ids:
+- pc-connection
+- marvin-manual
+- luna-manual
+- manual
+review_status: pending
+translation_status: pending
+sidebar_label: 连接用户电脑
+source_zh_sha256: dacef1d165e2867ea3fd2ae75a7b916da6d629dec633f0797ac63bb893dc4251
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+用户电脑通过网线与机器人直连通信。使用 Marvin Platform、FxStation、GentoPlatform 或 SDK 之前，请先完成一次本设置，约需 5 分钟。Marvin、Marvin Pro、Luna 和 Skye 的步骤相同，仅 IP 地址不同。
+
+## 准备工作
+
+- 一台带空闲网口的 Windows 或 Ubuntu 电脑，也可使用 USB 转网口适配器。
+- 一根网线。Marvin 需自备网线。
+- 电脑管理员权限，用于修改网络和防火墙设置。
+- 机器人已按安装指南完成接线并上电。
+
+## 1. 连接网线
+
+用网线将电脑直接连接到机器人的控制箱。
+
+| 机器人 | 网线接入位置 | 机器人网段 |
+| --- | --- | --- |
+| Marvin（机械臂） | x86 控制箱，网口 ETH1 或 ETH3 | `192.168.1.x` |
+| Marvin Pro | 一体化控制箱 | `6.6.7.x` |
+| Luna | 一体化控制箱，面板网口 RJ45 1 | `6.6.7.x` |
+| Skye | 一体化控制箱 | `6.6.7.x` |
+
+## 2. 为电脑选择 IP 地址
+
+为电脑设置机器人网段内的固定（静态）IPv4 地址：
+
+| 设置项 | Marvin | Marvin Pro、Luna、Skye |
+| --- | --- | --- |
+| IPv4 地址 | `192.168.1.x` | `6.6.7.x` |
+| 子网掩码 | `255.255.255.0` | `255.255.255.0` |
+| 网关和 DNS | 留空 | 留空 |
+| 示例 | `192.168.1.165` | `6.6.7.50` |
+
+**x** 可取 2–254 之间任一未被机器人占用的数字：
+
+| 末位数字 | 保留用途 |
+| --- | --- |
+| `1` | 默认网关 |
+| `6` | 移动底盘 |
+| `100` | AI 控制器（NVIDIA Jetson Orin 或 Thor） |
+| `123` | 保留 |
+| `190` | x86 运控控制器 |
+
+:::warning 每台设备使用不同地址
+两台设备使用相同地址会产生冲突，导致连接时断时续。多台电脑接入同一机器人网络时，请为每台电脑分配不同的末位数字。
+:::
+
+## 3. 在电脑上设置 IP 地址
+
+<Tabs groupId="os" queryString="os">
+<TabItem value="windows" label="Windows 10/11">
+
+1. 按 **Win + R**，输入 `ncpa.cpl`，然后按 **Enter**。
+2. 右键单击连接机器人的以太网适配器，选择**属性**。
+3. 选中 **Internet 协议版本 4 (TCP/IPv4)**，点击**属性**。
+4. 选择**使用下面的 IP 地址**，填写第 2 步中的 IPv4 地址和子网掩码。默认网关和 DNS 留空。
+5. 点击**确定**，然后点击**关闭**。
+
+检查方法：打开 PowerShell 运行 `ipconfig`，以太网适配器应显示新地址。
+
+</TabItem>
+<TabItem value="ubuntu" label="Ubuntu">
+
+1. 打开**设置 → 网络**。
+2. 点击有线连接旁的齿轮图标。
+3. 在 **IPv4** 选项卡中选择**手动**。
+4. 填写第 2 步中的地址和子网掩码。网关和 DNS 留空。
+5. 点击**应用**，然后关闭再重新打开有线连接。
+
+也可以在终端中设置。请将连接名称和地址替换为你自己的（中文系统中连接名称可能为"有线连接 1"）；`/24` 等同于子网掩码 `255.255.255.0`。
+
+```bash
+nmcli connection show        # 查看有线连接名称
+sudo nmcli connection modify "Wired connection 1" ipv4.method manual ipv4.addresses 6.6.7.50/24
+sudo nmcli connection up "Wired connection 1"
+ip -4 addr                   # 确认新地址
+```
+
+</TabItem>
+</Tabs>
+
+:::tip Marvin 与 192.168.1.x 网段的 Wi-Fi
+许多家用和办公路由器也使用 `192.168.1.x` 网段。如果电脑同时连接此类 Wi-Fi，可能与机器人网络冲突。使用 Marvin 时请断开 Wi-Fi。
+:::
+
+## 4. 关闭防火墙
+
+机器人通过 UDP 向电脑发送数据，防火墙会拦截这些数据。此时 ping 仍可能正常，但软件收不到反馈。请为机器人所在网络关闭防火墙。
+
+<Tabs groupId="os" queryString="os">
+<TabItem value="windows" label="Windows 10/11">
+
+1. 打开 **Windows 安全中心 → 防火墙和网络保护**。
+2. 选择机器人连接所在的、当前处于活动状态的网络配置文件。直连机器人的网络通常为**公用网络**。
+3. 关闭 **Microsoft Defender 防火墙**。
+
+如果你也会连接公共 Wi-Fi，使用完机器人后请重新打开防火墙。
+
+</TabItem>
+<TabItem value="ubuntu" label="Ubuntu">
+
+Ubuntu 防火墙（ufw）默认关闭，但建议检查一下：
+
+```bash
+sudo ufw status      # 显示 "inactive" 则无需操作
+sudo ufw disable
+```
+
+</TabItem>
+</Tabs>
+
+:::caution 无法关闭防火墙时
+如果 IT 策略要求保持防火墙开启，请改为放行来自机器人网段的入站 UDP。以管理员身份在 PowerShell 中运行（Marvin 请改用 `192.168.1.0/24`）：
+
+```powershell
+New-NetFirewallRule -DisplayName "Gento robot" -Direction Inbound `
+  -Protocol UDP -RemoteAddress 6.6.7.0/24 -Action Allow
+```
+
+如需进一步收窄规则，Marvin Pro 和 Luna SDK 文档中的 UDP 端口为 `50000–50010`。请与你的软件版本核对端口范围。
+:::
+
+## 5. 测试连接
+
+在终端（Windows 使用 PowerShell）中 ping 机器人控制器：
+
+| 机器人 | 命令 | 检查对象 |
+| --- | --- | --- |
+| Marvin | `ping 192.168.1.190` | x86 控制器 |
+| Marvin Pro、Luna、Skye | `ping 6.6.7.190` | x86 运控控制器 |
+| 配有板载 AI 算力的机器人 | `ping 6.6.7.100` | AI 控制器（Orin 或 Thor） |
+| 带移动底盘的机器人（如 Luna） | `ping 6.6.7.6` | 移动底盘 |
+
+收到回复即表示连接正常：
+
+```text
+来自 6.6.7.190 的回复: 字节=32 时间<1ms TTL=64
+```
+
+在 Ubuntu 中，ping 会持续运行，按 **Ctrl + C** 停止。使用 `ping -c 4 6.6.7.190` 只发送 4 个数据包。
+
+控制器回复后，打开对应机器人的上位机软件：
+
+- Marvin：[连接上位机](../marvin/first-connection.mdx)
+- Marvin Pro：[连接与读取状态](../marvin-pro/first-connection.mdx)
+- Luna：[GentoPlatform 上位机](../luna/gentoplatform.mdx)或 [SDK](../luna/sdk-teleoperation.mdx)
+
+## 故障排查
+
+| 现象 | 检查项 |
+| --- | --- |
+| `请求超时` 或 `无法访问目标主机` | 网线两端插牢且接在正确网口；机器人已上电并完成启动；电脑地址在正确网段（`ipconfig` 或 `ip -4 addr`）。 |
+| `一般故障`（Windows）或 `Network is unreachable`（Ubuntu） | 地址设置在了其他网卡上。请在连接机器人的网卡上重新执行第 3 步。 |
+| ping 正常，但软件没有数据 | 当前活动网络的防火墙仍然开启（第 4 步），或软件中填写的控制器地址有误。 |
+| 连接时断时续 | 有其他设备使用了相同地址。请更换末位数字。 |
+| 开启 Wi-Fi 时 Marvin 无回复 | Wi-Fi 网络也使用 `192.168.1.x` 网段。请断开 Wi-Fi。 |
+| 开启 VPN 时无法连接 | 断开 VPN。部分 VPN 会将所有流量转入隧道。 |
+
+仍无法解决？请发送邮件至 [support@gentorobotics.ai](mailto:support@gentorobotics.ai)，并附上机器人型号、电脑操作系统，以及 `ipconfig`（Windows）或 `ip -4 addr`（Ubuntu）的输出。

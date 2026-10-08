@@ -1,0 +1,32 @@
+---
+title: 录制与数据集流程
+description: 录制与数据集流程 · Gento Marvin Pro
+source_revision: V1.0 · 2026-06-27
+source_ids:
+- manual
+- brochure
+- vr
+review_status: pending
+translation_status: source
+source_zh_sha256: 0eeb54ca8ce952eee6ce8bd5c4e5f8410ac72a19373d17ee680378dfba6d8fbf
+---
+折页描述机器人与视频同步录制：机器人数据为 MCAP，视频编码为 MP4，通过时间戳对齐得到多模态数据。资料还提到 LeRobot 转换及 Rerun 可视化；格式列表包含 HDF5 和 RLDS，实际导出支持应以安装的转换工具版本为准。
+
+## 区分两条录制路径
+
+| 路径 | 源资料描述 |
+| --- | --- |
+| Apex 录制 | 面向遥操作示范的机器人与相机数据 |
+| Marvin Platform 数采 | Pro 手册描述以 1 kHz 将单臂七关节数据保存为 TXT |
+
+Pro 手册还描述将 Marvin Platform 轨迹降采样到 50 Hz 用于其轨迹复现。这是特定复现流程，不是控制器所有通信接口的通用频率。
+
+## 首个数据集检查建议
+
+按匹配版本的 Apex 指南录制一个短 episode。在大规模采集前，检查预期相机及机器人数据流是否齐全、时间戳和单位是否明确，以及转换器是否能读取该 episode。
+
+保留原始录制和转换结果。记录硬件配置、软件版本、转换器版本和任务描述，便于复现。
+
+## 转换与部署
+
+在 [Apex 文档中心](https://klmmotion.github.io/Apex_doc_center/)查看 KM Data Converter 和 VLA 流程。数据导出、训练及策略部署是不同步骤；导出成功不代表训练后的策略在另一种机器人配置上安全或兼容。

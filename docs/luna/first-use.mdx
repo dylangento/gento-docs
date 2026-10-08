@@ -1,0 +1,94 @@
+---
+title: Unboxing & first use
+description: Unboxing & first use · Gento Luna
+source_revision: V2.1 · 2026-08
+source_ids:
+- luna-manual
+review_status: pending
+translation_status: pending
+source_zh_sha256: 83cc389cb2592586407ae2d5873710a7df4415a21d019845db62bd1268b2eb2b
+---
+## Unboxing check
+
+Open the crate's combination lock with the code supplied with your shipment, remove the baffle, push the robot out by hand, and check that these items are present:
+
+- Wheeled dual-arm robot × 1
+- Chassis remote controller (gamepad) × 1
+- Ethernet cable × 1
+- Power cable and manual charger
+- LiFePO4 batteries × 2
+- Teleoperation headset kit
+- DB9 debug cable × 1
+- Product certificate and warranty card
+
+If anything is missing or visibly damaged, contact your sales representative or technical support immediately. Do not power on the robot.
+
+## Checks before every start-up
+
+1. The structure is intact; connectors, arms, wheels, and end effectors are not loose, deformed, or damaged
+2. The E-stop button triggers and releases reliably
+3. The battery charge is sufficient and power connections are normal
+4. The control or teleoperation terminal shows no fault alarms, communication errors, or system errors
+5. No unauthorized hardware, software, or third-party accessories are installed
+6. The surroundings are safe for operation
+
+## Power on and connect the gamepad
+
+1. **Insert batteries:** align the battery rails with the vehicle's slots and slide both batteries straight down.
+2. **Power on:** press the power switch under the chassis. A green light means power-on is complete.
+3. **Connect the gamepad:** plug the gamepad's male connector into the female connector at the rear of the vehicle. The gamepad's green light flashes when connected.
+4. **Turn on the gamepad:** hold the Home key.
+5. **Set D mode:** long-press "+" and "-" together twice. After the first press one light stays on; after the second, three lights stay on and the gamepad is in D mode.
+6. **Leave the crate:** the chassis starts at 0.6 m/s. Press Back on the D-pad to drive Luna out.
+
+## Gamepad controls
+
+| Key / joystick | Function |
+| --- | --- |
+| D-pad | Moves the chassis forward, back, left, and right |
+| Joystick A | Same as the D-pad |
+| Joystick B | Rotates the chassis in place |
+| RT | Hold to accelerate |
+| Charging port | Bottom of the gamepad, for charging it |
+
+## Drive the chassis
+
+![Luna on its omnidirectional chassis](/img/luna/chassis.webp)
+
+1. Make sure there are no people or obstacles around the robot.
+2. Use the D-pad or joystick A to move; use joystick B to turn in place.
+3. Hold RT to go faster. Release the keys and the chassis stops.
+
+:::warning First drive
+Drive slowly at first and speed up only once you are familiar with the controls. Know where the E-stop is and press it immediately in an emergency.
+:::
+
+## Chassis indicator light
+
+| State | Color | Frequency |
+| --- | --- | --- |
+| Working | Blue | 1 Hz |
+| Charging | Yellow | 1 Hz |
+| Idle | Green | 1 Hz |
+| Low battery | Orange | 1 Hz |
+| Slowing for obstacle | Orange | 2 Hz |
+| Stopped for obstacle | Red | 1 Hz |
+| Fault alarm | Red | 2 Hz |
+| Wireless gamepad control | White | 1 Hz |
+| Software control | Purple | 1 Hz |
+| Powering on | Solid blue | — |
+| Powering off | Solid orange | — |
+| No upper domain controller | Solid purple | — |
+| OTA update in progress | Flowing white | — |
+| OTA update succeeded | Solid blue | — |
+| OTA update failed | Solid red | — |
+
+## Charging
+
+| Method | Details |
+| --- | --- |
+| Manual charging | Dedicated charger (IP65, multi-stage CC/CV). Connect it to the battery, then plug into the chassis port; the light flashes yellow at 1 Hz. Mind the plug orientation. |
+| Smart mobile charging station (optional) | With auto-return enabled, when charge falls below the threshold and no task is running, the robot drives to the station and docks. The station must be installed and commissioned and placed on the map first. |
+| Standalone battery charging bay (optional) | Offline charging and quick battery swaps. AC 90–240 V input, for 48 V battery systems, stops automatically when full. |
+
+Next: [interfaces & network](./interfaces.mdx).

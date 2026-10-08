@@ -1,0 +1,59 @@
+---
+title: Luna 产品概述
+description: Luna 产品概述 · Gento Luna
+source_revision: V2.1 · 2026-08
+source_ids:
+- luna-manual
+- luna-brochure
+review_status: pending
+translation_status: source
+source_zh_sha256: 19d7678b90bf15cae1e37b69f08228243467cada795512149cea221cc96acf87
+---
+Gento Luna 是轮式折叠人形机器人。它搭载 Marvin 系列 M6 Lite 双臂和独立四转四驱全向移动底盘，以 NVIDIA Orin 边缘 AI 计算平台为标准配置（可选 Thor 高算力平台）。整机共 26 个自由度（不含末端执行器），标配全身力控，支持 3D SLAM 导航、自主避障、VR 遥操作和 SDK 二次开发。
+
+![Gento Luna 轮式人形机器人](/img/luna/hero.webp)
+
+站立高度 1700 mm，折叠后最低 790 mm，便于乘电梯、通过狭小空间及存放。
+
+## 自由度分布
+
+![Luna 正面、背面与侧面视图](/img/luna/three-views.webp)
+
+| 部位 | 自由度 |
+| --- | --- |
+| 头部 | 2 |
+| 双臂 | 7 × 2 |
+| 腰部 | 3 |
+| 腿部 | 3 |
+| 底盘 | 4 |
+| 合计 | 26（不含末端执行器） |
+
+## 主要组成
+
+| 组件 | 作用 |
+| --- | --- |
+| NVIDIA Orin 边缘 AI 计算平台（域控制器） | AI 算法运行、多传感器融合、设备管理、网络调度；运行遥操作后端 |
+| 天机运动控制计算平台（运控控制器） | 躯干和双臂运动控制；作为 EtherCAT 主站实时控制各关节驱动 |
+| RDK S100 底盘控制器 | 移动底盘运动控制、状态反馈与系统管理 |
+| 3D 激光雷达、超声波雷达、底盘双目相机 | 定位建图、导航与避障 |
+| 头部、腕部（及可选胸部）相机 | 环境感知与近距离操作视角 |
+| 磷酸铁锂电池 ×2 | 整机供电，支持手动充电、自动回充和快换电池 |
+
+Luna 已符合 FCC Part 15B 要求。
+
+## 推荐阅读顺序
+
+说明书按实际使用顺序组织，建议首次使用时依次阅读：
+
+1. [规格参数](./specifications.mdx)：了解硬件能力与边界
+2. [开箱与首次使用](./first-use.mdx)：检查、开机，并用手柄移动底盘
+3. [接口与网络](./interfaces.mdx)：后背面板、IP 地址与通信架构
+4. [GentoPlatform 上位机](./gentoplatform.mdx)：控制身体和手臂运动
+5. [SDK 与遥操作](./sdk-teleoperation.mdx)：二次开发与 VR 遥操作
+6. [维护与安全](./maintenance.mdx)：日常检查与安全守则
+
+:::warning 操作前
+Luna 是大功率运动设备，不当操作可能造成人身伤害或设备损坏。操作前请阅读[维护与安全](./maintenance.mdx)中的安全注意事项。
+:::
+
+说明书和产品资料见[手册与源资料](../resources/downloads.mdx)。
