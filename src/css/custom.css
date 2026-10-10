@@ -255,3 +255,15 @@ html[data-theme='dark'] .home-hero__stage {background:linear-gradient(180deg,#1a
 @media(min-width:997px) and (max-width:1099px) {.navbar .navbar__search-input,[class*=searchBar] input {width:9.5rem;}}
 @media(min-width:997px) and (max-width:1049px) {.navbar {padding:0 1rem;} .navbar__brand {margin-right:1rem;} .navbar__items:not(.navbar__items--right)>.navbar__item {padding-left:.5rem;padding-right:.5rem;} .navbar .navbar__search-input,[class*=searchBar] input {width:8rem;}}
 @media(max-width:996px) {.navbar__items--right>a.navbar__item {display:none;}} /* external pills live in the mobile menu */
+/* jump button to external docs */
+.doc-cta {display:flex;flex-wrap:wrap;gap:.75rem;margin:1.25rem 0 1.75rem;}
+/* nameplate photo: keep it a readable size, not full column width */
+.theme-doc-markdown img[src*="nameplate"] {max-width:340px;width:100%;}
+/* phone language switch (src/components/LocaleToggle): hidden on desktop, where the language dropdown shows.
+   On phones the search box is absolutely positioned at the right edge, so the switch keeps clear of it
+   (checked at 320–996px, EN + ZH). */
+.navbar__items--right>a.navbar__item.locale-toggle {display:none;}
+@media(max-width:996px) {.navbar__items--right>a.navbar__item.locale-toggle {display:inline-flex;align-items:center;gap:.35rem;height:var(--gento-btn-h-sm);padding:0 .8rem;margin-right:4.75rem;border:1px solid var(--gento-line);border-radius:var(--gento-radius-pill);font-size:.9rem;color:var(--gento-ink);white-space:nowrap;}}
+@media(min-width:577px) and (max-width:996px) {.navbar__items--right>a.navbar__item.locale-toggle {margin-right:10.5rem;}} /* search box widens to 144px here */
+@media(max-width:380px) {.navbar__items--right>a.navbar__item.locale-toggle {padding:0 .7rem;margin-right:4.5rem;} .navbar__items--right>a.navbar__item.locale-toggle svg {display:none;}}
+@media(max-width:340px) {.navbar__logo img {height:16px;}}

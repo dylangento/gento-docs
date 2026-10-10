@@ -8,7 +8,7 @@ source_ids:
 - vr
 review_status: pending
 translation_status: source
-source_zh_sha256: 582d95b3affe9c0cc58aa656eb44925a199486fee13be1def116850b6315a84d
+source_zh_sha256: 84c67b2c96795ac5010771742e30de26b8fbc6310613465090b44d0f36f143a9
 ---
 安装或升级前，请记录机器人型号、机械臂配置、控制器固件、SDK 修订版、Apex 版本，以及相机和末端执行器配置。
 
@@ -19,13 +19,13 @@ source_zh_sha256: 582d95b3affe9c0cc58aa656eb44925a199486fee13be1def116850b6315a8
 | Marvin Platform / 运动控制 SDK | 2026 年 9 月中文软件指南 | 与控制器匹配的仓库、编译脚本和计算文件 |
 | Apex 遥操作 | 2026 年 9 月 4 日 VR 资源指南 | 机器人端计算架构、电脑端软件和头显软件 |
 
-9 月软件指南引用 `TJ_FX_ROBOT_CONTRL_SDK/master`，较早的 Pro 手册引用 `tianji-robot-SDK03/Marvin_Pro`。[SDK 目录](../software/sdk-directory.mdx)分别列出这两套资料。不要混用构建步骤，也不要默认两者可直接替换。
+请使用 9 月软件指南引用的 `TJ_FX_ROBOT_CONTRL_SDK/master`，见 [SDK 目录](../software/sdk-directory.mdx)。较早 Pro 手册引用的 `tianji-robot-SDK03/Marvin_Pro` 仓库已不再维护，新设置请勿使用。
 
 ## 版本检查
 
-Pro V1.0 手册说明 SDK 与控制器的 **主版本和次版本** 必须一致，并引用 `showcase_check_sdk_type_compat.cpp` 和 `showcase_check_sdk_type_compat.py`。此规则适用于该手册所述 SDK；其他软件包应另行确认。
+SDK 与控制器的 **主版本和次版本** 必须一致。安装或升级 SDK 前，请先[查看控制器固件版本](../software/cameras-firmware.mdx)。
 
-9 月软件指南针对其称为“41”和“43”的控制器版本列出不同编译脚本。选择脚本前请确认完整固件版本。本指南不替用户选择固件包。
+9 月软件指南针对其称为“41”和“43”的控制器版本列出不同编译脚本。选择脚本前，请先[查看完整固件版本](../software/cameras-firmware.mdx)。本指南不替用户选择固件包。
 
 ## 更改正常运行的系统之前
 

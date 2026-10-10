@@ -7,13 +7,13 @@ source_ids:
 - vr
 review_status: pending
 translation_status: pending
-source_zh_sha256: 006863b08ae4230125a28b6e5dd553612f52114f0c13655b68d85d8cbdbfc533
+source_zh_sha256: 1172813595651cc351cc8a82cec30603c35c73100ebf296c91f8b43917fbe14f
 ---
 In the Pro manual's Apex architecture, the robot-side computer runs ROS 2 nodes, motion control, camera capture, and recording services. The desktop application manages the connection and operator workflow.
 
 ## Interface documentation
 
-Use the [Apex documentation center](https://klmmotion.github.io/Apex_doc_center/) and choose its Marvin Pro customer interface documentation for the installed release. Confirm topic names, message types, units, frames, and update behavior from that release before writing a client.
+Use the [Apex documentation center](https://gento-teleoperation-apex.github.io/Apex_doc_center/) and choose its Marvin Pro customer interface documentation for the installed release. Confirm topic names, message types, units, frames, and update behavior from that release before writing a client.
 
 ## Keep interfaces distinct
 
@@ -27,4 +27,4 @@ ROS 2 integration does not imply that every SDK function is exposed as a topic o
 
 ## Before sending commands
 
-Confirm which process owns robot control, how control is handed over, and which coordinate frame and units the command uses. For the current topic, service, and message definitions, see the [Apex documentation center](https://klmmotion.github.io/Apex_doc_center/).
+Confirm which process owns robot control, how control is handed over, and which coordinate frame and units the command uses. For the current topic, service, and message definitions, see the [Apex documentation center](https://gento-teleoperation-apex.github.io/Apex_doc_center/).

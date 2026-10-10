@@ -6,7 +6,7 @@ source_ids:
 - luna-manual
 review_status: pending
 translation_status: source
-source_zh_sha256: d42a07863eab45016e483668765cd57a25a0d620688a758b1fb5e72da30e07b6
+source_zh_sha256: 212cb8a96d05ffa10d7be464702b9d89241ae6ba282cc6701271e165ef37d73c
 ---
 建议先熟练使用 [GentoPlatform](./gentoplatform.mdx)，了解机器人的操作逻辑后再进行代码开发。
 
@@ -98,9 +98,11 @@ ping 6.6.7.100  # 域控制器
 - 头显 APK：[KernelMind_Apex_VR_Apk](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_VR_Apk)
 - 遥操文档中心：[Apex 文档中心](https://gento-teleoperation-apex.github.io/Apex_doc_center/)
 
+<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">打开 Apex 遥操作文档 ↗</a></div>
+
 ### 遥操步骤
 
-1. 每次 Orin / Thor 上电后先初始化相机：远程登录域控制器，执行 `cd ~/cam_geac && ./rb_camera.sh`，等待约 20 秒。
+1. 每次 Orin / Thor 上电后先启动相机：执行 `ssh nvidia@6.6.7.100` 登录，再执行 `cd /home/camera/cam_geac && ./rb_camera.sh init`，等待约 20 秒。参见[启动相机](../software/cameras-firmware.mdx)。
 2. 打开遥操前端，输入控制器 IP 并连接；启动 dnsmasq（有线头显）、**Robot**，确认 URDF 姿态与实体一致；再启动 **Teleop**，按需启动 **Camera** 和 **Tool**。
 3. 点击 **Start Robot** 进入 Ready，点击 **Impedance Mode**，再点击 **Home** 回到遥操初始位。使用灵巧手时将 **Input Mode** 切换为 **Teleop**。
 4. 佩戴并校正体感追踪器，在头显客户端确认身高、IP 和末端执行器后连接。前端 VR 指示灯变绿后，按左手柄 Y 键开启遥操，按住手柄侧键进行操作。

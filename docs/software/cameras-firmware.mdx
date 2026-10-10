@@ -1,0 +1,67 @@
+---
+title: Start the cameras & check firmware
+description: Start the cameras & check firmware · Gento Marvin, Marvin Pro, Luna, Skye
+source_revision: '2026-10-09'
+source_ids:
+- support-notes
+- luna-manual
+review_status: pending
+translation_status: source
+sidebar_label: Cameras & firmware
+source_zh_sha256: de724c2869df6b73f3e4a9f88de1e702dc4351021fec9f0e84390504faff9b81
+---
+Two routine jobs you run from your PC over SSH. First [connect your PC to the robot](./connect-pc.mdx) and check that the robot answers a ping.
+
+`ssh` works in PowerShell on Windows 10/11 and in any Ubuntu terminal. The first time you connect to a robot, type `yes` to trust it.
+
+## Start the cameras
+
+On robots with onboard AI compute (NVIDIA Orin or Thor), start the cameras after every power-up, before you teleoperate or record data.
+
+1. Log in to the AI controller, using the password supplied with your robot:
+
+   ```bash
+   ssh nvidia@6.6.7.100
+   ```
+
+2. Start the cameras:
+
+   ```bash
+   cd /home/camera/cam_geac
+   ./rb_camera.sh init
+   ```
+
+3. Wait about 20 seconds for the cameras to come up, then type `exit`.
+
+## Check the controller firmware version
+
+The x86 motion controller prints its firmware version when its control service starts. You need it to choose the matching [Marvin Platform build script and SDK](../marvin-pro/compatibility.mdx).
+
+:::warning This restarts the motion controller
+`stop.sh` stops the controller. Before you run it, disable the arms, make sure no software is commanding the robot, and keep the E-stop within reach.
+:::
+
+1. Log in to the x86 controller as `root`. The password is `passwd`.
+
+   | Robot | Command |
+   | --- | --- |
+   | Marvin Pro, Luna, Skye | `ssh root@6.6.7.190` |
+   | Marvin | `ssh root@192.168.1.190` |
+
+2. Restart the control service:
+
+   ```bash
+   cd /home/FUSION/Shell
+   ./stop.sh
+   ./start.sh
+   ```
+
+3. `start.sh` prints the firmware version. Write it down, then type `exit`.
+
+## If you can't log in
+
+| Message | What to check |
+| --- | --- |
+| `Connection timed out` or `No route to host` | Your PC isn't on the robot's network. See [Connect your PC](./connect-pc.mdx). |
+| `Permission denied` | The user name or password is wrong. Use `nvidia` for the Orin/Thor and `root` for the x86 controller. |
+| `REMOTE HOST IDENTIFICATION HAS CHANGED` | You've connected to a different robot at the same address before. Run `ssh-keygen -R 6.6.7.100` (or the address you used), then connect again. |

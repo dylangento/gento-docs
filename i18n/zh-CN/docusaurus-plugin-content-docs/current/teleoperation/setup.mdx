@@ -7,9 +7,11 @@ source_ids:
 - manual
 review_status: pending
 translation_status: source
-source_zh_sha256: 899f2b946fc0aa53c550865a1fb0ca31c0abfa93abe06a7627b66b2d98edffbb
+source_zh_sha256: 27024f7508cdfed2106da658d8128e780b670caf2d97cc61e7202a649b9e583e
 ---
 9 月 4 日 VR 资源指南将软件分为机器人端、电脑端和头显端。Pro 手册说明，购买遥操套件时可能已预装软件。重新安装前，先检查现有版本。
+
+<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">打开 Apex 遥操作文档 ↗</a></div>
 
 ![操作员使用 VR 头显遥操作 Marvin Pro](/img/marvin-pro/vr-teleoperation.webp)
 
@@ -27,7 +29,9 @@ source_zh_sha256: 899f2b946fc0aa53c550865a1fb0ca31c0abfa93abe06a7627b66b2d98edff
 2. 按对应版本说明，在支持的计算单元上安装机器人端 Debian 包。
 3. 在操作电脑上安装 `kernelmind-apex` 上位机应用。
 4. 按资源指南，通过 SideQuest 将匹配的 VR APK 安装到头显。
-5. 根据 [Apex 文档中心](https://klmmotion.github.io/Apex_doc_center/)完成配置和连接。
+5. 根据 [Apex 文档中心](https://gento-teleoperation-apex.github.io/Apex_doc_center/)完成配置和连接。
+
+机器人的 Orin 或 Thor 每次上电后，请先[启动相机](../software/cameras-firmware.mdx)，再开始遥操作。
 
 资源指南提到 Orin 和 Thor，但软件包架构本身不能证明某个版本同时支持两者，应核对发布说明。源资料还区分了早期与较新 Pro 硬件。
 

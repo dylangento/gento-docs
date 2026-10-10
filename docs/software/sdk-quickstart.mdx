@@ -7,9 +7,21 @@ source_ids:
 - manual
 review_status: pending
 translation_status: pending
-source_zh_sha256: bb45ad58387af685675ca03ff8cc9f028abdd1fc06f8440922c2012a2e44469f
+source_zh_sha256: ff58bb5381174c617e315fd943fd6844b9db7f27d2752da4022d7ef7a7d070df
 ---
 Start by connecting and reading feedback in Marvin Platform. The Pro manual recommends learning the application's operation before writing SDK control code.
+
+## Identify your arm model
+
+Before you set up Marvin Platform or the SDK, find out which arm model you have. Build scripts, calculation files, and URDF models are specific to it.
+
+1. Find the nameplate on the gray control box: the integrated box on Marvin Pro, or the controller box on Marvin.
+2. Read the **Motion range** (最大臂展) field. It shows `Single-arm` followed by a number: the reach of one arm in millimetres.
+3. Use that number to identify the arm model. `Single-arm 696` is the standard arm, the M6S-CCS-696 (696 mm reach). `Single-arm 809` is the M6S-CCS-809 (809 mm reach).
+
+![Marvin Pro nameplate on the integrated control box, with the motion range field highlighted and the serial number hidden](/img/marvin-pro/nameplate.webp)
+
+Also [check the controller firmware version](./cameras-firmware.mdx). You need both to pick the matching build script, and the arm model to pick the URDF on the [Resources](../resources/downloads.mdx) page.
 
 ## Get the matching package
 
@@ -21,7 +33,44 @@ git clone --branch master https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK.
 cd TJ_FX_ROBOT_CONTRL_SDK
 ```
 
-Record the checked-out commit and confirm it matches your controller. The guide identifies `ccs_m6_40` calculation files for the M6S-CCS configuration described there; do not apply them to another configuration without verification.
+Record the checked-out commit and confirm it matches your controller. The SDK's default configuration files are for the standard M6S-CCS-696 arm.
+
+## Set up the configuration files for your arm
+
+The SDK comes with configuration files for the standard M6S-CCS-696 arm. For any other arm, or to switch between standard and PD feedforward mode, replace them before you use Marvin Platform or the SDK. More arm models will be added to the download folders.
+
+<div className="doc-cta"><a className="button button--primary" href="https://drive.google.com/drive/folders/1FN0jc0h8vUp7IWDj-yueTvqHv5R8D4ob" target="_blank" rel="noopener noreferrer">robot.ini files ↗</a> <a className="button button--secondary" href="https://drive.google.com/drive/folders/1Le5tS1OOIJpHOnugyBdTjmi8Jmu8ip5Q" target="_blank" rel="noopener noreferrer">MvKDCfg files ↗</a></div>
+
+```text
+TJ_FX_ROBOT_CONTRL_SDK/
+├── robot.ini                 ← step 1: replace its contents
+└── CommonConfig/
+    └── config/
+        └── ccs_m6_40.MvKDCfg ← step 2: delete it and add your arm's file
+```
+
+1. **robot.ini.** Open `robot.ini` in the SDK's root folder, replace its entire contents with the file for your arm and mode, and save it. Keep the name `robot.ini`.
+
+   | Arm | Standard mode | PD feedforward mode |
+   | --- | --- | --- |
+   | M6S-CCS-696 V4.0 | `M6S-CCS-696-V4.0_100341-43_DTType0.ini` | `M6S-CCS-696-V4.0_100341-43_PD.ini` |
+   | M6S-CCS-809 V4.0 | `M6S-CCS-809-V4.0_100341-43_DTType0.ini` | `M6S-CCS-809-V4.0_100341-43_PD.ini` |
+
+   PD feedforward is a low-latency tracking mode with joint-impedance compliance, mainly used for teleoperation. Otherwise, use standard mode. These files are for controller firmware 100341–100343 ([check yours](./cameras-firmware.mdx)).
+
+2. **MvKDCfg.** Open `CommonConfig/config/`, delete `ccs_m6_40.MvKDCfg`, and copy in the file for your arm. Leave only one `.MvKDCfg` file in the folder: Marvin Platform can't load the model if there's more than one.
+
+   | Arm | File |
+   | --- | --- |
+   | M6S-CCS-696 V4.0 | `ccs_m6_40.MvKDCfg` (already in the SDK) |
+   | M6S-CCS-696 V3.1 | `M6S-CCS-696-V3.1.MvKDCfg` |
+   | M6S-CCS-809 V4.0 | `M6S-CCS-809-V4.0.MvKDCfg` |
+
+   If your own code loads an `.MvKDCfg` file, point it to the same file.
+
+:::warning Use the files for your arm
+Marvin Platform's **Configuration comparison update** compares `robot.ini` with the controller's configuration and can upload it, and motion planning uses the `.MvKDCfg` model. Another arm's files put the wrong parameters into use. Before you upload anything, save the controller's current configuration with **Download robot configuration file**.
+:::
 
 ## Follow the package's build instructions
 
@@ -29,7 +78,7 @@ Use the [controller-specific script table](./marvin-platform.mdx) and the README
 
 ## First development milestone
 
-1. Verify SDK/controller compatibility.
+1. Verify SDK/controller compatibility ([check the firmware version](./cameras-firmware.mdx)).
 2. Connect using the unit's assigned IP and configured ports.
 3. Read both arms' state and error feedback without sending motion commands.
 4. Disconnect cleanly.

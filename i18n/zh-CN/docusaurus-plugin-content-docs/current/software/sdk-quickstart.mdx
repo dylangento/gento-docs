@@ -7,9 +7,21 @@ source_ids:
 - manual
 review_status: pending
 translation_status: source
-source_zh_sha256: bb45ad58387af685675ca03ff8cc9f028abdd1fc06f8440922c2012a2e44469f
+source_zh_sha256: ff58bb5381174c617e315fd943fd6844b9db7f27d2752da4022d7ef7a7d070df
 ---
 先在 Marvin Platform 中建立连接并读取反馈。Pro 手册建议熟悉上位机的操作逻辑后，再进行 SDK 控制开发。
+
+## 确认机械臂型号
+
+设置 Marvin Platform 或 SDK 之前，请先确认机械臂型号。编译脚本、计算文件和 URDF 模型均与型号对应。
+
+1. 找到灰色控制箱上的铭牌：Marvin Pro 为一体化控制箱，Marvin 为控制器箱。
+2. 查看**最大臂展**（Motion range）一栏，显示为 `Single-arm` 加一个数字，即单臂臂展（毫米）。
+3. 根据该数字确认机械臂型号。`Single-arm 696` 为标准机型 M6S-CCS-696（臂展 696 mm），`Single-arm 809` 为 M6S-CCS-809（臂展 809 mm）。
+
+![Marvin Pro 一体化控制箱铭牌，已标出最大臂展一栏并隐去序列号](/img/marvin-pro/nameplate.webp)
+
+同时请[查看控制器固件版本](./cameras-firmware.mdx)。选择编译脚本需要两者信息，选择[资源](../resources/downloads.mdx)页面中的 URDF 模型需要机械臂型号。
 
 ## 获取匹配的软件包
 
@@ -21,7 +33,44 @@ git clone --branch master https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK.
 cd TJ_FX_ROBOT_CONTRL_SDK
 ```
 
-记录检出的提交版本，确认与控制器匹配。指南为其描述的 M6S-CCS 配置指定 `ccs_m6_40` 计算文件；未经核对，不要用于其他配置。
+记录检出的提交版本，确认与控制器匹配。SDK 默认配置文件适用于标准机型 M6S-CCS-696。
+
+## 为机械臂设置配置文件
+
+SDK 自带的配置文件适用于标准机型 M6S-CCS-696。如使用其他机型，或需在标准模式与 PD 前馈模式之间切换，请在使用 Marvin Platform 或 SDK 前替换这些文件。下载文件夹中将陆续加入更多机型。
+
+<div className="doc-cta"><a className="button button--primary" href="https://drive.google.com/drive/folders/1FN0jc0h8vUp7IWDj-yueTvqHv5R8D4ob" target="_blank" rel="noopener noreferrer">robot.ini 文件 ↗</a> <a className="button button--secondary" href="https://drive.google.com/drive/folders/1Le5tS1OOIJpHOnugyBdTjmi8Jmu8ip5Q" target="_blank" rel="noopener noreferrer">MvKDCfg 文件 ↗</a></div>
+
+```text
+TJ_FX_ROBOT_CONTRL_SDK/
+├── robot.ini                 ← 第 1 步：替换文件内容
+└── CommonConfig/
+    └── config/
+        └── ccs_m6_40.MvKDCfg ← 第 2 步：删除，并放入对应机型的文件
+```
+
+1. **robot.ini**：打开 SDK 根目录下的 `robot.ini`，将全部内容替换为对应机型和模式的文件内容后保存。文件名保持为 `robot.ini`。
+
+   | 机型 | 标准模式 | PD 前馈模式 |
+   | --- | --- | --- |
+   | M6S-CCS-696 V4.0 | `M6S-CCS-696-V4.0_100341-43_DTType0.ini` | `M6S-CCS-696-V4.0_100341-43_PD.ini` |
+   | M6S-CCS-809 V4.0 | `M6S-CCS-809-V4.0_100341-43_DTType0.ini` | `M6S-CCS-809-V4.0_100341-43_PD.ini` |
+
+   PD 前馈是一种低延时跟踪模式，兼具关节阻抗的柔顺性，主要用于遥操作；其他情况请使用标准模式。这些文件适用于控制器固件 100341–100343（[查看您的固件版本](./cameras-firmware.mdx)）。
+
+2. **MvKDCfg**：打开 `CommonConfig/config/`，删除 `ccs_m6_40.MvKDCfg`，再放入对应机型的文件。该文件夹中只能保留一个 `.MvKDCfg` 文件，否则 Marvin Platform 无法加载模型。
+
+   | 机型 | 文件 |
+   | --- | --- |
+   | M6S-CCS-696 V4.0 | `ccs_m6_40.MvKDCfg`（SDK 自带） |
+   | M6S-CCS-696 V3.1 | `M6S-CCS-696-V3.1.MvKDCfg` |
+   | M6S-CCS-809 V4.0 | `M6S-CCS-809-V4.0.MvKDCfg` |
+
+   如果您自己的代码会加载 `.MvKDCfg` 文件，请改为指向同一文件。
+
+:::warning 请使用对应机型的文件
+Marvin Platform 的 **Configuration comparison update**（配置比对更新）会将 `robot.ini` 与控制器配置进行比对并可上传，运动规划则使用 `.MvKDCfg` 模型。使用其他机型的文件会导致参数错误。上传任何文件前，请先用 **Download robot configuration file**（下载机器人配置文件）保存控制器当前配置。
+:::
 
 ## 按软件包说明编译
 
@@ -29,7 +78,7 @@ cd TJ_FX_ROBOT_CONTRL_SDK
 
 ## 第一个开发目标
 
-1. 验证 SDK 与控制器兼容性。
+1. 验证 SDK 与控制器兼容性（[查看固件版本](./cameras-firmware.mdx)）。
 2. 使用交付设备的 IP 和配置端口连接。
 3. 不发送运动指令，先读取两条机械臂的状态和错误反馈。
 4. 正常断开连接。

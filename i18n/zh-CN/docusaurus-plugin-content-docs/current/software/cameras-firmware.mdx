@@ -1,0 +1,67 @@
+---
+title: 启动相机与查看固件版本
+description: 启动相机与查看固件版本 · Gento Marvin、Marvin Pro、Luna、Skye
+source_revision: '2026-10-09'
+source_ids:
+- support-notes
+- luna-manual
+review_status: pending
+translation_status: pending
+sidebar_label: 相机与固件
+source_zh_sha256: de724c2869df6b73f3e4a9f88de1e702dc4351021fec9f0e84390504faff9b81
+---
+以下两项日常操作均在电脑上通过 SSH 完成。请先[连接用户电脑](./connect-pc.mdx)，并确认能 ping 通机器人。
+
+Windows 10/11 可在 PowerShell 中使用 `ssh`，Ubuntu 可在任意终端中使用。首次连接某台机器人时，输入 `yes` 信任该设备。
+
+## 启动相机
+
+配有板载 AI 算力（NVIDIA Orin 或 Thor）的机器人，每次上电后、遥操作或录制数据前，都需要先启动相机。
+
+1. 登录 AI 控制器，密码见机器人随附资料：
+
+   ```bash
+   ssh nvidia@6.6.7.100
+   ```
+
+2. 启动相机：
+
+   ```bash
+   cd /home/camera/cam_geac
+   ./rb_camera.sh init
+   ```
+
+3. 等待约 20 秒，待相机启动完成后输入 `exit` 退出。
+
+## 查看控制器固件版本
+
+x86 运控控制器在控制服务启动时会打印固件版本。选择匹配的 [Marvin Platform 编译脚本和 SDK](../marvin-pro/compatibility.mdx) 时需要用到该版本。
+
+:::warning 此操作会重启运控控制器
+`stop.sh` 会停止控制器。执行前请将机械臂下使能，确认没有软件在控制机器人，并确保急停按钮触手可及。
+:::
+
+1. 以 `root` 用户登录 x86 控制器，密码为 `passwd`。
+
+   | 机器人 | 命令 |
+   | --- | --- |
+   | Marvin Pro、Luna、Skye | `ssh root@6.6.7.190` |
+   | Marvin | `ssh root@192.168.1.190` |
+
+2. 重启控制服务：
+
+   ```bash
+   cd /home/FUSION/Shell
+   ./stop.sh
+   ./start.sh
+   ```
+
+3. `start.sh` 会打印固件版本。记录版本号后输入 `exit` 退出。
+
+## 无法登录时
+
+| 提示信息 | 检查项 |
+| --- | --- |
+| `Connection timed out` 或 `No route to host` | 电脑不在机器人网络中，参见[连接用户电脑](./connect-pc.mdx)。 |
+| `Permission denied` | 用户名或密码错误。Orin/Thor 使用 `nvidia`，x86 控制器使用 `root`。 |
+| `REMOTE HOST IDENTIFICATION HAS CHANGED` | 之前连接过同一地址上的另一台机器人。执行 `ssh-keygen -R 6.6.7.100`（或所用地址）后重新连接。 |

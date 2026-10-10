@@ -29,6 +29,7 @@ const config = {
       {label: 'Resources', to: '/resources/downloads', position: 'left'},
       {label: 'Video demos', to: '/videos', position: 'left'},
       {type: 'localeDropdown', position: 'right'},
+      {type: 'custom-localeToggle', position: 'right'},
       {href: 'https://www.gentorobotics.ai/', label: 'gentorobotics.ai', position: 'right'},
     ]},
     footer: {style: 'light', copyright: '© 2026 Gento Robotics'},

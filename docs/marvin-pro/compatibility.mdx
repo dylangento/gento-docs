@@ -8,7 +8,7 @@ source_ids:
 - vr
 review_status: pending
 translation_status: pending
-source_zh_sha256: 582d95b3affe9c0cc58aa656eb44925a199486fee13be1def116850b6315a84d
+source_zh_sha256: 84c67b2c96795ac5010771742e30de26b8fbc6310613465090b44d0f36f143a9
 ---
 Record the robot model, arm variant, controller firmware, SDK revision, Apex version, and camera/end-effector configuration before installation or an update.
 
@@ -19,13 +19,13 @@ Record the robot model, arm variant, controller firmware, SDK revision, Apex ver
 | Marvin Platform / motion SDK | Chinese software guide, September 2026 | The repository, build script, and calculation files matching the controller |
 | Apex teleoperation | VR resource guide, September 4, 2026 | Robot-side compute architecture, desktop package, and headset package |
 
-The September software guide names `TJ_FX_ROBOT_CONTRL_SDK/master`, while the older Pro manual names `tianji-robot-SDK03/Marvin_Pro`. They are recorded separately in the [SDK directory](../software/sdk-directory.mdx). Do not combine their build instructions or assume one is a drop-in replacement.
+Use `TJ_FX_ROBOT_CONTRL_SDK/master`, named in the September software guide and listed in the [SDK directory](../software/sdk-directory.mdx). The `tianji-robot-SDK03/Marvin_Pro` repository named in the older Pro manual is no longer maintained; don't use it for new setups.
 
 ## Version checks
 
-The Pro V1.0 manual states that SDK/controller **major and minor** versions must match. It refers to `showcase_check_sdk_type_compat.cpp` and `showcase_check_sdk_type_compat.py`. Use this rule with that SDK family and confirm the rule for other packages.
+The SDK and controller **major and minor** versions must match. [Check the controller firmware version](../software/cameras-firmware.mdx) before installing or updating the SDK.
 
-The September software guide has separate build scripts for controller versions it calls “41” and “43.” Confirm the full firmware version before choosing a script. Installation instructions here do not select a firmware package for you.
+The September software guide has separate build scripts for controller versions it calls “41” and “43.” [Check the full firmware version](../software/cameras-firmware.mdx) before choosing a script. Installation instructions here do not select a firmware package for you.
 
 ## Before changing a working setup
 
