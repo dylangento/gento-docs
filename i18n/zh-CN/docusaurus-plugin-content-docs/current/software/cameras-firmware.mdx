@@ -1,18 +1,36 @@
 ---
-title: 启动相机与查看固件版本
-description: 启动相机与查看固件版本 · Gento Marvin、Marvin Pro、Luna、Skye
+title: 远程访问、相机与固件
+description: 远程访问、相机与固件 · Gento Marvin、Marvin Pro、Luna、Skye
 source_revision: '2026-10-09'
 source_ids:
 - support-notes
 - luna-manual
 review_status: pending
 translation_status: pending
-sidebar_label: 相机与固件
-source_zh_sha256: de724c2869df6b73f3e4a9f88de1e702dc4351021fec9f0e84390504faff9b81
+sidebar_label: 远程访问与固件
+source_zh_sha256: 1cd78f48e88b72ed1e72997b3bae587adc96990c19ad49de892da0e117cc4547
 ---
-以下两项日常操作均在电脑上通过 SSH 完成。请先[连接用户电脑](./connect-pc.mdx)，并确认能 ping 通机器人。
+以下日常操作均在电脑上通过网络完成。请先[连接用户电脑](./connect-pc.mdx)，并确认能 ping 通机器人。
 
 Windows 10/11 可在 PowerShell 中使用 `ssh`，Ubuntu 可在任意终端中使用。首次连接某台机器人时，输入 `yes` 信任该设备。
+
+## 连接 Orin 或 Thor
+
+Marvin Pro、Luna 和 Skye 的 AI 控制器（NVIDIA Orin 或 Thor）地址为 `6.6.7.100`。以 `nvidia` 用户登录，密码见机器人随附资料。
+
+- **终端：** `ssh nvidia@6.6.7.100`
+- **远程桌面：** 使用 [NoMachine](https://www.nomachine.com/download) 连接 `6.6.7.100`。
+
+### 无显示器使用 NoMachine
+
+Orin 或 Thor 未连接显示器时，NoMachine 会出现黑屏。如需在无显示器的情况下远程连接，请先通过 SSH 登录，再执行：
+
+```bash
+sudo systemctl stop display-manager
+sudo /etc/NX/nxserver --restart
+```
+
+然后重新用 NoMachine 连接。该设置在 Orin 或 Thor 重启后失效，每次上电后需重新执行。
 
 ## 启动相机
 
@@ -64,4 +82,5 @@ x86 运控控制器在控制服务启动时会打印固件版本。选择匹配�
 | --- | --- |
 | `Connection timed out` 或 `No route to host` | 电脑不在机器人网络中，参见[连接用户电脑](./connect-pc.mdx)。 |
 | `Permission denied` | 用户名或密码错误。Orin/Thor 使用 `nvidia`，x86 控制器使用 `root`。 |
+| NoMachine 黑屏 | Orin 或 Thor 未连接显示器，参见[无显示器使用 NoMachine](#无显示器使用-nomachine)。 |
 | `REMOTE HOST IDENTIFICATION HAS CHANGED` | 之前连接过同一地址上的另一台机器人。执行 `ssh-keygen -R 6.6.7.100`（或所用地址）后重新连接。 |

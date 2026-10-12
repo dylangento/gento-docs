@@ -1,18 +1,36 @@
 ---
-title: Start the cameras & check firmware
-description: Start the cameras & check firmware · Gento Marvin, Marvin Pro, Luna, Skye
+title: Remote access, cameras & firmware
+description: Remote access, cameras & firmware · Gento Marvin, Marvin Pro, Luna, Skye
 source_revision: '2026-10-09'
 source_ids:
 - support-notes
 - luna-manual
 review_status: pending
 translation_status: source
-sidebar_label: Cameras & firmware
-source_zh_sha256: de724c2869df6b73f3e4a9f88de1e702dc4351021fec9f0e84390504faff9b81
+sidebar_label: Remote access & firmware
+source_zh_sha256: 1cd78f48e88b72ed1e72997b3bae587adc96990c19ad49de892da0e117cc4547
 ---
-Two routine jobs you run from your PC over SSH. First [connect your PC to the robot](./connect-pc.mdx) and check that the robot answers a ping.
+Routine jobs you run from your PC over the network. First [connect your PC to the robot](./connect-pc.mdx) and check that the robot answers a ping.
 
 `ssh` works in PowerShell on Windows 10/11 and in any Ubuntu terminal. The first time you connect to a robot, type `yes` to trust it.
+
+## Connect to the Orin or Thor
+
+On Marvin Pro, Luna, and Skye, the AI controller (NVIDIA Orin or Thor) is at `6.6.7.100`. Log in as `nvidia`, using the password supplied with your robot.
+
+- **Terminal:** `ssh nvidia@6.6.7.100`
+- **Remote desktop:** connect to `6.6.7.100` with [NoMachine](https://www.nomachine.com/download).
+
+### Use NoMachine without a monitor
+
+If no monitor is plugged into the Orin or Thor, NoMachine shows a black screen. To connect without a monitor, log in over SSH and run:
+
+```bash
+sudo systemctl stop display-manager
+sudo /etc/NX/nxserver --restart
+```
+
+Then connect with NoMachine again. This lasts until the Orin or Thor restarts, so run it again after each power-up.
 
 ## Start the cameras
 
@@ -64,4 +82,5 @@ The x86 motion controller prints its firmware version when its control service s
 | --- | --- |
 | `Connection timed out` or `No route to host` | Your PC isn't on the robot's network. See [Connect your PC](./connect-pc.mdx). |
 | `Permission denied` | The user name or password is wrong. Use `nvidia` for the Orin/Thor and `root` for the x86 controller. |
+| NoMachine shows a black screen | No monitor is plugged into the Orin or Thor. See [Use NoMachine without a monitor](#use-nomachine-without-a-monitor). |
 | `REMOTE HOST IDENTIFICATION HAS CHANGED` | You've connected to a different robot at the same address before. Run `ssh-keygen -R 6.6.7.100` (or the address you used), then connect again. |

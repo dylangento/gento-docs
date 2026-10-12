@@ -3,24 +3,34 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const LABELS = {
-  en: {play: 'Play video', watch: 'Watch on YouTube', docs: 'Product docs', by: 'By'},
-  'zh-CN': {play: '播放视频', watch: '在 YouTube 观看', docs: '产品文档', by: '来源：'},
+  en: {play: 'Play video', watch: 'Watch on YouTube', watchDrive: 'Watch on Google Drive', docs: 'Related docs', by: 'By'},
+  'zh-CN': {play: '播放视频', watch: '在 YouTube 观看', watchDrive: '在 Google Drive 观看', docs: '相关文档', by: '来源：'},
 };
 
-// Click-to-play YouTube embed: shows the thumbnail first and loads the player
-// (privacy-enhanced youtube-nocookie.com) only when the viewer presses play.
-export default function VideoCard({id, title, tag, docs, credit, featured = false}) {
+// Click-to-play video card. Shows the thumbnail first and loads the player only when the
+// viewer presses play: YouTube (`id`, privacy-enhanced youtube-nocookie.com) or a Google
+// Drive file shared "anyone with the link" (`drive`).
+export default function VideoCard({id, drive, title, tag, docs, credit, featured = false}) {
   const [playing, setPlaying] = useState(false);
+  const [thumbOk, setThumbOk] = useState(true);
   const {i18n} = useDocusaurusContext();
   const t = LABELS[i18n.currentLocale] || LABELS.en;
-  const watchUrl = `https://www.youtube.com/watch?v=${id}`;
+  const isDrive = Boolean(drive);
+  const vid = drive || id;
+  const embedUrl = isDrive
+    ? `https://drive.google.com/file/d/${vid}/preview`
+    : `https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0`;
+  const thumbUrl = isDrive
+    ? `https://drive.google.com/thumbnail?id=${vid}&sz=w960`
+    : `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
+  const watchUrl = isDrive ? `https://drive.google.com/file/d/${vid}/view` : `https://www.youtube.com/watch?v=${vid}`;
 
   return (
     <figure className={`video-card${featured ? ' video-card--featured' : ''}`}>
       <div className="video-card__frame">
         {playing ? (
           <iframe
-            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
+            src={embedUrl}
             title={title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
@@ -28,7 +38,9 @@ export default function VideoCard({id, title, tag, docs, credit, featured = fals
           />
         ) : (
           <button type="button" className="video-card__play" onClick={() => setPlaying(true)} aria-label={`${t.play}: ${title}`}>
-            <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" />
+            {thumbOk && (
+              <img src={thumbUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={() => setThumbOk(false)} />
+            )}
             <span className="video-card__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.52.85l10.4-6.5a1 1 0 0 0 0-1.7L9.52 4.65A1 1 0 0 0 8 5.5z" /></svg>
             </span>
@@ -41,7 +53,7 @@ export default function VideoCard({id, title, tag, docs, credit, featured = fals
         {credit && <span className="video-card__credit">{t.by} {credit}</span>}
         <span className="video-card__links">
           {docs && <Link to={docs}>{t.docs}</Link>}
-          <a href={watchUrl} target="_blank" rel="noopener noreferrer">{t.watch} ↗</a>
+          <a href={watchUrl} target="_blank" rel="noopener noreferrer">{isDrive ? t.watchDrive : t.watch} ↗</a>
         </span>
       </figcaption>
     </figure>
