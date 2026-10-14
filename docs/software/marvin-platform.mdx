@@ -7,7 +7,7 @@ source_ids:
 - manual
 review_status: pending
 translation_status: pending
-source_zh_sha256: f7fe16e59d7b0ba2a9572d0f04babd4d7ec485644960b55f1ce84b75dca21a45
+source_zh_sha256: 56b30beeaa1ff95f47c5ce266bde8109ce548f65df86a4d4e2315e139101ddff
 ---
 Marvin Platform is the desktop interface for configuring the robot, monitoring feedback, and using the controller's motion functions. The September Chinese software guide describes Linux x86 and Windows 64-bit support.
 
@@ -19,6 +19,36 @@ Marvin Platform is the desktop interface for configuring the robot, monitoring f
 | “43” | `marvinSDK_windows_100343.bat` | `marvinSDK_ubuntu_100343.sh` |
 
 The guide names `ui_EN.py` as the application entry point after the SDK is built. Before using these scripts, [check the controller firmware version](./cameras-firmware.mdx), [identify your arm model and set up its configuration files](./sdk-quickstart.mdx), and confirm the repository revision. See [SDK quick start](./sdk-quickstart.mdx).
+
+## Run Marvin Platform on Linux
+
+Marvin Platform needs Python 3.10 or later and Pillow (`pip install pillow`). From the SDK's root folder:
+
+1. Build the libraries. This compiles `libMarvinSDK.so` and `libKine.so` and copies them into `SDK_PYTHON` and `DEMO_C++`. For a "41" controller, use `marvinSDK_ubuntu.sh` instead.
+
+   ```bash
+   chmod +x marvinSDK_ubuntu_100343.sh
+   ./marvinSDK_ubuntu_100343.sh
+   ```
+
+2. Install the Microsoft core fonts. Marvin Platform uses Arial, and without it `ui_EN.py` stops with a TrueType font error. Accept the font license when the installer asks.
+
+   ```bash
+   sudo apt install ttf-mscorefonts-installer
+   ```
+
+3. Start Marvin Platform:
+
+   ```bash
+   cd MarvinPlatform_EN
+   python3 ui_EN.py
+   ```
+
+| Message | Fix |
+| --- | --- |
+| A TrueType font error when `ui_EN.py` starts | Install the fonts (step 2), then run `ui_EN.py` again. |
+| `No module named 'tkinter'` | `sudo apt install python3-tk` |
+| `No module named 'PIL'` | `pip install pillow` |
 
 ## Feedback fields
 

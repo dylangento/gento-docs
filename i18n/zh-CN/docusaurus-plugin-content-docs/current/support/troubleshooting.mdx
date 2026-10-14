@@ -8,7 +8,7 @@ source_ids:
 - inventory
 review_status: pending
 translation_status: source
-source_zh_sha256: 6386fe7a0d3f825aa4e2444ac81b8fae20b61b182f4b0b8505a2732219c77958
+source_zh_sha256: 7c0d5bf62c1bfd30bee5284cb05fe44ee772099fba85a1c9dc0a777ef1b69ca3
 ---
 ## 从现象开始
 
@@ -16,9 +16,26 @@ source_zh_sha256: 6386fe7a0d3f825aa4e2444ac81b8fae20b61b182f4b0b8505a2732219c779
 | --- | --- |
 | 无实时反馈 | 供电、网线、控制器 IP、网段、防火墙及 SDK 匹配。参见[连接用户电脑](../software/connect-pc.mdx) |
 | Apex 无法连接 | 机器人端供电、接线、路由器/交换机、IP 及软件版本 |
-| 机械臂报错 | 清错前先记录准确错误码和控制状态 |
+| 机械臂报错 | 清错前先记录准确错误码和控制状态。如机械臂卡在碰撞位置，参见[将机械臂移出碰撞位置](#将机械臂移出碰撞位置) |
 | 头显没电或关机 | 立即停止遥操作，按对应版本恢复指南处理 |
 | 工具行为异常 | 停止操作，检查工具配置、接线和软件兼容性 |
+
+## 将机械臂移出碰撞位置
+
+Marvin 或 Marvin Pro 机械臂发生碰撞并报错停止后，可在 Marvin Platform 中清除错误并松开抱闸，再手动将机械臂移开。
+
+:::danger 必须两人操作
+松开抱闸后，机械臂可能因自重下落。一人操作 Marvin Platform，另一人全程扶住机械臂。请确保急停按钮触手可及，并在开始前约定口令（如“松闸”“抱闸”）。
+:::
+
+1. 用 Marvin Platform [连接机器人](../marvin-pro/first-connection.mdx)。
+2. 在报错机械臂的面板（**LEFT ARM** 或 **RIGHT ARM**）中，于 **Error Handling** 区域点击 **GetError** 并记录错误码，然后点击 **ClearServoErr** 清除错误。
+3. 另一人牢牢扶住机械臂，承担其重量。
+4. 点击 **BrakeRelease**（松抱闸），并在弹出的提示中点击 **OK**。
+5. 手动将机械臂缓慢移出碰撞位置，移至安全区域。
+6. 保持扶住机械臂，点击 **BrakeHold**（抱闸）。确认抱闸锁住后再松手。
+
+重新运行机器人前，请查明碰撞原因，并检查机械臂和工具是否损坏。如错误再次出现，请携带记录的错误码联系 Gento 技术支持。
 
 ## 收集排查信息
 
@@ -32,4 +49,4 @@ source_zh_sha256: 6386fe7a0d3f825aa4e2444ac81b8fae20b61b182f4b0b8505a2732219c779
 
 邮箱：[support@gentorobotics.ai](mailto:support@gentorobotics.ai)。
 
-未找出原因而反复清错，不属于故障恢复流程。强制松抱闸、编码器清零和固件修改应按适用的维护说明进行。
+未找出原因而反复清错，不属于故障恢复流程。仅可按[将机械臂移出碰撞位置](#将机械臂移出碰撞位置)中的步骤松开抱闸；编码器清零和固件修改应按适用的维护说明进行。

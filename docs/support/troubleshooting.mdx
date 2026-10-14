@@ -8,7 +8,7 @@ source_ids:
 - inventory
 review_status: pending
 translation_status: pending
-source_zh_sha256: 6386fe7a0d3f825aa4e2444ac81b8fae20b61b182f4b0b8505a2732219c77958
+source_zh_sha256: 7c0d5bf62c1bfd30bee5284cb05fe44ee772099fba85a1c9dc0a777ef1b69ca3
 ---
 ## Start with the symptom
 
@@ -16,9 +16,26 @@ source_zh_sha256: 6386fe7a0d3f825aa4e2444ac81b8fae20b61b182f4b0b8505a2732219c779
 | --- | --- |
 | No live feedback | Power, Ethernet connection, controller IP, subnet, firewall, and matching SDK. See [Connect your PC](../software/connect-pc.mdx) |
 | Apex cannot connect | Robot-side power, cabling, router/switch, IP settings, and installed package versions |
-| Arm reports an error | Record the exact code and control state before clearing anything |
+| Arm reports an error | Record the exact code and control state before clearing anything. If the arm is stuck in a collision, see [Move an arm out of a collision](#move-an-arm-out-of-a-collision) |
 | Headset loses power or shuts down | Stop teleoperation immediately; follow the matching recovery guide |
 | Tool behaves unexpectedly | Stop and verify tool configuration, wiring, and software compatibility |
+
+## Move an arm out of a collision
+
+If a Marvin or Marvin Pro arm stops with an error after hitting something, use Marvin Platform to clear the error and release the brakes, then move the arm away by hand.
+
+:::danger Two people required
+With the brakes released, the arm can drop under its own weight. One person operates Marvin Platform; the other holds the arm the whole time. Keep the E-stop within reach, and agree on clear calls ("releasing", "hold") before you start.
+:::
+
+1. [Connect Marvin Platform](../marvin-pro/first-connection.mdx) to the robot.
+2. In the panel for the affected arm (**LEFT ARM** or **RIGHT ARM**), under **Error Handling**, click **GetError** and write down the error code. Then click **ClearServoErr**.
+3. The second person takes a firm hold of the arm and supports its weight.
+4. Click **BrakeRelease**, then click **OK** on the reminder that appears.
+5. Move the arm slowly by hand out of the collision to a safe position.
+6. Keep holding the arm and click **BrakeHold**. Let go only once the brakes have locked.
+
+Before you run the robot again, find out what caused the collision and check the arm and tool for damage. If the error comes back, contact Gento support with the code you recorded.
 
 ## Collect useful information
 
@@ -32,4 +49,4 @@ The troubleshooting resources include the JMDT drive alarm manual and an x86 log
 
 Email [support@gentorobotics.ai](mailto:support@gentorobotics.ai).
 
-Repeatedly clearing a fault without identifying its cause is not a recovery procedure. Brake release, encoder zeroing, and firmware changes require the applicable service instructions.
+Repeatedly clearing a fault without identifying its cause is not a recovery procedure. Release the brakes only as described in [Move an arm out of a collision](#move-an-arm-out-of-a-collision). Encoder zeroing and firmware changes require the applicable service instructions.

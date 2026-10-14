@@ -27,7 +27,7 @@ export default function VideoCard({id, drive, title, tag, docs, credit, featured
 
   return (
     <figure className={`video-card${featured ? ' video-card--featured' : ''}`}>
-      <div className="video-card__frame">
+      <div className={`video-card__frame${isDrive ? ' video-card__frame--drive' : ''}${playing ? ' is-playing' : ''}`}>
         {playing ? (
           <iframe
             src={embedUrl}
