@@ -1,16 +1,18 @@
 ---
-title: Remote access, cameras & firmware
-description: Remote access, cameras & firmware · Gento Marvin, Marvin Pro, Luna, Skye
-source_revision: '2026-10-09'
+title: Remote access & firmware
+description: Remote access & firmware · Gento Marvin, Marvin Pro, Luna, Skye
+source_revision: '2026-10-14'
 source_ids:
 - support-notes
 - luna-manual
 review_status: pending
 translation_status: source
 sidebar_label: Remote access & firmware
-source_zh_sha256: 1cd78f48e88b72ed1e72997b3bae587adc96990c19ad49de892da0e117cc4547
+source_zh_sha256: d9a5c309e2f0b977a8401af50456a4cb5a98f14bed1e9a68bf96bb5cdbfe8b96
 ---
 Routine jobs you run from your PC over the network. First [connect your PC to the robot](./connect-pc.mdx) and check that the robot answers a ping.
+
+To start or view the cameras, see [Start and view the cameras](./cameras.mdx).
 
 `ssh` works in PowerShell on Windows 10/11 and in any Ubuntu terminal. The first time you connect to a robot, type `yes` to trust it.
 
@@ -32,28 +34,21 @@ sudo /etc/NX/nxserver --restart
 
 Then connect with NoMachine again. This lasts until the Orin or Thor restarts, so run it again after each power-up.
 
-## Start the cameras
+## Check the Apex teleoperation version
 
-On robots with onboard AI compute (NVIDIA Orin or Thor), start the cameras after every power-up, before you teleoperate or record data.
+The Apex robot-side packages run on the Orin or Thor. Log in (`ssh nvidia@6.6.7.100`) and run:
 
-1. Log in to the AI controller, using the password supplied with your robot:
+```bash
+dpkg -l kernelmind-apex
+```
 
-   ```bash
-   ssh nvidia@6.6.7.100
-   ```
-
-2. Start the cameras:
-
-   ```bash
-   cd /home/camera/cam_geac
-   ./rb_camera.sh init
-   ```
-
-3. Wait about 20 seconds for the cameras to come up, then type `exit`.
+The last line of the output is the `kernelmind-apex` package: `ii` at the start means it's installed, and the third column is its version. If you see `no packages found matching kernelmind-apex`, Apex isn't installed on that computer. Record the version before you update, and match the desktop app and headset APK to it ([Install Apex teleoperation](../teleoperation/setup.mdx)). On an Ubuntu operator computer, the same command shows the desktop app's version.
 
 ## Check the controller firmware version
 
 The x86 motion controller prints its firmware version when its control service starts. You need it to choose the matching [Marvin Platform build script and SDK](../marvin-pro/compatibility.mdx).
+
+If Marvin Platform already connects to the robot, it shows the controller version at the bottom of its window, so you don't need to restart anything; see [Connect & read robot status](../marvin-pro/first-connection.mdx#confirm-live-feedback). Otherwise, restart the control service as follows.
 
 :::warning This restarts the motion controller
 `stop.sh` stops the controller. Before you run it, disable the arms, make sure no software is commanding the robot, and keep the E-stop within reach.

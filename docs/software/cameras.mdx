@@ -1,0 +1,48 @@
+---
+title: Start and view the cameras
+description: Start and view the cameras · Gento Marvin Pro, Luna, Skye
+source_revision: '2026-10-14'
+source_ids:
+- support-notes
+review_status: pending
+translation_status: source
+sidebar_label: Cameras
+source_zh_sha256: 5ac9f9e64e9b01453314ad254ecb52fe90ce87770848432b2f864df5dad40496
+---
+On robots with onboard AI compute (NVIDIA Orin or Thor), including Marvin Pro, Luna, and Skye, the head and wrist cameras run on the Orin or Thor. Start them after every power-up, before you teleoperate or record data.
+
+## Start the cameras
+
+1. Log in to the Orin or Thor, using the password supplied with your robot. See [Connect to the Orin or Thor](./cameras-firmware.mdx#connect-to-the-orin-or-thor).
+
+   ```bash
+   ssh nvidia@6.6.7.100
+   ```
+
+2. Start the cameras:
+
+   ```bash
+   cd /home/nvidia/cam_geac
+   ./rb_camera.sh init
+   ```
+
+3. Wait about 20 seconds for the cameras to come up.
+
+## View a camera image
+
+To check that a camera works, open its live preview with `argus_camera`. Choose the camera with `-d`:
+
+```bash
+argus_camera -d 0
+```
+
+| `-d` | Camera |
+| --- | --- |
+| `0`, `1` | Head cameras |
+| `4`, `5` | Wrist cameras |
+
+:::note Connect a monitor to see the image
+`argus_camera` shows the preview on the Orin's or Thor's own display. If you run it over SSH, it may stop with `EGL_KHR_stream not supported`. This means there's no display to show the image: connect an external monitor to the Orin or Thor and run the command in a terminal on that screen.
+:::
+
+If you can't log in, see [If you can't log in](./cameras-firmware.mdx#if-you-cant-log-in).

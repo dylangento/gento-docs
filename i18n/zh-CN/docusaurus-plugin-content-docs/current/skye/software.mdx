@@ -1,0 +1,134 @@
+---
+title: 软件、SDK 与遥操作
+description: 软件、SDK 与遥操作 · Gento Skye
+source_revision: V1.2 · 2026-08
+source_ids:
+- skye-manual-en
+- skye-manual
+- support-notes
+review_status: pending
+translation_status: pending
+sidebar_label: 软件、SDK 与遥操作
+source_zh_sha256: d48be1221c84ca7ebbf0539984254130098e33e852a660110c08899a4e0b8701
+---
+Skye 与 Luna 使用相同的软件：用 GentoPlatform 上位机手动控制，用 Gento SDK 编写程序，用 Apex 进行 VR 遥操作。建议先熟练使用 GentoPlatform；了解机器人的运行方式有助于后续代码开发。
+
+## GentoPlatform 上位机
+
+GentoPlatform（FX_Platform）是 Gento 系列机器人的控制与调试上位机软件，支持 Linux x86 和 Windows 64 位，随 SDK 发布，当前版本基于控制器主版本 1004。界面与 Luna 相同，各面板的详细说明见 [GentoPlatform 上位机](../luna/gentoplatform.mdx)。
+
+1. 从 [Gento 系列 SDK 仓库](https://github.com/tianjizn/tianji-robot-SDK/tree/Gento_Skye+Luna)获取软件。官方提供 Windows 和 Ubuntu 20.04 x86 可执行文件；其他系统请下载源码自行编译。
+2. 从源码运行时，需安装 Python 3.10 及以上、pyinstaller 和 pillow，并确认 `SDK_PYTHON` 中为在 `./contrlSDK` 和 `./kinematicsSDK` 下最新编译的 `libMarvinSDK.so` 和 `libKine.so`。然后运行 `python ui.py`。如需在无 Python 环境的电脑上运行，执行 `python setup.py` 生成可执行文件。
+3. 确认控制器已通电，网线一端接控制器上标有 CAT.6 的网口，另一端接电脑或交换机，且机器人急停已释放。
+4. 在界面左上角的连接区域输入运控控制器 IP（`6.6.7.190`），点击 **Connect Robot**。连接成功后按钮变为绿色并显示 **Connected**。
+
+连接失败时，请确认电脑与控制器在同一局域网，核对 IP 地址，再检查机器人电源和网络配置。
+
+:::tip 低速开始
+初次使用或测试时，建议将速度和加速度设为 5–10%。
+:::
+
+## Gento SDK
+
+运动控制 SDK 封装了底层通信（L0），提供系统管理、运动控制、状态切换、参数配置、运动学和轨迹规划接口。
+
+| 资源 | 地址 |
+| --- | --- |
+| Gento 系列 SDK 仓库 | [tianjizn/tianji-robot-SDK（Gento_Skye+Luna 分支）](https://github.com/tianjizn/tianji-robot-SDK/tree/Gento_Skye+Luna) |
+| API 文档 | [tianjizn.github.io/api](https://tianjizn.github.io/api/) |
+
+### 目录结构
+
+```text
+GENTO_SDK/
+├── C_SDK/                    # SDK 源码
+│   ├── Common/               # 公共头文件
+│   ├── FileClient/           # 文件传输客户端
+│   ├── Kinematics/           # ArmKinematics、BaseMath、DynaIdent、KineCommon、
+│   │                         # MotionPlanner、SkyeBodyKinematics
+│   ├── L0Control/            # 底层通信与控制
+│   └── L1Robot/              # 上层 API
+├── C_EXAMPLE/                # 直接使用 C_SDK 源码的 C++ 示例
+├── C_EXAMPLE_USE_DLL_SO/     # 使用编译后 DLL/SO 的 C++ 示例
+├── PYTHON_SDK/               # Python 封装（GentoRobot.py）
+├── PYTHON_EXAMPLE/           # Python 示例
+├── win_auto_compile.bat      # Windows 一键编译（源码 → DLL）
+├── linux_auto_compile.sh     # Linux 一键编译（源码 → SO）
+├── compile_methods.txt       # 各平台编译命令
+└── README.md
+```
+
+### 版本兼容
+
+控制器和 SDK 版本号由 MAJOR.MINOR.PATCH 三部分组成。MAJOR 和 MINOR 一致时 SDK 才能连接控制器，否则连接返回错误 -4"版本不兼容"。请先调用 `FX_L1_System_GetSDKVersion()`（Python：`get_sdk_version()`）获取 SDK 版本，再将控制器升级或降级到匹配版本。
+
+### 核心模块
+
+| 模块 | 说明 |
+| --- | --- |
+| 系统管理 | 连接/断开控制器、设置日志级别、重启、固件升级、文件传输 |
+| 状态机 | 在位置、关节/笛卡尔/力阻抗、拖动示教（关节、X、Y、Z、旋转）和协作释放之间切换 |
+| 实时反馈 | 1 kHz 实时数据（关节位置、速度、力矩、IMU、力/力矩传感器）和 500 Hz 慢速组数据（配置、诊断） |
+| 参数管理 | 按名称读写整型、浮点和字符串参数 |
+| 末端通信 | 通过 CAN FD 或 RS485 与外部设备收发数据 |
+| 硬件配置 | 抱闸锁定/释放、编码器偏置复位、软限位解除 |
+| 运行时运动 | 急停、关节位置指令、力/力矩控制、缩放、刚度与阻尼调整 |
+| 运动学与规划 | 正/逆运动学、雅可比矩阵、工具变换、身体运动学、MoveJ/MoveL、多段笛卡尔规划、双臂同步规划 |
+| 动力学辨识 | 根据记录数据辨识负载质量、质心和惯量 |
+
+### 核心类型
+
+| 类型 | 说明 |
+| --- | --- |
+| `FXObjType` | 机器人部件：左臂（`FX_OBJ_ARM0`）、右臂（`FX_OBJ_ARM1`）、头部、躯干、升降平台 |
+| `FXStateType` | 控制状态：空闲、位置、关节/笛卡尔/力阻抗、拖动、释放、错误 |
+| `ROBOT_RT` | 实时反馈：关节位置、速度、力矩、IMU、力/力矩传感器 |
+| `ROBOT_SG` | 慢速组配置和扩展反馈 |
+| `FXFuncReturn` | 返回值：0 表示成功，负值表示具体错误 |
+
+### 使用须知
+
+- SDK 示例的逻辑和参数为研发测试编写，仅供参考，不是生产代码。
+- 刚度和阻尼系数为参考值，不同控制器版本可能会优化，请咨询 [Gento 技术支持](mailto:support@gentorobotics.ai)。
+- SDK 使用带可靠性协议的 UDP 通信，请在防火墙中放行所配置端口（默认 50000–50010）的 UDP 流量。
+- `FX_L1_System_Link()` 成功时返回正的延时值（微秒），负值表示错误。
+- 程序退出前务必调用 `FX_L1_System_Unlink()`，释放套接字和资源。
+- SDK 中的 README 包含快速入门、编译方法和常见问题。
+
+底盘使用 ROS 2 通信，参见[底盘通信](./interfaces.mdx#底盘通信ros-2)。
+
+## VR 遥操作
+
+使用 Apex 遥操作套件，操作员可通过 VR 头显以实时第一人称视角控制 Skye。KM Data Converter 工具链可将录制数据转换为模仿学习数据集，用于模型训练和真机推理。
+
+| 部分 | 说明 |
+| --- | --- |
+| 遥操作套件 | PICO Ultra 头显、手柄和 3 个动作追踪器，以及 GameSir 体感手柄。软件已预装 |
+| 前端 | 基于 ROS 的上位机，支持 Ubuntu 和 Windows：连接后端、启动机器人、切换模式、录制与回放数据。可安装在您的电脑上，机器人 AI 计算单元上也已预装 |
+| 后端 | 运行在 Orin 上：ROS 2 节点、运动控制、相机和录制服务 |
+| VR 头显 | 支持 Meta Quest 和 Pico，遥操作应用已预装 |
+| 可选扩展 | Manus 数据手套和 Wuji Hand；提供 ROS 2 SDK，便于接入现有 ROS 2 系统 |
+
+| 服务 | systemd 单元 | 说明 |
+| --- | --- | --- |
+| 后端 API | `apex-backend.service` | 统一的 HTTP/WebSocket 入口 |
+| 相机 | `apex-camera.service` | 4 路 GMSL 相机 |
+| 机器人控制 | `apex-robot.service` | ROS 控制与状态发布 |
+| 遥操作 | `apex-teleop.service` | IK、规划与指令复用 |
+
+安装、头显佩戴和操作方法请参见 Apex 文档。软件更新和各版本安装包见 [KernelMind_Apex_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Deb)。
+
+<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">打开 Apex 遥操作文档 ↗</a></div>
+
+Orin 或 Thor 每次上电后，请先[启动相机](../software/cameras.mdx)，再开始遥操作。查看已安装的 Apex 版本请参见[查看 Apex 遥操作版本](../software/cameras-firmware.mdx#查看-apex-遥操作版本)。
+
+:::warning 遥操作规则
+- 尽量使用有线网络；不建议通过头显 Wi-Fi 进行遥操作。
+- 前端无法连接机器人时，请检查电源、网线、路由器或交换机，以及 IP 网段是否一致。
+- 开始前检查急停、控制器电源、通信线缆、U 盘和头显电量。
+- 不进行遥操作时切换到待机模式，避免误操作。
+- 修改 IP、负载、刚度、阻尼、Home 点或 TCP 偏移前，先备份原始配置文件。
+- 头显电量耗尽、意外断电或关机时，立即停止遥操作。
+:::
+
+下一步：[维护与安全](./maintenance.mdx)。

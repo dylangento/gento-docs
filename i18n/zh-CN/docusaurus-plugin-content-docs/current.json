@@ -30,5 +30,9 @@
   "sidebar.docs.category.Luna": {
     "message": "Luna",
     "description": "The label for category 'Luna' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Skye": {
+    "message": "Skye",
+    "description": "The label for category 'Skye' in sidebar 'docs'"
   }
 }

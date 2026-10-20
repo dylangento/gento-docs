@@ -1,0 +1,134 @@
+---
+title: Software, SDK & teleoperation
+description: Software, SDK & teleoperation · Gento Skye
+source_revision: V1.2 · 2026-08
+source_ids:
+- skye-manual-en
+- skye-manual
+- support-notes
+review_status: pending
+translation_status: source
+sidebar_label: Software, SDK & teleop
+source_zh_sha256: d48be1221c84ca7ebbf0539984254130098e33e852a660110c08899a4e0b8701
+---
+Skye uses the same software as Luna: GentoPlatform for hands-on control, the Gento SDK for your own programs, and Apex for VR teleoperation. Get comfortable with GentoPlatform first; understanding how the robot behaves makes code development easier.
+
+## GentoPlatform
+
+GentoPlatform (FX_Platform) is the host application for controlling and debugging Gento series robots. It runs on Linux x86 and Windows 64-bit, ships with the SDK, and the current version is for controller main version 1004. The interface is the same as on Luna; [GentoPlatform](../luna/gentoplatform.mdx) walks through every panel.
+
+1. Get the software from the [Gento series SDK repository](https://github.com/tianjizn/tianji-robot-SDK/tree/Gento_Skye+Luna). Executables are provided for Windows and Ubuntu 20.04 x86; on other systems, build from source.
+2. To run from source, install Python 3.10 or later, pyinstaller, and pillow, and make sure `SDK_PYTHON` contains the latest `libMarvinSDK.so` and `libKine.so`, compiled under `./contrlSDK` and `./kinematicsSDK`. Then run `python ui.py`. To build an executable for a computer without Python, run `python setup.py`.
+3. Check that the controller is powered, the Ethernet cable runs from the controller port marked CAT.6 to your computer or a switch, and the E-stop on the robot is released.
+4. In the connection area at the top left, enter the motion controller's IP (`6.6.7.190`) and click **Connect Robot**. When the connection succeeds, the button turns green and reads **Connected**.
+
+If the connection fails, check that your computer and the controller are on the same LAN, check the IP address, then check the robot's power and network settings.
+
+:::tip Start slowly
+For first use and testing, set speed and acceleration to 5–10%.
+:::
+
+## Gento SDK
+
+The motion control SDK wraps the low-level communication (L0) and provides interfaces for system management, motion control, state switching, parameter configuration, kinematics, and trajectory planning.
+
+| Resource | Link |
+| --- | --- |
+| Gento series SDK repository | [tianjizn/tianji-robot-SDK (Gento_Skye+Luna branch)](https://github.com/tianjizn/tianji-robot-SDK/tree/Gento_Skye+Luna) |
+| API documentation | [tianjizn.github.io/api](https://tianjizn.github.io/api/) |
+
+### Directory structure
+
+```text
+GENTO_SDK/
+├── C_SDK/                    # SDK source
+│   ├── Common/               # Common headers
+│   ├── FileClient/           # File transfer client
+│   ├── Kinematics/           # ArmKinematics, BaseMath, DynaIdent, KineCommon,
+│   │                         # MotionPlanner, SkyeBodyKinematics
+│   ├── L0Control/            # Low-level communication and control
+│   └── L1Robot/              # Upper-level API
+├── C_EXAMPLE/                # C++ examples that use C_SDK source directly
+├── C_EXAMPLE_USE_DLL_SO/     # C++ examples that use the compiled DLL/SO
+├── PYTHON_SDK/               # Python wrapper (GentoRobot.py)
+├── PYTHON_EXAMPLE/           # Python examples
+├── win_auto_compile.bat      # One-step Windows build (source → DLL)
+├── linux_auto_compile.sh     # One-step Linux build (source → SO)
+├── compile_methods.txt       # Build commands for each platform
+└── README.md
+```
+
+### Version compatibility
+
+Controller and SDK versions are MAJOR.MINOR.PATCH. The SDK connects only when MAJOR and MINOR match; otherwise the connection returns error -4, "Version incompatible". Call `FX_L1_System_GetSDKVersion()` (Python: `get_sdk_version()`) to get the SDK version, then upgrade or downgrade the controller to match.
+
+### Core modules
+
+| Module | Description |
+| --- | --- |
+| System | Connect to and disconnect from the controller, set the log level, reboot, update firmware, transfer files |
+| State machine | Switch between position, joint/Cartesian/force impedance, drag teaching (joint, X, Y, Z, rotation), and collaborative release |
+| Real-time feedback | 1 kHz data (joint position, velocity, torque, IMU, F/T sensor) and 500 Hz slow-group data (configuration, diagnostics) |
+| Parameters | Read and write integer, float, and string parameters by name |
+| Terminal communication | Send and receive data with external devices over CAN FD or RS485 |
+| Hardware configuration | Brake lock and release, encoder offset reset, soft-limit disable |
+| Runtime motion | E-stop, joint position commands, force/torque control, scaling, stiffness and damping |
+| Kinematics and planning | FK/IK, Jacobian, tool transforms, body kinematics, MoveJ/MoveL, multi-segment Cartesian, dual-arm synchronized planning |
+| Dynamics identification | Identify payload mass, center of mass, and inertia from recorded data |
+
+### Core types
+
+| Type | Description |
+| --- | --- |
+| `FXObjType` | Robot component: left arm (`FX_OBJ_ARM0`), right arm (`FX_OBJ_ARM1`), head, torso, lifting platform |
+| `FXStateType` | Control state: idle, position, joint/Cartesian/force impedance, drag, release, error |
+| `ROBOT_RT` | Real-time feedback: joint position, velocity, torque, IMU, F/T sensor |
+| `ROBOT_SG` | Slow-group configuration and extended feedback |
+| `FXFuncReturn` | Return value: 0 is success; negative values are specific errors |
+
+### Usage notes
+
+- SDK demo logic and parameters were written for R&D testing. Use them as a reference, not as production code.
+- Stiffness and damping values are references and may change between controller versions; ask [Gento support](mailto:support@gentorobotics.ai).
+- The SDK uses UDP with a reliability protocol. Allow UDP on the configured ports (default 50000–50010) in your firewall.
+- `FX_L1_System_Link()` returns a positive latency in microseconds on success; negative values are errors.
+- Always call `FX_L1_System_Unlink()` before your program exits, to release sockets and resources.
+- The README in the SDK covers quick start, building, and FAQs.
+
+For the chassis, which uses ROS 2, see [Chassis communication](./interfaces.mdx#chassis-communication-ros-2).
+
+## VR teleoperation
+
+With the Apex teleoperation kit, an operator controls Skye from a VR headset with a real-time first-person view. The KM Data Converter toolchain turns recordings into imitation-learning datasets, for training and then inference on the real robot.
+
+| Part | Description |
+| --- | --- |
+| Teleoperation kit | PICO Ultra headset, controllers, and three motion trackers, plus a GameSir motion gamepad. Software comes preinstalled |
+| Front end | ROS-based host application for Ubuntu and Windows: connect to the back end, start the robot, switch modes, record and play back data. Install it on your computer; it is also preinstalled on the robot's AI computer |
+| Back end | Runs on the Orin: ROS 2 nodes, motion control, cameras, and recording |
+| VR headset | Meta Quest and Pico; the teleoperation app comes preinstalled |
+| Options | Manus data gloves and Wuji Hand; a ROS 2 SDK for integrating with existing ROS 2 systems |
+
+| Service | systemd unit | Description |
+| --- | --- | --- |
+| Back-end API | `apex-backend.service` | HTTP/WebSocket entry point |
+| Cameras | `apex-camera.service` | 4-channel GMSL cameras |
+| Robot control | `apex-robot.service` | ROS control and state publishing |
+| Teleoperation | `apex-teleop.service` | IK, planning, and command multiplexing |
+
+For setup, wearing the headset, and operation, use the Apex documentation. Updates and installation packages are in [KernelMind_Apex_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Deb).
+
+<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">Open the Apex teleoperation docs ↗</a></div>
+
+After every power-up of the Orin or Thor, [start the cameras](../software/cameras.mdx) before you teleoperate. To check the installed Apex version, see [Check the Apex teleoperation version](../software/cameras-firmware.mdx#check-the-apex-teleoperation-version).
+
+:::warning Teleoperation rules
+- Use a wired network where possible; teleoperating over the headset's Wi-Fi is not recommended.
+- If the front end can't connect to the robot, check the power, network cables, router or switch, and that the IP subnets match.
+- Before you start, check the E-stop, controller power, communication cables, USB drive, and headset battery.
+- Switch to standby when you aren't teleoperating, to avoid accidental input.
+- Back up the original configuration files before you change the IP, payload, stiffness, damping, Home point, or TCP offset.
+- Stop immediately if the headset runs out of battery, loses power, or shuts down.
+:::
+
+Next: [maintenance & safety](./maintenance.mdx).

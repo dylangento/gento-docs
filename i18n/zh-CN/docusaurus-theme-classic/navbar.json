@@ -35,12 +35,12 @@
     "message": "Luna",
     "description": "Navbar item with label Luna"
   },
-  "item.label.Skye (coming soon)": {
-    "message": "Skye（即将推出）",
-    "description": "Navbar item with label Skye (coming soon)"
-  },
   "item.label.Video demos": {
     "message": "视频演示",
     "description": "Navbar item with label Video demos"
+  },
+  "item.label.Skye": {
+    "message": "Skye",
+    "description": "Navbar item with label Skye"
   }
 }

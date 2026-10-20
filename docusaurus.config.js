@@ -23,7 +23,7 @@ const config = {
         {label: 'Marvin Pro', to: '/marvin-pro/overview'},
         {label: 'Marvin', to: '/marvin/overview'},
         {label: 'Luna', to: '/luna/overview'},
-        {label: 'Skye (coming soon)', to: '/skye/overview'},
+        {label: 'Skye', to: '/skye/overview'},
       ]},
       {label: 'Software & SDKs', to: '/software/sdk-directory', position: 'left'},
       {label: 'Resources', to: '/resources/downloads', position: 'left'},

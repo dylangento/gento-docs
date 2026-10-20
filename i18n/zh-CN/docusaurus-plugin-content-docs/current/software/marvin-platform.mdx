@@ -7,7 +7,7 @@ source_ids:
 - manual
 review_status: pending
 translation_status: source
-source_zh_sha256: 56b30beeaa1ff95f47c5ce266bde8109ce548f65df86a4d4e2315e139101ddff
+source_zh_sha256: a62d40ec16edfe9abe0910db50f9cb2729910cc3c58f1ac3b1ba92220212b72c
 ---
 Marvin Platform 是用于配置机器人、监视反馈和操作控制器运动功能的上位机。9 月中文软件指南描述其支持 Linux x86 和 Windows 64 位平台。
 
@@ -20,35 +20,13 @@ Marvin Platform 是用于配置机器人、监视反馈和操作控制器运动�
 
 指南将 `ui_EN.py` 列为 SDK 编译后的上位机入口文件。使用脚本前，请先[查看控制器固件版本](./cameras-firmware.mdx)、[确认机械臂型号并设置配置文件](./sdk-quickstart.mdx)，并确认仓库修订版。参见 [SDK 入门](./sdk-quickstart.mdx)。
 
-## 在 Linux 上运行 Marvin Platform
+## 安装与启动
 
-Marvin Platform 需要 Python 3.10 及以上版本和 Pillow（`pip install pillow`）。在 SDK 根目录下：
+下载 SDK、在 Windows 或 Ubuntu 上编译并启动软件的步骤，参见[安装 Marvin Platform](./install-marvin-platform.mdx)。
 
-1. 编译动态库。脚本会编译 `libMarvinSDK.so` 和 `libKine.so`，并复制到 `SDK_PYTHON` 和 `DEMO_C++`。控制器为“41”时，请改用 `marvinSDK_ubuntu.sh`。
+## 参数与错误处理
 
-   ```bash
-   chmod +x marvinSDK_ubuntu_100343.sh
-   ./marvinSDK_ubuntu_100343.sh
-   ```
-
-2. 安装 Microsoft 核心字体。Marvin Platform 使用 Arial 字体，缺少该字体时 `ui_EN.py` 会报 TrueType 字体错误。安装程序提示时，请接受字体许可协议。
-
-   ```bash
-   sudo apt install ttf-mscorefonts-installer
-   ```
-
-3. 启动 Marvin Platform：
-
-   ```bash
-   cd MarvinPlatform_EN
-   python3 ui_EN.py
-   ```
-
-| 提示信息 | 解决方法 |
-| --- | --- |
-| 启动 `ui_EN.py` 时报 TrueType 字体错误 | 安装字体（第 2 步）后重新运行 `ui_EN.py`。 |
-| `No module named 'tkinter'` | `sudo apt install python3-tk` |
-| `No module named 'PIL'` | `pip install pillow` |
+每个机械臂面板都有 **Parameters** 区域，用于设置速度和阻抗参数。速度和加速度仅在位置模式下生效，参见[速度和加速度仅在位置模式下生效](./control-modes.mdx#速度和加速度仅在位置模式下生效)。**Error Handling** 区域用于读取和清除错误，以及松开或锁定抱闸。发生碰撞后，请按[将机械臂移出碰撞位置](../support/troubleshooting.mdx#将机械臂移出碰撞位置)操作。
 
 ## 反馈字段
 

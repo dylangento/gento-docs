@@ -1,16 +1,18 @@
 ---
-title: 远程访问、相机与固件
-description: 远程访问、相机与固件 · Gento Marvin、Marvin Pro、Luna、Skye
-source_revision: '2026-10-09'
+title: 远程访问与固件
+description: 远程访问与固件 · Gento Marvin、Marvin Pro、Luna、Skye
+source_revision: '2026-10-14'
 source_ids:
 - support-notes
 - luna-manual
 review_status: pending
 translation_status: pending
 sidebar_label: 远程访问与固件
-source_zh_sha256: 1cd78f48e88b72ed1e72997b3bae587adc96990c19ad49de892da0e117cc4547
+source_zh_sha256: d9a5c309e2f0b977a8401af50456a4cb5a98f14bed1e9a68bf96bb5cdbfe8b96
 ---
 以下日常操作均在电脑上通过网络完成。请先[连接用户电脑](./connect-pc.mdx)，并确认能 ping 通机器人。
+
+如需启动或查看相机，参见[启动与查看相机](./cameras.mdx)。
 
 Windows 10/11 可在 PowerShell 中使用 `ssh`，Ubuntu 可在任意终端中使用。首次连接某台机器人时，输入 `yes` 信任该设备。
 
@@ -32,28 +34,21 @@ sudo /etc/NX/nxserver --restart
 
 然后重新用 NoMachine 连接。该设置在 Orin 或 Thor 重启后失效，每次上电后需重新执行。
 
-## 启动相机
+## 查看 Apex 遥操作版本
 
-配有板载 AI 算力（NVIDIA Orin 或 Thor）的机器人，每次上电后、遥操作或录制数据前，都需要先启动相机。
+Apex 机器人端软件包运行在 Orin 或 Thor 上。登录（`ssh nvidia@6.6.7.100`）后执行：
 
-1. 登录 AI 控制器，密码见机器人随附资料：
+```bash
+dpkg -l kernelmind-apex
+```
 
-   ```bash
-   ssh nvidia@6.6.7.100
-   ```
-
-2. 启动相机：
-
-   ```bash
-   cd /home/camera/cam_geac
-   ./rb_camera.sh init
-   ```
-
-3. 等待约 20 秒，待相机启动完成后输入 `exit` 退出。
+输出的最后一行为 `kernelmind-apex` 软件包：行首 `ii` 表示已安装，第三列为版本号。如提示 `no packages found matching kernelmind-apex`，说明该电脑未安装 Apex。升级前请记录版本，并使电脑端应用和头显 APK 与之匹配（参见[安装 Apex 遥操作](../teleoperation/setup.mdx)）。在 Ubuntu 操作电脑上执行同一命令，可查看电脑端应用的版本。
 
 ## 查看控制器固件版本
 
 x86 运控控制器在控制服务启动时会打印固件版本。选择匹配的 [Marvin Platform 编译脚本和 SDK](../marvin-pro/compatibility.mdx) 时需要用到该版本。
+
+如果 Marvin Platform 已能连接机器人，其窗口底部会显示控制器版本，无需重启，参见[连接与读取状态](../marvin-pro/first-connection.mdx#确认实时反馈)。否则，请按以下步骤重启控制服务。
 
 :::warning 此操作会重启运控控制器
 `stop.sh` 会停止控制器。执行前请将机械臂下使能，确认没有软件在控制机器人，并确保急停按钮触手可及。

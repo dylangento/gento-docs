@@ -8,7 +8,7 @@ source_ids:
 - inventory
 review_status: pending
 translation_status: source
-source_zh_sha256: 7c0d5bf62c1bfd30bee5284cb05fe44ee772099fba85a1c9dc0a777ef1b69ca3
+source_zh_sha256: e7c788268e13ce7e522b3b502ae3d7620a73c364d918dc6dfb99abad75708a9a
 ---
 ## 从现象开始
 
@@ -28,12 +28,16 @@ Marvin 或 Marvin Pro 机械臂发生碰撞并报错停止后，可在 Marvin Pl
 松开抱闸后，机械臂可能因自重下落。一人操作 Marvin Platform，另一人全程扶住机械臂。请确保急停按钮触手可及，并在开始前约定口令（如“松闸”“抱闸”）。
 :::
 
+以下按钮位于每个机械臂面板的 **Error Handling** 区域，图中编号即点击顺序：
+
+![Marvin Platform Error Handling 区域：GetError（①）、ClearServoErr（②）、BrakeRelease（③）、BrakeHold（④）](/img/software/marvin-platform-error-handling.webp)
+
 1. 用 Marvin Platform [连接机器人](../marvin-pro/first-connection.mdx)。
-2. 在报错机械臂的面板（**LEFT ARM** 或 **RIGHT ARM**）中，于 **Error Handling** 区域点击 **GetError** 并记录错误码，然后点击 **ClearServoErr** 清除错误。
+2. 在报错机械臂的面板（**LEFT ARM** 或 **RIGHT ARM**）中，于 **Error Handling** 区域点击 **GetError** <span className="ui-marker">1</span> 并记录错误码，然后点击 **ClearServoErr** <span className="ui-marker">2</span> 清除错误。
 3. 另一人牢牢扶住机械臂，承担其重量。
-4. 点击 **BrakeRelease**（松抱闸），并在弹出的提示中点击 **OK**。
+4. 点击 **BrakeRelease** <span className="ui-marker">3</span>（松抱闸），并在弹出的提示中点击 **OK**。
 5. 手动将机械臂缓慢移出碰撞位置，移至安全区域。
-6. 保持扶住机械臂，点击 **BrakeHold**（抱闸）。确认抱闸锁住后再松手。
+6. 保持扶住机械臂，点击 **BrakeHold** <span className="ui-marker">4</span>（抱闸）。确认抱闸锁住后再松手。
 
 重新运行机器人前，请查明碰撞原因，并检查机械臂和工具是否损坏。如错误再次出现，请携带记录的错误码联系 Gento 技术支持。
 

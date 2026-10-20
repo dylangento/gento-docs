@@ -263,6 +263,11 @@ html[data-theme='dark'] .home-hero__stage {background:linear-gradient(180deg,#1a
 .doc-cta {display:flex;flex-wrap:wrap;gap:.75rem;margin:1.25rem 0 1.75rem;}
 /* nameplate photo: keep it a readable size, not full column width */
 .theme-doc-markdown img[src*="nameplate"] {max-width:340px;width:100%;}
+/* annotated Marvin Platform UI crops are exported at 2x: show them at 1x size */
+.theme-doc-markdown img[src*="marvin-platform-error-handling"] {max-width:639px;width:100%;}
+.theme-doc-markdown img[src*="marvin-platform-parameters"] {max-width:623px;width:100%;}
+/* numbered markers in text that match the numbered badges on annotated UI screenshots */
+.ui-marker {display:inline-flex;align-items:center;justify-content:center;width:1.3em;height:1.3em;margin:0 .15em;border-radius:50%;background:#E8590C;color:#fff;font-size:.78em;font-weight:700;line-height:1;vertical-align:.12em;}
 /* phone language switch (src/components/LocaleToggle): hidden on desktop, where the language dropdown shows.
    On phones the search box is absolutely positioned at the right edge, so the switch keeps clear of it
    (checked at 320–996px, EN + ZH). */

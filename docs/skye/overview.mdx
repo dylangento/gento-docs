@@ -1,34 +1,71 @@
 ---
-title: Gento Skye
-description: Gento Skye · Coming soon
-source_revision: 2026-09
+title: Skye overview
+description: Skye overview · Gento Skye
+source_revision: V1.2 · 2026-08
 source_ids:
-- skye-readme
+- skye-manual-en
+- skye-manual
 - skye-sheet
 - product-photos
 review_status: pending
-translation_status: pending
-sidebar_label: Skye (coming soon)
-source_zh_sha256: bb6b0a52336f95afc286a491361b86a42918d05bad2c9ab4107deff5137e5231
+translation_status: source
+source_zh_sha256: 4729a87769cfd50c8da04b07d6f62ff843eb12f6dcf34af0ff61435e861f121e
 ---
-<div className="eyebrow">Coming soon</div>
+Gento Skye is a wheeled lifting humanoid robot. Two force-controlled Marvin arms, a 2-DoF waist, and a head sit on a lifting column, on an omnidirectional chassis with four-wheel drive and four steering wheels. It is a development platform for embodied AI, reinforcement learning, and real-world validation, with whole-body force control as standard and open control access. Motion control and planning (the "cerebellum") come ready, so you can focus on models and algorithms.
 
-<p className="doc-lead">Skye documentation is in progress.</p>
+![Gento Skye wheeled lifting robot](/img/skye/hero.webp)
 
-Gento Skye is a wheeled lifting robot: a humanoid development platform with whole-body force control and open control access, built for embodied AI, reinforcement learning, and real-world validation. Platform-level motion control and planning (the "cerebellum") come ready, so developers can focus on models and algorithms.
+The lifting column moves the upper body through a 785–1685 mm lifting range, so Skye can work from floor level up to about 2 m.
 
-![Gento Skye in a warehouse](/img/skye/warehouse.webp)
+## Degrees of freedom
 
-## What's coming
+| Section | DoF |
+| --- | --- |
+| Head | 2 (pan and tilt) |
+| Arms | 7 × 2 |
+| Waist | 2 |
+| Lifting column | 1 |
+| Chassis | 4 |
+| Total | 23 (excluding end effectors) |
 
-Skye documentation will follow the same structure as Marvin Pro, Marvin, and Luna:
+## Main components
 
-- Product overview and specifications
-- Unboxing, installation, and first use
-- Interfaces, network, and communication architecture
-- Host software, SDK, and teleoperation
-- Troubleshooting, maintenance, and safety
+| Component | Role |
+| --- | --- |
+| NVIDIA Jetson AGX Orin 64GB (standard) or Jetson Thor T5000 (optional) | AI computing (the "brain"): perception and model inference; runs the teleoperation back end |
+| x86 motion controller | Motion control (the "cerebellum") for the arms, waist, lifting column, and head |
+| Marvin M6S CCS-696 arms | 7-DoF force-controlled arms, 6 kg rated payload each. Other Marvin arms are available as options |
+| Head | RealSense D435 RGB-D camera and two SHW5G cameras, stereo speakers, 4-mic array, and RGB light strip |
+| Wrist cameras | SHW5G monocular (standard) or RealSense D405GA depth (optional) |
+| Linghou TX-S2 chassis | Omnidirectional drive and 3D SLAM navigation, with diagonally mounted 3D LiDARs and ultrasonic sensors |
+| LiFePO4 battery, DC48V 34.4Ah | Robot power; manual charging, automatic charging, or quick battery swap |
 
-## Need help now?
+### Arm options
 
-Skye shares the [Gento series SDK repository](https://github.com/tianjizn/tianji-robot-SDK/tree/Gento_Skye+Luna) with Luna. For Skye documents or support, contact [support@gentorobotics.ai](mailto:support@gentorobotics.ai).
+| Arm | Rated payload per arm | Fitment |
+| --- | --- | --- |
+| Marvin M6S CCS-696 | 6 kg | Standard |
+| Marvin M6S CCS-809 | 5 kg | Optional |
+| Marvin M3S Long CCS-920 | 3 kg | Optional |
+| Marvin M12 CCS-805 | 12 kg | Optional |
+| Marvin M20S CCS-1050 | 20 kg | Optional |
+
+The arm values in these pages are for the standard M6S CCS-696.
+
+## Suggested reading order
+
+On first use, read in this order:
+
+1. [Specifications](./specifications.mdx): hardware capabilities and limits
+2. [Unboxing & first use](./first-use.mdx): site preparation, unboxing, and checks
+3. [Interfaces & power](./interfaces.mdx): arm end interface, network, ROS 2, and power
+4. [Software, SDK & teleoperation](./software.mdx): GentoPlatform, the Gento SDK, and VR teleoperation
+5. [Maintenance & safety](./maintenance.mdx): routine checks and safety rules
+
+:::warning Before operating
+Skye is heavy, high-power moving equipment; improper operation may cause injury or damage. Read [Maintenance & safety](./maintenance.mdx) before you operate it.
+:::
+
+![Gento Skye moving boxes in a warehouse](/img/skye/warehouse.webp)
+
+The user manual, URDF model, and product sheet are on [Manuals & resources](../resources/downloads.mdx), under the Skye tab. For help, contact [support@gentorobotics.ai](mailto:support@gentorobotics.ai).

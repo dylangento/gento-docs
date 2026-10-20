@@ -1,0 +1,110 @@
+---
+title: 安装 Marvin Platform
+description: 安装 Marvin Platform · Gento Marvin、Marvin Pro
+source_revision: '2026-10-14'
+source_ids:
+- support-notes
+- software
+review_status: pending
+translation_status: pending
+sidebar_label: 安装 Marvin Platform
+source_zh_sha256: 8717849eef5491ab62a5cb360946083715fc798c1b58ad4229afdb0bd185c616
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Marvin Platform 是用于配置和监视 Marvin 与 Marvin Pro 机械臂的上位机软件。需先从 Marvin SDK 编译，再用 Python 运行。
+
+## 选择运行位置
+
+| 方式 | 操作 |
+| --- | --- |
+| **自己的电脑**（Windows 或 Ubuntu） | 先[连接用户电脑](./connect-pc.mdx)，再在电脑上按以下步骤操作。 |
+| **机器人的 Orin 或 Thor**（Marvin Pro） | [用 NoMachine 打开 Orin 或 Thor 的桌面](./cameras-firmware.mdx#连接-orin-或-thor)，在其中按 Ubuntu 步骤操作。如未连接显示器，请先[设置无显示器使用 NoMachine](./cameras-firmware.mdx#无显示器使用-nomachine)。 |
+
+需要 Python 3.10 及以上版本和 Pillow（`pip install pillow`），以及 C++ 编译器：Ubuntu 安装 `build-essential`（`sudo apt install build-essential`）；Windows 安装 [MinGW-w64](https://www.mingw-w64.org/) 并将 `g++` 加入 PATH。
+
+## 1. 下载 SDK
+
+1. 打开 [TJ_FX_ROBOT_CONTRL_SDK 仓库的 **master** 分支](https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK/tree/master)。请确认已选中 **master**：默认分支不包含 SDK。
+2. 点击 **Code** → **Download ZIP**，将 ZIP 解压到桌面。
+
+   ![GitHub 仓库 master 分支，已打开 Code 菜单，底部为 Download ZIP](/img/software/github-download-zip.webp)
+
+   也可以克隆仓库：
+
+   ```bash
+   git clone --branch master https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK.git
+   ```
+
+3. 在 SDK 文件夹中打开终端：
+
+   ```bash
+   cd ~/Desktop/TJ_FX_ROBOT_CONTRL_SDK-master
+   ```
+
+   如果是克隆的仓库，文件夹名为 `TJ_FX_ROBOT_CONTRL_SDK`。
+
+## 2. 编译 SDK
+
+<Tabs groupId="os" queryString="os">
+<TabItem value="ubuntu" label="Ubuntu">
+
+```bash
+chmod +x marvinSDK_ubuntu_100343.sh
+./marvinSDK_ubuntu_100343.sh
+```
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+在 SDK 文件夹中打开 PowerShell：
+
+```powershell
+.\marvinSDK_windows_100343.bat
+```
+
+</TabItem>
+</Tabs>
+
+以上脚本适用于“43”控制器。控制器为“41”时，请改用 `marvinSDK_ubuntu.sh` 或 `marvinSDK_windows.bat`。如不确定，请[查看控制器固件版本](./cameras-firmware.mdx#查看控制器固件版本)。
+
+编译过程中的警告可以忽略。编译结束时会显示 `finished!` 及已编译的库文件列表（Ubuntu 为 `.so`，Windows 为 `.dll`）：
+
+![编译输出：interferenceCheck so finished、finished! 以及 DEMO_C++ 和 SDK_PYTHON 中的 .so 文件列表](/img/software/build-success.webp)
+
+## 3. 设置配置文件
+
+SDK 默认配置适用于标准机型 M6S-CCS-696。如使用其他机型或 PD 前馈模式，请在启动软件前[替换 robot.ini 和 MvKDCfg 文件](./sdk-quickstart.mdx)。
+
+## 4. 启动 Marvin Platform
+
+<Tabs groupId="os" queryString="os">
+<TabItem value="ubuntu" label="Ubuntu">
+
+```bash
+cd MarvinPlatform_EN
+python3 ui_EN.py
+```
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+```powershell
+cd MarvinPlatform_EN
+python ui_EN.py
+```
+
+</TabItem>
+</Tabs>
+
+Marvin Platform 启动后，连接机器人：Marvin Pro 参见[连接与读取状态](../marvin-pro/first-connection.mdx)，Marvin 参见[连接上位机](../marvin/first-connection.mdx)。
+
+## 故障排查
+
+| 提示信息 | 解决方法 |
+| --- | --- |
+| `ValueError: Only supported for TrueType fonts`（Ubuntu） | 执行 `sudo apt install ttf-mscorefonts-installer` 安装 Microsoft 核心字体。安装程序显示许可协议界面时，选择 **OK**，再选择 **Yes** 接受 EULA（用 Tab 键切换，Enter 键确认）。然后重新运行 `python3 ui_EN.py`。 |
+| `No module named 'tkinter'` | `sudo apt install python3-tk` |
+| `No module named 'PIL'` | `pip install pillow` |
+| Windows 提示无法识别 `g++` | 安装 MinGW-w64，将其 `bin` 文件夹加入 PATH 后重新运行编译脚本。 |

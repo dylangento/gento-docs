@@ -1,0 +1,48 @@
+---
+title: 启动与查看相机
+description: 启动与查看相机 · Gento Marvin Pro、Luna、Skye
+source_revision: '2026-10-14'
+source_ids:
+- support-notes
+review_status: pending
+translation_status: pending
+sidebar_label: 相机
+source_zh_sha256: 5ac9f9e64e9b01453314ad254ecb52fe90ce87770848432b2f864df5dad40496
+---
+配有板载 AI 算力（NVIDIA Orin 或 Thor）的机器人（包括 Marvin Pro、Luna 和 Skye），头部和腕部相机运行在 Orin 或 Thor 上。每次上电后、遥操作或录制数据前，都需要先启动相机。
+
+## 启动相机
+
+1. 登录 Orin 或 Thor，密码见机器人随附资料。参见[连接 Orin 或 Thor](./cameras-firmware.mdx#连接-orin-或-thor)。
+
+   ```bash
+   ssh nvidia@6.6.7.100
+   ```
+
+2. 启动相机：
+
+   ```bash
+   cd /home/nvidia/cam_geac
+   ./rb_camera.sh init
+   ```
+
+3. 等待约 20 秒，待相机启动完成。
+
+## 查看相机画面
+
+如需确认相机是否正常，可用 `argus_camera` 打开实时预览，并用 `-d` 选择相机：
+
+```bash
+argus_camera -d 0
+```
+
+| `-d` | 相机 |
+| --- | --- |
+| `0`、`1` | 头部相机 |
+| `4`、`5` | 腕部相机 |
+
+:::note 需连接显示器才能看到画面
+`argus_camera` 会在 Orin 或 Thor 自身的显示器上显示预览。如果通过 SSH 运行，可能会提示 `EGL_KHR_stream not supported`，说明没有可用于显示画面的屏幕：请为 Orin 或 Thor 连接外接显示器，并在该屏幕的终端中运行命令。
+:::
+
+无法登录时，参见[无法登录时](./cameras-firmware.mdx#无法登录时)。

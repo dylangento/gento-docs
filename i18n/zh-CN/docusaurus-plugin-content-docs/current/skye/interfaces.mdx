@@ -1,0 +1,93 @@
+---
+title: 接口与电源
+description: 接口与电源 · Gento Skye
+source_revision: V1.2 · 2026-08
+source_ids:
+- skye-manual-en
+- skye-manual
+- support-notes
+review_status: pending
+translation_status: pending
+source_zh_sha256: da4866609669aafd1541aea465126d612a6f63a9a7c99b401565cb9a7e580f87
+---
+## 机械臂末端 8Pin 接口
+
+每条 Marvin 机械臂的末端法兰上都有一个 8Pin 接口，用于工具供电和通信。
+
+| 引脚 | 功能 |
+| --- | --- |
+| 1 / 2 | DC 24 V 电源输出，额定电流 3 A |
+| 3 / 4 | RS-485 通道 1 |
+| 5 / 6 | RS-485 通道 2 |
+| 7 / 8 | CAN，默认 CAN FD |
+
+如需测试 RS-485 和 CAN 通道，请使用 [GentoPlatform 上位机](../luna/gentoplatform.mdx#工具与辅助功能)中的 CAN/485 工具。COM1 和 COM2 分别对应 RS-485 通道 1 和通道 2。
+
+## 网络
+
+Skye 与其他 Gento 机器人使用相同的网络配置：
+
+| 设备 | IP 地址 |
+| --- | --- |
+| AI 计算单元（Orin 或 Thor） | 6.6.7.100 |
+| x86 运控控制器 | 6.6.7.190 |
+
+请将电脑设置为 6.6.7.x 网段内的地址，详细步骤参见[连接用户电脑](../software/connect-pc.mdx)。登录 Orin 或 Thor 请参见[连接 Orin 或 Thor](../software/cameras-firmware.mdx#连接-orin-或-thor)。
+
+## 底盘通信（ROS 2）
+
+底盘与电脑之间通过 ROS 2 通信。在分布式 ROS 2 系统中，同一 DDS 域内的所有节点地位对等。只要网络连通、域 ID 一致且节点能互相发现，电脑上的节点即可发布指令、调用服务和发送动作目标，机器人端的 ROS 2 接口会响应标准消息。
+
+在电脑上通过环境变量 `RMW_IMPLEMENTATION` 选择 DDS 实现：
+
+| DDS | 特点 | 典型用途 |
+| --- | --- | --- |
+| Fast DDS | 开源，推荐默认使用；共享内存优化，低延迟 | 大多数机器人应用，尤其是实时性要求高的场景 |
+| Cyclone DDS | 轻量，资源占用低 | 小型机器人、边缘计算设备 |
+
+```bash
+export ROS_DOMAIN_ID=<机器人的域 ID>
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp     # Fast DDS
+# export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp # Cyclone DDS
+```
+
+底盘的话题、服务和动作名称见随机器人提供的底盘接口文档。
+
+## 电源
+
+### 各部件供电
+
+| 部件 | 供电 | 功率 |
+| --- | --- | --- |
+| 主板 | DC 12 V | 20 W |
+| 左臂（M6） | DC 48 V ±20% | 典型 300 W，峰值 600 W |
+| 右臂（M6） | DC 48 V ±20% | 典型 300 W，峰值 600 W |
+
+:::warning 机械臂供电电压
+机械臂供电电压高于 58 V 时伺服驱动器报过压错误，低于 30 V 时报欠压错误。
+:::
+
+### 主控制器供电
+
+| 参数 | 说明 |
+| --- | --- |
+| 额定电压 | 24 V DC |
+| 输入电压范围 | 9–36 V |
+| 额定电流 | 推荐 2.5 A（24 V 供电） |
+| 功耗 | 典型应用下低于 80 W |
+| 启动方式 | 上电自启动（默认） |
+| 电源保护 | 欠压、过压、过流及反接保护 |
+| 外设供电 | USB 3.0：每口 5 V、2 A。GMSL1/2：每口 12 V、0.4 A。网口不供电 |
+
+### 电源板接口
+
+| 接口 | 引脚 1 | 引脚 2 | 标称电压 | 脉冲电压 |
+| --- | --- | --- | --- | --- |
+| X6（48 V 输出 1） | 48V+ | GND | 48 V | 低于 70 V |
+| X7（48 V 输出 2） | 48V+ | GND | 48 V | 低于 70 V |
+| X8（48 V 输出 3） | 48V+ | GND | 48 V | 低于 70 V |
+| X9（24 V） | VCC_24V | GND | 24 V | — |
+
+电源板上还有两个预留外部信号接口（CANH 和 CANL）、一个 10Pin I/O 接口（RS-485 485A1/485B1，输入 IN1、IN3、IN4，输出 OUT2–OUT5），以及一个含 STOP_IN、24 V 和 GND 的接口。各接口位置见说明书 3.1.7 节。
+
+下一步：[软件、SDK 与遥操作](./software.mdx)。

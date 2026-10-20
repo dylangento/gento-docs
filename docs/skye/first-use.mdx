@@ -1,0 +1,86 @@
+---
+title: Unboxing & first use
+description: Unboxing & first use · Gento Skye
+source_revision: V1.2 · 2026-08
+source_ids:
+- skye-manual-en
+- skye-manual
+review_status: pending
+translation_status: source
+source_zh_sha256: f02e2250a4dd02171f53c4c6cc6673e60dc08661120691a01168fdabd0c51c00
+---
+Skye ships in a crate or flight case. Prepare the site before you open it.
+
+:::caution Heavy load
+The robot and its packaging are heavy and can pinch. Wear protective equipment and handle them with care.
+:::
+
+## Prepare the site
+
+- **Floor:** level to within 3 mm over a 2 m radius, with a static load capacity of at least 300 kg/m². No oil, standing water, metal debris, or steps higher than 10 mm. Lay cardboard or cushioning pads to protect the robot's shell.
+- **Space:** at least 800 mm of clearance around the case and 1000 mm in front of it to remove the robot. Passages must be at least 1.2 m wide, and the ceiling at least 500 mm higher than the robot at full height.
+- **Environment:** indoors, 0–45 °C, 20–70 %RH, non-condensing. Don't unbox outdoors, in damp or very dusty areas, or near strong electromagnetic interference. Keep away from corrosive, flammable, and explosive materials.
+- **Safety:** fence off the work area. Keep high-speed machinery away, have a power outlet nearby, and make sure the floor is dry and non-slip.
+
+## Tools
+
+| Required | Optional |
+| --- | --- |
+| Utility knife, non-slip work gloves, crate pry bar, screwdriver, tape measure, electrical tape, safety goggles | Hand pallet jack, rubber mat, brush, needle-nose pliers, camera, marker pen |
+
+## Open the case
+
+1. Check the labels on the case.
+2. Find the case's three latches.
+3. Turn the latches to unlock them, then open the case.
+
+If parts are missing or damaged, the model doesn't match your order, or you have trouble unboxing, contact [Gento support](mailto:support@gentorobotics.ai) before you power on the robot.
+
+## Check the configuration
+
+Compare the robot with your order:
+
+| Item | Configuration |
+| --- | --- |
+| AI computing | NVIDIA Jetson AGX Orin 64GB (standard) or Jetson Thor T5000 1TB (optional) |
+| Arms | Marvin M6S CCS-696 (standard), or an optional arm; see [Arm options](./overview.mdx#arm-options) |
+| Head cameras | RealSense D435 × 1 and SHW5G monocular × 2 |
+| Wrist cameras | SHW5G monocular × 2 (standard) or RealSense D405GA depth × 2 (optional) |
+| End effector | Tianji gripper and end six-axis force sensor (optional) |
+| Chassis | Linghou TX-S2 |
+| Teleoperation kit | PICO Ultra (headset, controllers, and three motion trackers) and a GameSir motion gamepad |
+
+## Level the robot and check stability
+
+1. Level the chassis with a spirit level. Keep the robot's overall level error within 0.5°, so it doesn't tilt or shift its center of gravity during operation.
+2. With the robot stationary, push the body gently by hand. It must not slide or lift.
+3. Run it at low speed without load. It must not shift or make abnormal noises.
+
+## Checks before every start-up
+
+1. All parts are in good condition, with no damage or looseness.
+2. The E-stop button works.
+3. The wireless terminal shows no alarms.
+4. No unauthorized accessories or devices are installed.
+5. Nobody is within the robot's working area.
+
+:::note Power-on and chassis control
+The V1.2 manual doesn't describe the power-on sequence or the chassis remote control. Ask [Gento support](mailto:support@gentorobotics.ai) for the procedure for your delivery before you power on the robot for the first time.
+:::
+
+To connect a computer, see [Connect your PC](../software/connect-pc.mdx) and [Software, SDK & teleoperation](./software.mdx).
+
+## Repack for storage or transport
+
+| Step | What to do |
+| --- | --- |
+| 1. Prepare the robot | Power off. Remove the power cable, communication cables, clamping plates, and other external accessories. Clean dust and stains off the body, and return the arms and lifting column to the transport position |
+| 2. Refit transport restraints | Refit the factory transport clamping blocks and cable ties, and lock the chassis brakes so it can't move in transit |
+| 3. Refit protective packaging | Fit foam pads over key parts of the body and wrap it in protective film to protect the paint |
+| 4. Store the accessories | Put the controller, cables, E-stop button, and paper documents together in the accessory bag or compartment |
+| 5. Secure it in the crate | Move the robot smoothly into the crate, fill the space around it with foam, tighten the crate screws, and fit the steel strapping |
+| 6. Keep the labels | Keep the factory labels on the outer packaging and seal the case. For short-term storage, avoid damp and don't stack heavy loads on top |
+
+For long-distance transport, use the official flight case or wooden crate, secure the robot with boards, foam, and straps, and avoid violent jolts. Always switch off the robot before moving it.
+
+Next: [interfaces & power](./interfaces.mdx).

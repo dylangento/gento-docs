@@ -8,7 +8,7 @@ source_ids:
 - inventory
 review_status: pending
 translation_status: pending
-source_zh_sha256: 7c0d5bf62c1bfd30bee5284cb05fe44ee772099fba85a1c9dc0a777ef1b69ca3
+source_zh_sha256: e7c788268e13ce7e522b3b502ae3d7620a73c364d918dc6dfb99abad75708a9a
 ---
 ## Start with the symptom
 
@@ -28,12 +28,16 @@ If a Marvin or Marvin Pro arm stops with an error after hitting something, use M
 With the brakes released, the arm can drop under its own weight. One person operates Marvin Platform; the other holds the arm the whole time. Keep the E-stop within reach, and agree on clear calls ("releasing", "hold") before you start.
 :::
 
+The buttons are in the **Error Handling** section of each arm's panel, numbered below in the order you click them:
+
+![Marvin Platform Error Handling panel: GetError (1), ClearServoErr (2), BrakeRelease (3), BrakeHold (4)](/img/software/marvin-platform-error-handling.webp)
+
 1. [Connect Marvin Platform](../marvin-pro/first-connection.mdx) to the robot.
-2. In the panel for the affected arm (**LEFT ARM** or **RIGHT ARM**), under **Error Handling**, click **GetError** and write down the error code. Then click **ClearServoErr**.
+2. In the panel for the affected arm (**LEFT ARM** or **RIGHT ARM**), under **Error Handling**, click **GetError** <span className="ui-marker">1</span> and write down the error code. Then click **ClearServoErr** <span className="ui-marker">2</span>.
 3. The second person takes a firm hold of the arm and supports its weight.
-4. Click **BrakeRelease**, then click **OK** on the reminder that appears.
+4. Click **BrakeRelease** <span className="ui-marker">3</span>, then click **OK** on the reminder that appears.
 5. Move the arm slowly by hand out of the collision to a safe position.
-6. Keep holding the arm and click **BrakeHold**. Let go only once the brakes have locked.
+6. Keep holding the arm and click **BrakeHold** <span className="ui-marker">4</span>. Let go only once the brakes have locked.
 
 Before you run the robot again, find out what caused the collision and check the arm and tool for damage. If the error comes back, contact Gento support with the code you recorded.
 

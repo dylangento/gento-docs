@@ -7,7 +7,7 @@ source_ids:
 - software
 review_status: pending
 translation_status: source
-source_zh_sha256: 42cf687168233f9b954d89ff18f7e7a9c7b47ef5fa0f680dedb88d1a303fb02f
+source_zh_sha256: 41a16e08d1d96a81633bac96d4220561211b251e1a3fb42f94e9019e919ba63f
 ---
 中文手册描述了以下控制模式。可用模式及参数范围取决于控制器和 SDK 版本。
 
@@ -23,6 +23,19 @@ source_zh_sha256: 42cf687168233f9b954d89ff18f7e7a9c7b47ef5fa0f680dedb88d1a303fb0
 ## PVT 必须明确上传轨迹
 
 手册描述该实现的 PVT 点间隔为 2 ms，并提醒不得在上传预期轨迹前直接点击运行：控制器某个编号下可能已存有其他轨迹。执行前应检查位置、时间、速度以及实际运动路径。
+
+## 速度和加速度仅在位置模式下生效
+
+![Marvin Platform 参数面板：Speed、Accel 与 Confirm Speed（①），Impedance Params（②）](/img/software/marvin-platform-parameters.webp)
+
+Marvin Platform **Parameters** 面板中的 **Speed** 和 **Accel** 以最大值的百分比（1%–100%）设置机械臂的速度和加速度，点击 **Confirm Speed** <span className="ui-marker">1</span> 后生效。它们仅在 **Position**（位置）模式下有效；模式在 **Status switching** 下拉框中选择。
+
+在阻抗模式（**Joint Impedance**、**Cartesian Impedance**、**Flange Cart.Imp.**）以及在关节阻抗下运行的 PD 前馈模式中，修改 Speed 和 Accel 不起作用。如需调整机械臂在这些模式下的运动表现，请点击 **Impedance Params** <span className="ui-marker">2</span>，修改刚度 **K** 和阻尼 **D**：
+
+- 关节阻抗和 PD 前馈模式：使用 **Set joint impedance parameters**。K 和 D 各输入 7 个数值（每个关节一个），以英文逗号分隔。
+- 笛卡尔阻抗和 Flange Cart.Imp.：使用 **Set cartesian impedance parameters**。
+
+请小幅调整 K 和 D，每次修改后在急停按钮触手可及的情况下进行测试。
 
 ## 阻抗参数与版本相关
 

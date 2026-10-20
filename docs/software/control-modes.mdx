@@ -7,7 +7,7 @@ source_ids:
 - software
 review_status: pending
 translation_status: pending
-source_zh_sha256: 42cf687168233f9b954d89ff18f7e7a9c7b47ef5fa0f680dedb88d1a303fb02f
+source_zh_sha256: 41a16e08d1d96a81633bac96d4220561211b251e1a3fb42f94e9019e919ba63f
 ---
 The Chinese manuals describe the modes below. Mode availability and parameter ranges depend on the controller and SDK version.
 
@@ -23,6 +23,19 @@ The Chinese manuals describe the modes below. Mode availability and parameter ra
 ## PVT requires an explicit trajectory
 
 The manual gives a 2 ms point interval for its PVT implementation. It warns against selecting Run before uploading the intended trajectory: a pre-existing trajectory may already be stored under an identifier. Review positions, timing, velocity, and the physical path before execution.
+
+## Speed and acceleration apply only in Position mode
+
+![Marvin Platform Parameters panel: Speed, Accel and Confirm Speed (1), Impedance Params (2)](/img/software/marvin-platform-parameters.webp)
+
+In Marvin Platform's **Parameters** panel, **Speed** and **Accel** set the arm's speed and acceleration as a percentage (1–100%) of its maximum. Click **Confirm Speed** <span className="ui-marker">1</span> to apply them. They take effect only in **Position** mode, which you select in the **Status switching** drop-down.
+
+In the impedance modes (**Joint Impedance**, **Cartesian Impedance**, and **Flange Cart.Imp.**) and in PD feedforward mode, which runs in Joint Impedance, changing Speed and Accel has no effect. To change how the arm moves in these modes, click **Impedance Params** <span className="ui-marker">2</span> and adjust the stiffness (**K**) and damping (**D**) values:
+
+- **Set joint impedance parameters** for Joint Impedance and PD feedforward mode. Enter 7 values for K and 7 for D, one per joint, separated by commas.
+- **Set cartesian impedance parameters** for Cartesian Impedance and Flange Cart.Imp.
+
+Change K and D in small steps, and test each change with the E-stop within reach.
 
 ## Impedance parameters are version-specific
 

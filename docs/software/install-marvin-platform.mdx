@@ -1,0 +1,110 @@
+---
+title: Install Marvin Platform
+description: Install Marvin Platform · Gento Marvin, Marvin Pro
+source_revision: '2026-10-14'
+source_ids:
+- support-notes
+- software
+review_status: pending
+translation_status: source
+sidebar_label: Install Marvin Platform
+source_zh_sha256: 8717849eef5491ab62a5cb360946083715fc798c1b58ad4229afdb0bd185c616
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Marvin Platform is the desktop app for configuring and monitoring Marvin and Marvin Pro arms. You build it from the Marvin SDK and run it with Python.
+
+## Choose where to run it
+
+| Option | How |
+| --- | --- |
+| **Your own PC** (Windows or Ubuntu) | [Connect your PC to the robot](./connect-pc.mdx), then follow the steps below on your PC. |
+| **The robot's Orin or Thor** (Marvin Pro) | [Open a NoMachine desktop on the Orin or Thor](./cameras-firmware.mdx#connect-to-the-orin-or-thor) and follow the Ubuntu steps there. If no monitor is plugged in, first [set up NoMachine without a monitor](./cameras-firmware.mdx#use-nomachine-without-a-monitor). |
+
+You need Python 3.10 or later with Pillow (`pip install pillow`), plus a C++ compiler: `build-essential` on Ubuntu (`sudo apt install build-essential`), or [MinGW-w64](https://www.mingw-w64.org/) with `g++` on your PATH on Windows.
+
+## 1. Download the SDK
+
+1. Open the [TJ_FX_ROBOT_CONTRL_SDK repository on the **master** branch](https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK/tree/master). Check that **master** is selected: the default branch doesn't contain the SDK.
+2. Click **Code** → **Download ZIP**, and extract the ZIP to your Desktop.
+
+   ![GitHub repository on the master branch, with the Code menu open and Download ZIP at the bottom](/img/software/github-download-zip.webp)
+
+   Or clone it instead:
+
+   ```bash
+   git clone --branch master https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK.git
+   ```
+
+3. Open a terminal in the SDK folder:
+
+   ```bash
+   cd ~/Desktop/TJ_FX_ROBOT_CONTRL_SDK-master
+   ```
+
+   If you cloned the repository, the folder is `TJ_FX_ROBOT_CONTRL_SDK`.
+
+## 2. Build the SDK
+
+<Tabs groupId="os" queryString="os">
+<TabItem value="ubuntu" label="Ubuntu">
+
+```bash
+chmod +x marvinSDK_ubuntu_100343.sh
+./marvinSDK_ubuntu_100343.sh
+```
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+In PowerShell, in the SDK folder:
+
+```powershell
+.\marvinSDK_windows_100343.bat
+```
+
+</TabItem>
+</Tabs>
+
+These scripts are for "43" controllers. For a "41" controller, use `marvinSDK_ubuntu.sh` or `marvinSDK_windows.bat` instead. [Check your controller firmware](./cameras-firmware.mdx#check-the-controller-firmware-version) if you're not sure.
+
+You can ignore warnings during the build. It ends with `finished!` and a list of the built libraries (`.so` files on Ubuntu, `.dll` files on Windows):
+
+![Build output ending with "interferenceCheck so finished", "finished!" and the list of .so files in DEMO_C++ and SDK_PYTHON](/img/software/build-success.webp)
+
+## 3. Set up the configuration files
+
+The SDK's default configuration is for the standard M6S-CCS-696 arm. For any other arm, or to use PD feedforward mode, [replace robot.ini and the MvKDCfg file](./sdk-quickstart.mdx) before you start the app.
+
+## 4. Start Marvin Platform
+
+<Tabs groupId="os" queryString="os">
+<TabItem value="ubuntu" label="Ubuntu">
+
+```bash
+cd MarvinPlatform_EN
+python3 ui_EN.py
+```
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+```powershell
+cd MarvinPlatform_EN
+python ui_EN.py
+```
+
+</TabItem>
+</Tabs>
+
+Marvin Platform opens. Next, connect to the robot: [Connect & read robot status](../marvin-pro/first-connection.mdx) for Marvin Pro, or [Connect the host software](../marvin/first-connection.mdx) for Marvin.
+
+## Troubleshooting
+
+| Message | Fix |
+| --- | --- |
+| `ValueError: Only supported for TrueType fonts` (Ubuntu) | Install the Microsoft core fonts with `sudo apt install ttf-mscorefonts-installer`. When the installer shows its license screen, select **OK**, then **Yes** to accept the EULA (use Tab to move, Enter to select). Then run `python3 ui_EN.py` again. |
+| `No module named 'tkinter'` | `sudo apt install python3-tk` |
+| `No module named 'PIL'` | `pip install pillow` |
+| `g++` is not recognized (Windows) | Install MinGW-w64 and add its `bin` folder to your PATH, then run the build script again. |

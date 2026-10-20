@@ -1,0 +1,146 @@
+---
+title: Skye specifications
+description: Skye specifications · Gento Skye
+source_revision: V1.2 · 2026-08
+source_ids:
+- skye-manual-en
+- skye-manual
+- skye-sheet
+- product-photos
+review_status: pending
+translation_status: source
+source_zh_sha256: 53d36da40e00c11801bedca741f7421b5995b120b6fc013ce97ef461b7a18c3f
+---
+These values come from the Tianji Gento Skye Product User Manual V1.2 (August 17, 2026). Values marked "(sheet)" appear only in the September 2026 product sheet. Where the two sources differ, see [Source differences](#source-differences).
+
+## Robot
+
+| Parameter | Value |
+| --- | --- |
+| Dimensions (retracted) | 670 × 599 × 1544 mm |
+| Weight | 150 kg |
+| Runtime | 4–6 h |
+| Protection rating | IP20 |
+| Operating temperature | -10 to 40 °C |
+| Communication | Wi-Fi / Ethernet |
+| DoF | 23 (head 2, arms 7 × 2, waist 2, lifting column 1, chassis 4; excluding end effectors) |
+| Chassis | Four-wheel drive with four steering wheels, omnidirectional |
+| Force control | Standard on the whole robot |
+| Vertical reach | 0–2000 mm (sheet) |
+
+## Arms (Marvin M6S CCS-696)
+
+| Parameter | Value |
+| --- | --- |
+| DoF | 7 × 2 |
+| Rated payload (per arm) | 6 kg |
+| Reach (J2 axis to end flange) | 696 mm |
+| Max. TCP speed | 1.65 m/s |
+| Repeatability | ±0.03 mm |
+| Force repeatability | ≤0.15 N |
+| Range of motion | J1 ±178°, J2 ±120°, J3 ±178°, J4 +60°/-145°, J5 ±178°, J6 ±60°, J7 ±90° |
+| Max. speed | J1–J7: 180°/s |
+| Communication | 1 kHz EtherCAT |
+| Brakes | On every joint |
+| Force control | Joint force control |
+| Protection rating | IP50 |
+| Functions | Position control, impedance control, automatic payload identification, hybrid force-position control |
+| End interfaces | RS485, CAN FD, EtherCAT, CAN, 24 V (3 A), 48 V |
+| End camera | SHW5G monocular (standard); RealSense D405GA depth (optional) |
+| End six-axis force sensor | Lanxing (optional) |
+| End effector | Tianji gripper (optional) |
+
+For the other arm options, see [Arm options](./overview.mdx#arm-options).
+
+## Waist and lifting column
+
+![Skye with the lifting column raised and lowered](/img/skye/lift-range.webp)
+
+| Parameter | Waist | Lifting column |
+| --- | --- | --- |
+| DoF | 2 | 1 |
+| Range of motion | Rotation ±30°, pitch -90°/0° | 785–1685 mm (sheet) |
+| Max. speed | 150°/s | 0.2 m/s (sheet) |
+| Repeatability | ±0.05 mm | ±0.05 mm |
+| Rated load | — | 80 kg (sheet) |
+| Control | Force control as standard: position and impedance control | — |
+| Brakes | On every joint | — |
+
+## Head
+
+| Parameter | Value |
+| --- | --- |
+| DoF | 2 (pan and tilt) |
+| Range of motion | Pan ±90°, tilt +35°/-15° |
+| Max. speed | J1–J2: 180°/s |
+| Communication | 1 kHz EtherCAT |
+| Brakes | On every joint |
+| Cameras | RealSense D435 RGB-D × 1, SHW5G monocular × 2 |
+| Speakers | 8 W × 2 |
+| Microphone | 4-mic array |
+| Light strip | RGB (standard) |
+
+## Chassis
+
+| Parameter | Value |
+| --- | --- |
+| Model | Linghou TX-S2 |
+| Dimensions | L670 × W548 × H386 mm |
+| Rated load | 100 kg |
+| Power | LiFePO4 battery, DC48V 34.4Ah |
+| Charging | Manual charging / automatic charging / quick battery swap |
+| Charging time | ≤1.5 h from empty |
+| Max. speed | 1.5 m/s |
+| Climbing angle | ≤10° |
+| Gap crossing | 30 mm |
+| Step height | 20 mm |
+| Stopping accuracy | ±20 mm (position); ±1° (angle) |
+| Navigation | 3D SLAM; diagonally mounted 3D LiDARs; ultrasonic sensors, two each at front, rear, left, and right |
+| Functions | Navigation planning, dynamic obstacle avoidance, localization, mapping, automatic charging, cross-floor travel and automatic doors |
+| Charging station | Optional (sheet) |
+
+## Cameras
+
+| Position | Camera | Fitment |
+| --- | --- | --- |
+| Head | Intel RealSense D435 RGB-D × 1 | Standard |
+| Head | SHW5G monocular × 2 | Standard |
+| Wrist | SHW5G monocular × 2 | Standard |
+| Wrist | Intel RealSense D405GA depth × 2 | Optional |
+| Chest | Intel RealSense D435 RGB-D | Optional |
+
+The product sheet gives the head camera resolution as 1280 × 720 at 30 fps. The manual also shows the field of view of the head cameras and the chassis monocular camera (section 7.2.5). To start and view the cameras, see [Start and view the cameras](../software/cameras.mdx).
+
+## Compute and control
+
+| Part | Configuration |
+| --- | --- |
+| AI computing ("brain") | NVIDIA Jetson AGX Orin 64GB, 275 TOPS (standard); NVIDIA Jetson Thor T5000 1TB, 2070 TFLOPS (optional) |
+| Main controller | Tianzhun Xingzhi 003 (standard); Lingjing N1100 domain controller (optional) |
+| Motion control ("cerebellum") | x86 controller |
+
+## Appearance
+
+Pearl white full shell, PC/ABS with a matte painted finish.
+
+## Operating environment
+
+- -10 to 40 °C ambient (the manual's safety precautions give -10 to 50 °C), 10–90 %RH, non-condensing
+- Level ground; slopes of no more than 10°
+- No rain, standing water, corrosive, flammable, explosive, or very dusty environments
+
+## Source differences
+
+The September 2026 product sheet gives some values that differ from the V1.2 manual:
+
+| Parameter | Manual V1.2 | Product sheet |
+| --- | --- | --- |
+| Dimensions | 670 × 599 × 1544 mm (retracted) | 670 × 548 × 1600 mm (collapsed) |
+| Runtime | 4–6 h | 4 h |
+| Head tilt | +35°/-15° | +35°/-25° |
+| Speakers | 8 W × 2 | 4 W × 2 |
+| Waist pitch | -90°/0° | +90°/0° |
+| Chassis height | 386 mm | 380.5 mm |
+| Orin memory | 64 GB | 32 GB / 64 GB |
+
+Check these against your delivered robot and order configuration before you plan motion or integration.

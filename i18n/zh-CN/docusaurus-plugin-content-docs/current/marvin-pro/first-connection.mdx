@@ -8,26 +8,32 @@ source_ids:
 - pc-connection
 review_status: pending
 translation_status: source
-source_zh_sha256: 79c020c3fc94378802999e99e47d94a06363821df31221cf11ae2e97d32de386
+source_zh_sha256: 545189c67f1157bf7fff9f471e90c03b176cccf266b3d84b2664a1e8a0e5819f
 ---
 先完成[硬件接线](./wiring.mdx)，并选择[匹配的软件](./compatibility.mdx)。本流程只建立通信和读取状态，不下发运动指令。
 
 ## 连接 Marvin Platform
 
-1. 启动与控制器配套的 Marvin Platform 版本。
+[![已连接机器人的 Marvin Platform：IP 地址（1）、Connect Robot / Disconnect（2）、Connected 指示（3）、机械臂状态字段（4）、控制器与 SDK 版本（5）](/img/marvin-pro/marvin-platform-connected.webp)](pathname:///img/marvin-pro/marvin-platform-connected.webp)
+
+1. 启动与控制器配套的 Marvin Platform 版本。如尚未安装，请参见[安装 Marvin Platform](../software/install-marvin-platform.mdx)。
 2. 用网线将电脑连接到一体化控制箱，并为电脑设置机器人 `6.6.7.x` 网段内的地址，参见[连接用户电脑](../software/connect-pc.mdx)。
-3. 输入运控控制器 IP，默认为 `6.6.7.190`。
-4. 点击 **Connect Robot（连接机器人）**，查看实时反馈。
+3. 输入运控控制器 IP <span className="ui-marker">1</span>，默认为 `6.6.7.190`。
+4. 点击 **Connect Robot（连接机器人）** <span className="ui-marker">2</span>。收到反馈后，按钮变为 **Disconnect**，顶部栏的指示显示 **Connected** <span className="ui-marker">3</span>。
 
 9 月软件指南中的示例地址 `192.168.1.190` 属于独立 Marvin 机械臂控制器。如果交付设备配置了其他地址，请使用为该设备记录的地址。
 
-![交付手册中的软件连接区域](/img/marvin-pro/platform-connection.webp)
-
 ## 确认实时反馈
 
-软件指南说明 UDP 通信不会直接返回连接成功标志，应确认反馈持续更新。静止机械臂的位置可能不变化，应查看数据流及其他实时反馈，不要为了验证连接而下发运动指令。
+UDP 通信不会直接返回连接成功标志，因此 Marvin Platform 只有在收到控制器的最新反馈帧后才会显示 **Connected**。如未显示，请参见[无法连接时](#无法连接时)。静止机械臂的位置可能不变化，不要为了验证连接而下发运动指令。
 
-手册描述双臂下使能且静止时：控制状态 `0`、拖动按钮 `0`、低速标志 `1`、臂错误码 `0`。请检查两条机械臂。
+查看每条机械臂面板左侧的状态字段 <span className="ui-marker">4</span>，两条机械臂都要检查：
+
+- **Status** 表示机械臂当前模式，编号与[控制模式](../software/control-modes.mdx)一致。截图中两条机械臂均已在位置模式（`1`）下使能。
+- 手册描述机械臂下使能且静止时：**Status** `0`、**Drag** `0`、**LowSpeed** `1`、**ArmError** `0`。
+- **ArmError** 不为 `0` 时表示错误码，参见[故障排查](../support/troubleshooting.mdx)。
+
+窗口底部状态栏 <span className="ui-marker">5</span> 显示控制器版本和 SDK 版本，例如 `100343024`。联系 Gento 技术支持时请一并提供。
 
 ## 无法连接时
 
