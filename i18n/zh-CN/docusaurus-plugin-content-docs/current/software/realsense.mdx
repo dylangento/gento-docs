@@ -1,0 +1,141 @@
+---
+title: RealSense 相机（ROS 2）
+description: RealSense 相机（ROS 2） · Gento Marvin Pro、Luna、Skye
+source_revision: '2026-10-20'
+source_ids:
+- realsense-guide
+review_status: pending
+translation_status: source
+sidebar_label: RealSense 相机（ROS 2）
+source_zh_sha256: 052a8f780302a4d34cb67d293473caa64495a069d474ebd46ca7805d2ffdc2b7
+---
+Marvin Pro、Luna 和 Skye 均配有 Intel RealSense RGB-D 相机。本指南介绍如何在 ROS 2 中启动 RealSense 相机，并查看图像、标定参数和坐标关系，可作为视觉开发的起点。
+
+| 机器人 | RealSense 相机 |
+| --- | --- |
+| Marvin Pro | D435（头部） |
+| Luna | D455C（头部，标配）；D435（胸部，选配）；D405GA（腕部，选配） |
+| Skye | D435（头部，标配）；D435（胸部，选配）；D405GA（腕部，选配） |
+
+以下步骤同时适用于 D435 和 D455。同一 ROS 2 驱动也支持 D405，但其提供的数据流可能不同，请用 `ros2 topic list` 查看相机实际发布的话题。
+
+## 准备工作
+
+以下命令在机器人的 Orin 或 Thor 上运行。用 `ssh nvidia@6.6.7.100` 登录，参见[连接 Orin 或 Thor](./cameras-firmware.mdx#连接-orin-或-thor)。命令基于 ROS 2 Humble。每打开一个新终端，先加载 ROS 2 环境：
+
+```bash
+source /opt/ros/humble/setup.bash
+```
+
+## 安装并启动相机节点
+
+1. 安装 RealSense ROS 2 驱动：
+
+   ```bash
+   sudo apt install ros-humble-realsense2-camera
+   ```
+
+2. 启动相机节点：
+
+   ```bash
+   ros2 launch realsense2_camera rs_launch.py
+   ```
+
+   保持该节点运行，另开一个终端执行以下命令。
+
+## 查看话题与数据
+
+1. 查看所有 ROS 2 话题，以及相机相关话题：
+
+   ```bash
+   ros2 topic list
+   ros2 topic list | grep camera
+   ```
+
+2. 分别打印一条 RGB 图像消息和一条深度图消息：
+
+   ```bash
+   ros2 topic echo /camera/camera/color/image_raw --once
+   ros2 topic echo /camera/camera/depth/image_rect_raw --once
+   ```
+
+   图像消息包含全部像素值。加上 `--no-arr` 可只显示消息头和图像尺寸。
+
+3. 查看 RGB 图像和深度图的发布频率：
+
+   ```bash
+   ros2 topic hz /camera/camera/color/image_raw
+   ros2 topic hz /camera/camera/depth/image_rect_raw
+   ```
+
+4. 查看话题的发布者、订阅者和消息类型：
+
+   ```bash
+   ros2 topic info /camera/camera/color/image_raw
+   ros2 topic info /camera/camera/depth/image_rect_raw
+   ros2 topic type /camera/camera/color/image_raw
+   ros2 topic type /camera/camera/depth/image_rect_raw
+   ```
+
+## 查看标定参数
+
+| 内容 | 命令 |
+| --- | --- |
+| RGB 相机内参 | `ros2 topic echo /camera/camera/color/camera_info --once` |
+| 深度相机内参 | `ros2 topic echo /camera/camera/depth/camera_info --once` |
+| Depth 到 Color 外参 | `ros2 topic echo /camera/camera/extrinsics/depth_to_color --once` |
+
+`camera_info` 提供焦距、光心和畸变参数；外参给出深度相机与 RGB 相机的相对位置。
+
+## 查看节点参数
+
+列出节点参数，再查看深度流和彩色流的配置（分辨率与帧率）：
+
+```bash
+ros2 param list /camera/camera
+ros2 param get /camera/camera depth_module.depth_profile
+ros2 param get /camera/camera rgb_camera.color_profile
+```
+
+## 查看 TF 坐标关系
+
+```bash
+ros2 run tf2_tools view_frames
+ros2 topic echo /tf_static --once
+```
+
+`view_frames` 会监听 TF 树几秒钟，并在当前目录保存为 PDF 文件。`/tf_static` 显示相机各坐标系之间的静态变换。相机与机器人之间的坐标转换使用 TF。
+
+## 查看设备与节点
+
+| 内容 | 命令 |
+| --- | --- |
+| 已连接的 RealSense 设备（USB） | `rs-enumerate-devices` |
+| 用 RealSense Viewer 查看实时画面 | `realsense-viewer` |
+| 当前运行的节点 | `ros2 node list` |
+| 相机节点的话题、服务和参数 | `ros2 node info /camera/camera` |
+
+`rs-enumerate-devices` 和 `realsense-viewer` 随 Intel RealSense SDK 工具提供。`realsense-viewer` 会打开窗口，请在连接到 Orin 或 Thor 的显示器上运行，或在 [NoMachine 会话](./cameras-firmware.mdx#无显示器使用-nomachine)中运行。
+
+## 常用数据话题
+
+| 数据 | 话题 | 后续开发用途 |
+| --- | --- | --- |
+| RGB 图像 | `/camera/camera/color/image_raw` | 目标检测、视觉算法输入 |
+| 深度图 | `/camera/camera/depth/image_rect_raw` | 距离测量、3D 定位 |
+| RGB 相机参数 | `/camera/camera/color/camera_info` | 焦距、光心、畸变参数 |
+| 深度相机参数 | `/camera/camera/depth/camera_info` | 焦距、光心、畸变参数 |
+| Depth→Color 外参 | `/camera/camera/extrinsics/depth_to_color` | 深度相机与 RGB 相机的相对位置 |
+| TF | `/tf`、`/tf_static` | 相机与机器人坐标转换 |
+
+话题名以 `/camera/camera` 开头，是因为启动文件默认的命名空间和相机名称都是 `camera`。如果启动时修改了 `camera_namespace` 或 `camera_name`，话题名也会随之改变。
+
+## 常见问题
+
+| 问题 | 检查项 |
+| --- | --- |
+| `ros2: command not found` | 在该终端中执行 `source /opt/ros/humble/setup.bash`。 |
+| 启动后没有相机话题 | 执行 `rs-enumerate-devices`，确认相机已被识别。如果有其他程序正在使用相机，先将其停止。 |
+| 通过 SSH 无法打开 `realsense-viewer` | 它需要显示器。请连接显示器或使用 NoMachine。 |
+
+机器人其他相机的使用方法见[启动与查看相机](./cameras.mdx)。

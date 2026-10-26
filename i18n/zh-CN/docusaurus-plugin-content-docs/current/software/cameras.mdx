@@ -7,7 +7,7 @@ source_ids:
 review_status: pending
 translation_status: pending
 sidebar_label: 相机
-source_zh_sha256: 5ac9f9e64e9b01453314ad254ecb52fe90ce87770848432b2f864df5dad40496
+source_zh_sha256: 847cedcba5c3dda95ad43fdace2924a27956426f8015852dd15780657b5ca282
 ---
 配有板载 AI 算力（NVIDIA Orin 或 Thor）的机器人（包括 Marvin Pro、Luna 和 Skye），头部和腕部相机运行在 Orin 或 Thor 上。每次上电后、遥操作或录制数据前，都需要先启动相机。
 
@@ -45,4 +45,4 @@ argus_camera -d 0
 `argus_camera` 会在 Orin 或 Thor 自身的显示器上显示预览。如果通过 SSH 运行，可能会提示 `EGL_KHR_stream not supported`，说明没有可用于显示画面的屏幕：请为 Orin 或 Thor 连接外接显示器，并在该屏幕的终端中运行命令。
 :::
 
-无法登录时，参见[无法登录时](./cameras-firmware.mdx#无法登录时)。
+在 ROS 2 中使用 RealSense RGB-D 相机，参见[RealSense 相机（ROS 2）](./realsense.mdx)。无法登录时，参见[无法登录时](./cameras-firmware.mdx#无法登录时)。

@@ -249,6 +249,13 @@ html[data-theme='dark'] .home-hero__stage {background:linear-gradient(180deg,#1a
 .video-card--featured .video-card__body {padding:1.15rem 1.4rem 1.3rem;}
 .video-card--featured .video-card__title {font-size:1.3rem;}
 @media(max-width:700px) {.video-grid {grid-template-columns:1fr;}}
+/* Video demos: series filter buttons */
+.video-filter {display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0 .25rem;}
+.video-filter__btn {display:inline-flex;align-items:center;gap:.45rem;padding:.45rem 1rem;border:1px solid var(--gento-line);border-radius:999px;background:transparent;color:var(--ifm-font-color-base);font:inherit;font-size:.92rem;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s,color .15s;}
+.video-filter__btn:hover {border-color:var(--ifm-color-primary);}
+.video-filter__btn:focus-visible {outline:3px solid var(--gento-green);outline-offset:2px;}
+.video-filter__btn[aria-pressed="true"] {background:var(--ifm-color-primary);border-color:var(--ifm-color-primary);color:var(--ifm-background-color);}
+.video-filter__count {font-size:.8rem;opacity:.7;font-variant-numeric:tabular-nums;}
 
 /* navbar: never squeeze or wrap items; drop extras as the window narrows (checked every 10px from 997 to 1600, EN + ZH) */
 .navbar__brand,.navbar__item {flex-shrink:0;}

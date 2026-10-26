@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {VideoFilterContext, seriesOf} from '../VideoGallery/context';
 
 const LABELS = {
   en: {play: 'Play video', watch: 'Watch on YouTube', watchDrive: 'Watch on Google Drive', docs: 'Related docs', by: 'By'},
@@ -9,8 +10,10 @@ const LABELS = {
 
 // Click-to-play video card. Shows the thumbnail first and loads the player only when the
 // viewer presses play: YouTube (`id`, privacy-enhanced youtube-nocookie.com) or a Google
-// Drive file shared "anyone with the link" (`drive`).
-export default function VideoCard({id, drive, title, tag, docs, credit, featured = false}) {
+// Drive file shared "anyone with the link" (`drive`). Inside a VideoGallery, the card hides
+// itself when it doesn't match the series filter (see VideoGallery/context.js).
+export default function VideoCard({id, drive, title, tag, docs, credit, series, featured = false}) {
+  const filter = useContext(VideoFilterContext);
   const [playing, setPlaying] = useState(false);
   const [thumbOk, setThumbOk] = useState(true);
   const {i18n} = useDocusaurusContext();
@@ -24,6 +27,7 @@ export default function VideoCard({id, drive, title, tag, docs, credit, featured
     ? `https://drive.google.com/thumbnail?id=${vid}&sz=w960`
     : `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
   const watchUrl = isDrive ? `https://drive.google.com/file/d/${vid}/view` : `https://www.youtube.com/watch?v=${vid}`;
+  if (filter !== 'all' && seriesOf({series, tag}) !== filter) return null;
 
   return (
     <figure className={`video-card${featured ? ' video-card--featured' : ''}`}>

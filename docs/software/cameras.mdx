@@ -7,7 +7,7 @@ source_ids:
 review_status: pending
 translation_status: source
 sidebar_label: Cameras
-source_zh_sha256: 5ac9f9e64e9b01453314ad254ecb52fe90ce87770848432b2f864df5dad40496
+source_zh_sha256: 847cedcba5c3dda95ad43fdace2924a27956426f8015852dd15780657b5ca282
 ---
 On robots with onboard AI compute (NVIDIA Orin or Thor), including Marvin Pro, Luna, and Skye, the head and wrist cameras run on the Orin or Thor. Start them after every power-up, before you teleoperate or record data.
 
@@ -45,4 +45,4 @@ argus_camera -d 0
 `argus_camera` shows the preview on the Orin's or Thor's own display. If you run it over SSH, it may stop with `EGL_KHR_stream not supported`. This means there's no display to show the image: connect an external monitor to the Orin or Thor and run the command in a terminal on that screen.
 :::
 
-If you can't log in, see [If you can't log in](./cameras-firmware.mdx#if-you-cant-log-in).
+To use the RealSense RGB-D cameras in ROS 2, see [RealSense cameras (ROS 2)](./realsense.mdx). If you can't log in, see [If you can't log in](./cameras-firmware.mdx#if-you-cant-log-in).

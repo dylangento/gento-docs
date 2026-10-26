@@ -8,26 +8,36 @@ review_status: pending
 translation_status: source
 sidebar_label: Video demos
 hide_table_of_contents: true
-source_zh_sha256: a39951734859f1e694a77d0cbd9fe6f62d08b2deef5a17ec2e91d1a4576cdd96
+source_zh_sha256: 7d60816ecfb4a8b05b3ead2529f97e528616b58d26623bef3920d57df7341764
 ---
 import VideoCard from '@site/src/components/VideoCard';
+import VideoGallery, {VideoSection} from '@site/src/components/VideoGallery';
 
 <p className="doc-lead">See Gento robots at work. Each video loads from YouTube or Google Drive when you press play.</p>
 
+<VideoGallery>
+
+<VideoSection>
 <div className="video-grid">
 <VideoCard featured id="MvGF66f_SXA" title="Marvin Pro | Fixed Force-Controlled Humanoid Dual-Arm Platform" tag="Marvin Pro" docs="/marvin-pro/overview/" />
 <VideoCard featured id="aipAQmEP4hE" title="Gento Luna — Touching the World Gently" tag="Luna" docs="/luna/overview/" />
 </div>
+</VideoSection>
+
+<VideoSection>
 
 ## Application demos
 
 <div className="video-grid">
 <VideoCard id="ouTiAZrNLdY" title="Marvin Pro Pick and Place Inference Demo" tag="Marvin Pro" docs="/marvin-pro/overview/" />
 <VideoCard drive="1ZVB8Dx2e-Gwu7IIaDEUFOV0K1ozHOzzV" title="Marvin use case – Sharpa ping-pong" tag="Marvin" docs="/marvin/overview/" />
-<VideoCard id="twiH_w2YI14" title="Sancho IROS 2026 Gento Luna Demo" tag="Luna" docs="/luna/overview/" />
 <VideoCard id="8rBWRVXADjc" title="Gento Skye box lifting demo" tag="Skye" docs="/skye/overview/" />
 <VideoCard drive="18GqnWP2LWjeEJwZFmIXJTuhCHPYQRK8r" title="Gento Skye – Teleoperation" tag="Skye" docs="/skye/overview/" />
 </div>
+
+</VideoSection>
+
+<VideoSection>
 
 ## Tutorials
 
@@ -35,10 +45,20 @@ import VideoCard from '@site/src/components/VideoCard';
 <VideoCard drive="1zkSAOgHvEy5jdPIj5eMBfi0vpilNQHdp" title="Marvin Pro data collection process" tag="Marvin Pro" docs="/teleoperation/data/" />
 </div>
 
+</VideoSection>
+
+<VideoSection>
+
 ## From our partners
 
 Demos made by Gento partners and published on their own channels.
 
 <div className="video-grid">
 <VideoCard id="6K_bGH54ltI" title="GENE at work | Autonomous 1x speed" tag="Partner demo" credit="Genesis AI" />
+<VideoCard id="twiH_w2YI14" title="Sancho IROS 2026 Gento Luna Demo" tag="Luna" docs="/luna/overview/" />
+<VideoCard id="y9LuUEdiwSo" title="Gento Luna Temi Tech Store Demo" tag="Luna" docs="/luna/overview/" />
 </div>
+
+</VideoSection>
+
+</VideoGallery>

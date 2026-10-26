@@ -8,26 +8,36 @@ review_status: pending
 translation_status: pending
 sidebar_label: 视频演示
 hide_table_of_contents: true
-source_zh_sha256: a39951734859f1e694a77d0cbd9fe6f62d08b2deef5a17ec2e91d1a4576cdd96
+source_zh_sha256: 7d60816ecfb4a8b05b3ead2529f97e528616b58d26623bef3920d57df7341764
 ---
 import VideoCard from '@site/src/components/VideoCard';
+import VideoGallery, {VideoSection} from '@site/src/components/VideoGallery';
 
 <p className="doc-lead">观看 Gento 机器人的实际表现。点击播放后，视频将从 YouTube 或 Google Drive 加载。</p>
 
+<VideoGallery>
+
+<VideoSection>
 <div className="video-grid">
 <VideoCard featured id="MvGF66f_SXA" title="Marvin Pro | Fixed Force-Controlled Humanoid Dual-Arm Platform" tag="Marvin Pro" docs="/marvin-pro/overview/" />
 <VideoCard featured id="aipAQmEP4hE" title="Gento Luna — Touching the World Gently" tag="Luna" docs="/luna/overview/" />
 </div>
+</VideoSection>
+
+<VideoSection>
 
 ## 应用演示
 
 <div className="video-grid">
 <VideoCard id="ouTiAZrNLdY" title="Marvin Pro Pick and Place Inference Demo" tag="Marvin Pro" docs="/marvin-pro/overview/" />
 <VideoCard drive="1ZVB8Dx2e-Gwu7IIaDEUFOV0K1ozHOzzV" title="Marvin 应用案例：Sharpa 乒乓球" tag="Marvin" docs="/marvin/overview/" />
-<VideoCard id="twiH_w2YI14" title="Sancho IROS 2026 Gento Luna Demo" tag="Luna" docs="/luna/overview/" />
 <VideoCard id="8rBWRVXADjc" title="Gento Skye box lifting demo" tag="Skye" docs="/skye/overview/" />
 <VideoCard drive="18GqnWP2LWjeEJwZFmIXJTuhCHPYQRK8r" title="Gento Skye 遥操作" tag="Skye" docs="/skye/overview/" />
 </div>
+
+</VideoSection>
+
+<VideoSection>
 
 ## 教程
 
@@ -35,10 +45,20 @@ import VideoCard from '@site/src/components/VideoCard';
 <VideoCard drive="1zkSAOgHvEy5jdPIj5eMBfi0vpilNQHdp" title="Marvin Pro 数据采集流程（英文）" tag="Marvin Pro" docs="/teleoperation/data/" />
 </div>
 
+</VideoSection>
+
+<VideoSection>
+
 ## 合作伙伴
 
 由 Gento 合作伙伴制作、发布在其自有频道的演示视频。
 
 <div className="video-grid">
 <VideoCard id="6K_bGH54ltI" title="GENE at work | Autonomous 1x speed" tag="合作伙伴演示" credit="Genesis AI" />
+<VideoCard id="twiH_w2YI14" title="Sancho IROS 2026 Gento Luna Demo" tag="Luna" docs="/luna/overview/" />
+<VideoCard id="y9LuUEdiwSo" title="Gento Luna Temi Tech Store Demo" tag="Luna" docs="/luna/overview/" />
 </div>
+
+</VideoSection>
+
+</VideoGallery>
