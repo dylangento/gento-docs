@@ -8,7 +8,7 @@ source_ids:
 - pc-connection
 review_status: pending
 translation_status: pending
-source_zh_sha256: 545189c67f1157bf7fff9f471e90c03b176cccf266b3d84b2664a1e8a0e5819f
+source_zh_sha256: 3bed6f5efaf2fcf49b9f943ac4500f6710b735e2470126e80df77ac537317102
 ---
 Complete the [hardware connections](./wiring.mdx) and choose the [matching software](./compatibility.mdx) first. This procedure establishes communication and reads status; it does not command motion.
 
@@ -37,6 +37,6 @@ The bar at the bottom of the window <span className="ui-marker">5</span> shows t
 
 ## If the connection fails
 
-Check power, Ethernet connections, the configured controller IP, host network settings, and the firewall. [Connect your PC](../software/connect-pc.mdx) has a troubleshooting table. For the SDK family in the Pro V1.0 manual, the documented UDP port range is `50000–50010`; verify it against your installed package before changing firewall rules.
+Check power, Ethernet connections, the configured controller IP, host network settings, and the firewall. If the controller was just updated to firmware 1004, check that its cables are on the new ports; see [After the 1004 firmware update](../software/connect-pc.mdx#after-the-1004-firmware-update). [Connect your PC](../software/connect-pc.mdx) has a troubleshooting table. For the SDK family in the Pro V1.0 manual, the documented UDP port range is `50000–50010`; verify it against your installed package before changing firewall rules.
 
 Next: [understand the feedback fields](../software/marvin-platform.mdx).

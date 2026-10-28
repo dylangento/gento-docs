@@ -20,7 +20,11 @@
     "clsx": "2.1.1",
     "prism-react-renderer": "2.4.1",
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "three": "^0.186.1",
+    "urdf-loader": "^0.13.1"
   },
-  "engines": {"node": ">=20"}
+  "engines": {
+    "node": ">=20"
+  }
 }

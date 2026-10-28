@@ -8,7 +8,7 @@ source_ids:
 - pc-connection
 review_status: pending
 translation_status: source
-source_zh_sha256: 545189c67f1157bf7fff9f471e90c03b176cccf266b3d84b2664a1e8a0e5819f
+source_zh_sha256: 3bed6f5efaf2fcf49b9f943ac4500f6710b735e2470126e80df77ac537317102
 ---
 先完成[硬件接线](./wiring.mdx)，并选择[匹配的软件](./compatibility.mdx)。本流程只建立通信和读取状态，不下发运动指令。
 
@@ -37,6 +37,6 @@ UDP 通信不会直接返回连接成功标志，因此 Marvin Platform 只有�
 
 ## 无法连接时
 
-检查供电、网线、控制器 IP、电脑网络设置和防火墙。[连接用户电脑](../software/connect-pc.mdx)中附有故障排查表。Pro V1.0 手册对应 SDK 的 UDP 端口范围为 `50000–50010`；更改防火墙规则前，请与已安装软件包核对。
+检查供电、网线、控制器 IP、电脑网络设置和防火墙。如果控制器刚升级到 1004 固件，请确认网线已插到新的网口上，参见[1004 固件升级后](../software/connect-pc.mdx#1004-固件升级后)。[连接用户电脑](../software/connect-pc.mdx)中附有故障排查表。Pro V1.0 手册对应 SDK 的 UDP 端口范围为 `50000–50010`；更改防火墙规则前，请与已安装软件包核对。
 
 下一步：[理解反馈字段](../software/marvin-platform.mdx)。

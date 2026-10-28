@@ -17,7 +17,7 @@ const config = {
   }]],
   themes: [['@easyops-cn/docusaurus-search-local', {hashed: true, language: ['en','zh'], indexBlog: false, docsRouteBasePath: '/', highlightSearchTermsOnTargetPage: true, forceIgnoreNoIndex: true, searchResultLimits: 10}]],
   themeConfig: {
-    colorMode: {defaultMode: 'light', respectPrefersColorScheme: false},
+    colorMode: {defaultMode: 'dark', respectPrefersColorScheme: false},
     navbar: {title: 'Docs', logo: {alt: 'Gento', src: 'img/logo.svg', srcDark: 'img/logo-white.svg', width: 144, height: 22}, items: [
       {type: 'dropdown', label: 'Products', position: 'left', items: [
         {label: 'Marvin Pro', to: '/marvin-pro/overview'},

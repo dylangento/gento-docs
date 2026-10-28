@@ -10,3 +10,6 @@ build/
 # Local-only: source review records and the old offline preview (never published)
 review/
 START-PREVIEW.html
+
+# Unzipped URDF packages used to build the 3D previews (source only, not published)
+models-src/

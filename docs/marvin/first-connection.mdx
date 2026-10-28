@@ -7,7 +7,7 @@ source_ids:
 - marvin-inventory
 review_status: pending
 translation_status: pending
-source_zh_sha256: ed74d9e2f5fa7b7760f4b4503797659a67ac9ff86fb9c6641beade375f0af85b
+source_zh_sha256: 86ed925048b3a3c79a9c1dce9075bc7cb27c5c7bce45ba3e8eeb4819d6313020
 ---
 Connect the host computer only after the arms and controller are securely fixed, free of collision risk, and correctly wired.
 
@@ -15,8 +15,8 @@ Connect the host computer only after the arms and controller are securely fixed,
 
 In the V2.2 manual, FxStation is the host debugging software for the Marvin dual-arm control system. It supports jog, automatic, drag, and joint impedance modes. Request the software from Gento support.
 
-1. Connect an Ethernet cable to controller port ETH1 or ETH3.
-2. Set the host computer's IP to 192.168.1.165 (the controller defaults to 192.168.1.190). For network and firewall setup, see [Connect your PC](../software/connect-pc.mdx).
+1. Connect an Ethernet cable to controller port ETH1 or ETH3. After the 1004 firmware update, use the Ethernet port shown in [After the 1004 firmware update](../software/connect-pc.mdx#after-the-1004-firmware-update).
+2. Set the host computer's IP to 192.168.1.165 (the controller defaults to 192.168.1.190). With firmware 1004, the controller is at 6.6.7.190, so use an address on 6.6.7.x instead. For network and firewall setup, see [Connect your PC](../software/connect-pc.mdx).
 3. Open FxStation and click **Connect robot**.
 4. When connected, the bottom status bar shows the left and right arm status.
 

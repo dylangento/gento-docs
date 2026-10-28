@@ -1,0 +1,82 @@
+[
+  {
+    "id": "marvin-pro-696-gripper",
+    "product": "marvin-pro",
+    "en": "Marvin Pro M6 with gripper",
+    "zh": "Marvin Pro M6（含夹爪）",
+    "path": "marvin-pro-696-gripper/model.urdf",
+    "drive": "1rlcqADJXox4tUzgbsh1pEI6_MHaPWtDN"
+  },
+  {
+    "id": "marvin-pro-696-ft",
+    "product": "marvin-pro",
+    "en": "Marvin Pro M6 with gripper and F/T sensor",
+    "zh": "Marvin Pro M6（含夹爪和六维力传感器）",
+    "path": "marvin-pro-696-ft/model.urdf",
+    "drive": "1j9JYMfmK_bI2ZFli59kYyGW_L6FGLvY8"
+  },
+  {
+    "id": "marvin-pro-809-gripper",
+    "product": "marvin-pro",
+    "en": "Marvin Pro M6-809 with gripper",
+    "zh": "Marvin Pro M6-809（含夹爪）",
+    "path": "marvin-pro-809-gripper/model.urdf",
+    "drive": "18rStRilmHeUOk0SpJNJQh3bro0vRVShU"
+  },
+  {
+    "id": "marvin-809-left",
+    "product": "marvin",
+    "en": "Marvin M6-S-CCS-809-V4.0, left arm",
+    "zh": "Marvin M6-S-CCS-809-V4.0 左臂",
+    "path": "marvin-809-left/model.urdf",
+    "drive": "1H_RfNx0zfxDaIqF_phrRaJG0eEfrmBTT"
+  },
+  {
+    "id": "marvin-809-right",
+    "product": "marvin",
+    "en": "Marvin M6-S-CCS-809-V4.0, right arm",
+    "zh": "Marvin M6-S-CCS-809-V4.0 右臂",
+    "path": "marvin-809-right/model.urdf",
+    "drive": "1H_RfNx0zfxDaIqF_phrRaJG0eEfrmBTT"
+  },
+  {
+    "id": "luna-v3-750-gripper",
+    "product": "luna",
+    "en": "Luna V3.0 · M6S Lite 750, with gripper",
+    "zh": "Luna V3.0 · M6S Lite 750，含夹爪",
+    "path": "luna-v3-750-gripper/model.urdf",
+    "drive": "1yWBZnaCzElF5psip1wp5lxPJ7UNYoiJ7"
+  },
+  {
+    "id": "luna-v3-750",
+    "product": "luna",
+    "en": "Luna V3.0 · 750, without gripper",
+    "zh": "Luna V3.0 · 750，不含夹爪",
+    "path": "luna-v3-750/model.urdf",
+    "drive": "1PNYfa0C6czClKVJM9CA52kP-CWC-5iIK"
+  },
+  {
+    "id": "luna-v3-615-gripper",
+    "product": "luna",
+    "en": "Luna V3.0 · M6S Lite 615, with gripper",
+    "zh": "Luna V3.0 · M6S Lite 615，含夹爪",
+    "path": "luna-v3-615-gripper/model.urdf",
+    "drive": "1gqT-Fzs4dPosda6RzwRZKhS8T5q1oqtN"
+  },
+  {
+    "id": "luna-v3-680",
+    "product": "luna",
+    "en": "Luna V3.0 · 680, without gripper",
+    "zh": "Luna V3.0 · 680，不含夹爪",
+    "path": "luna-v3-680/model.urdf",
+    "drive": "1VfQy3eeedHhlVIMbD4kSwhFQ3-mgxDg6"
+  },
+  {
+    "id": "omni-gripper",
+    "product": "omni-gripper",
+    "en": "KernelMind Omni-Gripper",
+    "zh": "KernelMind Omni-Gripper",
+    "path": "omni-gripper/model.urdf",
+    "drive": "1uumHMypBTYnfrF0okSoHlY6C6gDfeyIK"
+  }
+]

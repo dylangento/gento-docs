@@ -10,7 +10,7 @@ source_ids:
 review_status: pending
 translation_status: pending
 sidebar_label: 连接用户电脑
-source_zh_sha256: 4e67be27ea5af05619f96095c75e86125ff4139ca97753077bc41849681a0306
+source_zh_sha256: fa2af733258b7008ed802146c812ae3e2fde991adb334a3c57764d68d4882a42
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -30,7 +30,7 @@ import TabItem from '@theme/TabItem';
 
 | 机器人 | 网线接入位置 | 机器人网段 |
 | --- | --- | --- |
-| Marvin（机械臂） | x86 控制箱，网口 ETH1 或 ETH3 | `192.168.1.x` |
+| Marvin（机械臂） | x86 控制箱，网口 ETH1 或 ETH3。1004 固件请使用[1004 固件升级后](#1004-固件升级后)中所示的以太网口 | `192.168.1.x`（1004 固件为 `6.6.7.x`） |
 | Marvin Pro | 一体化控制箱 | `6.6.7.x` |
 | Luna | 一体化控制箱，面板网口 RJ45 1 | `6.6.7.x` |
 | Skye | 一体化控制箱 | `6.6.7.x` |
@@ -39,7 +39,7 @@ import TabItem from '@theme/TabItem';
 
 为电脑设置机器人网段内的固定（静态）IPv4 地址：
 
-| 设置项 | Marvin | Marvin Pro、Luna、Skye |
+| 设置项 | Marvin（1003 固件） | 1004 固件的 Marvin、Marvin Pro、Luna、Skye |
 | --- | --- | --- |
 | IPv4 地址 | `192.168.1.x` | `6.6.7.x` |
 | 子网掩码 | `255.255.255.0` | `255.255.255.0` |
@@ -95,7 +95,7 @@ ip -4 addr                   # 确认新地址
 </Tabs>
 
 :::tip Marvin 与 192.168.1.x 网段的 Wi-Fi
-许多家用和办公路由器也使用 `192.168.1.x` 网段。如果电脑同时连接此类 Wi-Fi，可能与机器人网络冲突。使用 Marvin 时请断开 Wi-Fi。
+许多家用和办公路由器也使用 `192.168.1.x` 网段。如果电脑同时连接此类 Wi-Fi，可能与机器人网络冲突。使用 1003 固件的 Marvin 时请断开 Wi-Fi。
 :::
 
 ## 4. 关闭防火墙
@@ -125,7 +125,7 @@ sudo ufw disable
 </Tabs>
 
 :::caution 无法关闭防火墙时
-如果 IT 策略要求保持防火墙开启，请改为放行来自机器人网段的入站 UDP。以管理员身份在 PowerShell 中运行（Marvin 请改用 `192.168.1.0/24`）：
+如果 IT 策略要求保持防火墙开启，请改为放行来自机器人网段的入站 UDP。以管理员身份在 PowerShell 中运行（1003 固件的 Marvin 请改用 `192.168.1.0/24`）：
 
 ```powershell
 New-NetFirewallRule -DisplayName "Gento robot" -Direction Inbound `
@@ -141,8 +141,8 @@ New-NetFirewallRule -DisplayName "Gento robot" -Direction Inbound `
 
 | 机器人 | 命令 | 检查对象 |
 | --- | --- | --- |
-| Marvin | `ping 192.168.1.190` | x86 控制器 |
-| Marvin Pro、Luna、Skye | `ping 6.6.7.190` | x86 运控控制器 |
+| Marvin（1003 固件） | `ping 192.168.1.190` | x86 控制器 |
+| 1004 固件的 Marvin、Marvin Pro、Luna、Skye | `ping 6.6.7.190` | x86 运控控制器 |
 | 配有板载 AI 算力的机器人 | `ping 6.6.7.100` | AI 控制器（Orin 或 Thor） |
 | 带移动底盘的机器人（如 Luna） | `ping 6.6.7.6` | 移动底盘 |
 
@@ -162,6 +162,27 @@ New-NetFirewallRule -DisplayName "Gento robot" -Direction Inbound `
 
 如需远程访问 Orin 或 Thor 或查看控制器固件版本，参见[远程访问与固件](./cameras-firmware.mdx)；如需启动相机，参见[启动与查看相机](./cameras.mdx)。
 
+## 1004 固件升级后
+
+Marvin 或 Marvin Pro 的控制器升级到 1004 固件后，连接方式有以下变化：
+
+- 控制器地址变为 `6.6.7.190`。Marvin 原来的地址 `192.168.1.190` 将不再响应。
+- 控制器的以太网口和机械臂（EtherCAT）网口位置改变。机械臂网线若仍插在原网口上将无法建立连接；普通交换机也无法点亮 EtherCAT 网口。
+
+![1004 升级后的控制器网口：以太网口（1）、右臂（2）、左臂（3）](/img/software/controller-1004-ports.webp)
+
+1. 关闭机器人电源。Marvin Pro 的控制器位于一体化控制箱内：打开控制箱前请拔下交流电源；如不确定，请先联系 [Gento 技术支持](mailto:support@gentorobotics.ai)。
+2. 按图在控制器上重新连接网线：
+   - <span className="ui-marker">1</span> 以太网口：连接电脑的网线（Marvin Pro 为原先插在控制器旧以太网口上的网线）
+   - <span className="ui-marker">2</span> 标有 **RIGHT**（右）的 EtherCAT 网口：右臂网线
+   - <span className="ui-marker">3</span> 标有 **LEFT**（左）的 EtherCAT 网口：左臂网线
+3. 上电。将电脑设置为 `6.6.7.x` 网段地址，子网掩码 `255.255.255.0`，例如 Marvin 可用 `6.6.7.100`。Marvin Pro 的 `6.6.7.100` 为 Orin 所用，请改用其他地址，例如 `6.6.7.50`。
+4. 执行 `ping 6.6.7.190` 测试连接。
+
+:::caution 软件需与固件匹配
+SDK 和 Marvin Platform 必须与控制器的主版本号和次版本号一致。本站的编译脚本适用于 1003 控制器（"41"和"43"）。升级到 1004 后，请向 [Gento 技术支持](mailto:support@gentorobotics.ai)索取匹配的软件。
+:::
+
 ## 故障排查
 
 | 现象 | 检查项 |
@@ -171,6 +192,7 @@ New-NetFirewallRule -DisplayName "Gento robot" -Direction Inbound `
 | ping 正常，但软件没有数据 | 当前活动网络的防火墙仍然开启（第 4 步），或软件中填写的控制器地址有误。 |
 | 连接时断时续 | 有其他设备使用了相同地址。请更换末位数字。 |
 | 开启 Wi-Fi 时 Marvin 无回复 | Wi-Fi 网络也使用 `192.168.1.x` 网段。请断开 Wi-Fi。 |
+| 固件升级后 Marvin 或 Marvin Pro 无回复 | 1004 升级后控制器地址变为 `6.6.7.190`，网口位置也会改变。参见[1004 固件升级后](#1004-固件升级后)。 |
 | 开启 VPN 时无法连接 | 断开 VPN。部分 VPN 会将所有流量转入隧道。 |
 
 仍无法解决？请发送邮件至 [support@gentorobotics.ai](mailto:support@gentorobotics.ai)，并附上机器人型号、电脑操作系统，以及 `ipconfig`（Windows）或 `ip -4 addr`（Ubuntu）的输出。

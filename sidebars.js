@@ -9,5 +9,5 @@ export default {docs: [
   {type: 'category', label: 'Skye', collapsed: true, items: ['skye/overview','skye/specifications','skye/first-use','skye/interfaces','skye/software','skye/maintenance']},
   {type: 'category', label: 'Software & development', collapsed: false, items: ['software/connect-pc','software/cameras-firmware','software/cameras','software/realsense','software/sdk-directory','software/install-marvin-platform','software/marvin-platform','software/control-modes','software/sdk-quickstart','software/ros2']},
   {type: 'category', label: 'Teleoperation & data', collapsed: false, items: ['teleoperation/setup','teleoperation/operation','teleoperation/data']},
-  {type: 'category', label: 'Integration & support', collapsed: false, items: ['integration/models','integration/end-effectors','support/troubleshooting','resources/downloads','videos']},
+  {type: 'category', label: 'Integration & support', collapsed: false, items: ['integration/models','integration/end-effectors','support/troubleshooting','resources/downloads','resources/models','videos']},
 ]};

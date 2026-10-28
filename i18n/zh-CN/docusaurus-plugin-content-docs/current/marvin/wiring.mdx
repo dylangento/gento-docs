@@ -6,7 +6,7 @@ source_ids:
 - marvin-manual
 review_status: pending
 translation_status: source
-source_zh_sha256: 1a5d76f8624defc0bb8d9ca84dd16f212cddfd18c6a0b44070735fbd99929b45
+source_zh_sha256: ccd33715fb9e8fc7cbf7c0b68f09ded5fb3a3bde8b4dd6ef0b16e69f953d6583
 ---
 :::warning 接线前
 外部接线只能由经过培训并获得授权的工程师进行。通电前检查电压等级、线序和绝缘，设备须可靠接地。在 Power LED 指示灯熄灭后再进行接线和检查。请勿触摸手臂基座内部的关节模组器件。
@@ -73,7 +73,7 @@ EtherCAT+485 线：HRS DF62W-6EP-2.2C 连接器，AWG24 双绞线；RJ45 端为 
 
 ## 上位机调试网口
 
-控制器网口 1（ETH1）和网口 3（ETH3）均可用于上位机调试，控制器默认 IP 为 192.168.1.190。调试网线需自备。连接方法见[连接上位机](./first-connection.mdx)。
+控制器网口 1（ETH1）和网口 3（ETH3）均可用于上位机调试，控制器默认 IP 为 192.168.1.190。升级到 1004 固件后，控制器地址变为 6.6.7.190，以太网口和 EtherCAT 网口位置也会改变，参见[1004 固件升级后](../software/connect-pc.mdx#1004-固件升级后)。调试网线需自备。连接方法见[连接上位机](./first-connection.mdx)。
 
 ## 急停
 

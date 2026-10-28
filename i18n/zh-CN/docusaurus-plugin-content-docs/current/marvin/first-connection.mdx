@@ -7,7 +7,7 @@ source_ids:
 - marvin-inventory
 review_status: pending
 translation_status: source
-source_zh_sha256: ed74d9e2f5fa7b7760f4b4503797659a67ac9ff86fb9c6641beade375f0af85b
+source_zh_sha256: 86ed925048b3a3c79a9c1dce9075bc7cb27c5c7bce45ba3e8eeb4819d6313020
 ---
 确保手臂和控制器已固定牢固、无碰撞风险，且接线正确后，再连接上位机。
 
@@ -15,8 +15,8 @@ source_zh_sha256: ed74d9e2f5fa7b7760f4b4503797659a67ac9ff86fb9c6641beade375f0af8
 
 FxStation 是 V2.2 说明书中 Marvin 双臂控制系统的上位机调试软件，支持点动、自动、拖动和关节阻抗等模式。请联系 Gento 技术支持获取软件。
 
-1. 用网线连接控制器 ETH1 或 ETH3 网口。
-2. 将上位机 IP 设置为 192.168.1.165（控制器默认 IP 为 192.168.1.190）。网络和防火墙设置见[连接用户电脑](../software/connect-pc.mdx)。
+1. 用网线连接控制器 ETH1 或 ETH3 网口。升级到 1004 固件后，请使用[1004 固件升级后](../software/connect-pc.mdx#1004-固件升级后)中所示的以太网口。
+2. 将上位机 IP 设置为 192.168.1.165（控制器默认 IP 为 192.168.1.190）。1004 固件的控制器地址为 6.6.7.190，请改用 6.6.7.x 网段地址。网络和防火墙设置见[连接用户电脑](../software/connect-pc.mdx)。
 3. 打开 FxStation，点击"连接机器人"。
 4. 连接成功后，底部状态栏显示左臂、右臂状态。
 

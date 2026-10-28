@@ -1,0 +1,19 @@
+---
+title: 3D model preview
+description: 3D model preview · Gento Marvin Pro, Marvin, Luna
+source_revision: '2026-10-28'
+source_ids:
+- urdf-models
+review_status: pending
+translation_status: source
+sidebar_label: 3D model preview
+hide_table_of_contents: true
+source_zh_sha256: 5aeaf20fab511927b2a0e441900b1963376e4612f7865d5bbf64aca097bb5774
+---
+import UrdfViewer from '@site/src/components/UrdfViewer';
+
+<p className="doc-lead">See the robot and gripper models in 3D before you download them. Choose a model, drag to turn it, and move each joint with the sliders.</p>
+
+<UrdfViewer />
+
+The previews use simplified meshes so they load quickly in the browser. They aren't accurate enough for simulation or collision checking: for that, download the full URDF package with the link under the viewer, or from [Manuals & resources](./downloads.mdx).

@@ -8,7 +8,7 @@ source_ids:
 review_status: pending
 translation_status: source
 sidebar_label: Remote access & firmware
-source_zh_sha256: d9a5c309e2f0b977a8401af50456a4cb5a98f14bed1e9a68bf96bb5cdbfe8b96
+source_zh_sha256: bd0f2436b02c54672031d32e74e9bef72c07f4afdc6f4140f54f0f3994006111
 ---
 Routine jobs you run from your PC over the network. First [connect your PC to the robot](./connect-pc.mdx) and check that the robot answers a ping.
 
@@ -59,7 +59,7 @@ If Marvin Platform already connects to the robot, it shows the controller versio
    | Robot | Command |
    | --- | --- |
    | Marvin Pro, Luna, Skye | `ssh root@6.6.7.190` |
-   | Marvin | `ssh root@192.168.1.190` |
+   | Marvin | `ssh root@192.168.1.190` (firmware 1003) or `ssh root@6.6.7.190` (firmware 1004) |
 
 2. Restart the control service:
 

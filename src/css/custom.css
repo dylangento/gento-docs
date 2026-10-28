@@ -198,6 +198,10 @@ html[data-theme='dark'] .home-hero__stage {background:linear-gradient(180deg,#1a
 .theme-doc-markdown a.dl-btn:before {content:"";width:12px;height:12px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3v12m0 0-5-5m5 5 5-5M4 19h16' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3v12m0 0-5-5m5 5 5-5M4 19h16' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;}
 .theme-doc-markdown a.dl-btn--file {background:transparent;border-color:var(--gento-line);}
 .theme-doc-markdown a.dl-btn--file:hover {border-color:var(--gento-green);background:var(--gento-green-tint);}
+/* "View in 3D" links next to URDF downloads: outlined in the primary color with a cube icon, so they don't read as downloads */
+.theme-doc-markdown a.dl-btn--preview {background:transparent;border-color:var(--ifm-color-primary);color:var(--ifm-color-primary);font-weight:600;}
+.theme-doc-markdown a.dl-btn--preview:hover {background:var(--gento-green-tint);color:var(--ifm-color-primary);}
+.theme-doc-markdown a.dl-btn--preview:before {width:13px;height:13px;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z'/%3E%3Cpath d='m3.3 7 8.7 5 8.7-5M12 22V12'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z'/%3E%3Cpath d='m3.3 7 8.7 5 8.7-5M12 22V12'/%3E%3C/svg%3E");}
 .dl-note {font-size:.88rem;color:var(--gento-muted);}
 [role="tabpanel"] .theme-doc-markdown table, .theme-doc-markdown [role="tabpanel"] table {table-layout:fixed;}
 .theme-doc-markdown [role="tabpanel"] th:nth-child(1) {width:44%;}
@@ -273,6 +277,7 @@ html[data-theme='dark'] .home-hero__stage {background:linear-gradient(180deg,#1a
 /* annotated Marvin Platform UI crops are exported at 2x: show them at 1x size */
 .theme-doc-markdown img[src*="marvin-platform-error-handling"] {max-width:639px;width:100%;}
 .theme-doc-markdown img[src*="marvin-platform-parameters"] {max-width:623px;width:100%;}
+.theme-doc-markdown img[src*="controller-1004-ports"] {max-width:560px;width:100%;}
 /* numbered markers in text that match the numbered badges on annotated UI screenshots */
 .ui-marker {display:inline-flex;align-items:center;justify-content:center;width:1.3em;height:1.3em;margin:0 .15em;border-radius:50%;background:#E8590C;color:#fff;font-size:.78em;font-weight:700;line-height:1;vertical-align:.12em;}
 /* phone language switch (src/components/LocaleToggle): hidden on desktop, where the language dropdown shows.
@@ -283,3 +288,29 @@ html[data-theme='dark'] .home-hero__stage {background:linear-gradient(180deg,#1a
 @media(min-width:577px) and (max-width:996px) {.navbar__items--right>a.navbar__item.locale-toggle {margin-right:10.5rem;}} /* search box widens to 144px here */
 @media(max-width:380px) {.navbar__items--right>a.navbar__item.locale-toggle {padding:0 .7rem;margin-right:4.5rem;} .navbar__items--right>a.navbar__item.locale-toggle svg {display:none;}}
 @media(max-width:340px) {.navbar__logo img {height:16px;}}
+
+/* 3D model preview (src/components/UrdfViewer) */
+.urdf-viewer {margin:1.5rem 0 2rem;}
+.urdf-viewer__bar {display:flex;flex-wrap:wrap;gap:.75rem 1rem;align-items:center;justify-content:space-between;margin-bottom:.75rem;}
+.urdf-viewer__select {display:flex;align-items:center;gap:.6rem;font-weight:600;font-size:.92rem;min-width:0;max-width:100%;}
+.urdf-viewer__select select {font:inherit;font-weight:400;padding:.45rem .75rem;border:1px solid var(--gento-line);border-radius:10px;background:var(--ifm-background-color);color:var(--ifm-font-color-base);min-width:0;max-width:100%;}
+.urdf-viewer__actions {display:flex;flex-wrap:wrap;gap:.5rem;}
+.urdf-viewer__btn {padding:.4rem .95rem;border:1px solid var(--gento-line);border-radius:999px;background:transparent;color:var(--ifm-font-color-base);font:inherit;font-size:.88rem;font-weight:500;cursor:pointer;transition:border-color .15s;}
+.urdf-viewer__btn:hover:not(:disabled) {border-color:var(--ifm-color-primary);}
+.urdf-viewer__btn:focus-visible {outline:3px solid var(--gento-green);outline-offset:2px;}
+.urdf-viewer__btn:disabled {opacity:.45;cursor:default;}
+.urdf-viewer__stage {position:relative;height:min(62vh,560px);min-height:320px;border:1px solid var(--gento-line);border-radius:20px;overflow:hidden;background:var(--gento-surface);touch-action:none;}
+.urdf-viewer__canvas {display:block;width:100%;height:100%;cursor:grab;}
+.urdf-viewer__canvas:active {cursor:grabbing;}
+.urdf-viewer__status {position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:1rem;text-align:center;color:var(--gento-muted);font-size:.95rem;pointer-events:none;}
+.urdf-viewer__status--partial {inset:auto 0 0 0;padding:.55rem 1rem;background:var(--ifm-background-color);border-top:1px solid var(--gento-line);font-size:.85rem;}
+.urdf-viewer__meta {display:flex;flex-wrap:wrap;justify-content:space-between;gap:.4rem 1rem;margin:.6rem .2rem 0;font-size:.85rem;color:var(--gento-muted);}
+.urdf-viewer__joints {margin-top:1.25rem;border:1px solid var(--gento-line);border-radius:16px;padding:.55rem 1rem;}
+.urdf-viewer__joints summary {cursor:pointer;font-weight:600;padding:.3rem 0;}
+.urdf-viewer__joint-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem 1.75rem;padding:.5rem 0 .4rem;}
+.urdf-viewer__joint {display:grid;grid-template-columns:minmax(0,10rem) minmax(0,1fr) 3.8rem;align-items:center;gap:.6rem;font-size:.85rem;}
+.urdf-viewer__joint-name {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--ifm-font-family-monospace);font-size:.78rem;}
+.urdf-viewer__joint input {width:100%;accent-color:var(--ifm-color-primary);}
+.urdf-viewer__joint output {text-align:right;font-variant-numeric:tabular-nums;color:var(--gento-muted);}
+.urdf-viewer__empty {margin:.4rem 0;color:var(--gento-muted);font-size:.9rem;}
+@media(max-width:700px) {.urdf-viewer__joint-grid {grid-template-columns:1fr;} .urdf-viewer__stage {height:360px;} .urdf-viewer__select {flex-wrap:wrap;}}
