@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot name="marvin_base_torso_frame">
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><mesh filename="meshes/body.glb"/></geometry>
+    </visual>
+  </link>
+</robot>

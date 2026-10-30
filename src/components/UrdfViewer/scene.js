@@ -67,9 +67,20 @@ export function createViewer(container, {onStatus = () => {}, onJoints = () => {
     if (box.isEmpty()) return;
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
-    const radius = size.length() / 2;
-    const dist = radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 0.78;
     const dir = new THREE.Vector3(0.9, 0.45, 1.1).normalize();
+    // Smallest distance that keeps all 8 box corners inside the view (with a small margin),
+    // so tall arms and wide mobile robots both fit.
+    const fwd = dir.clone().negate();
+    const right = new THREE.Vector3().crossVectors(fwd, camera.up).normalize();
+    const up = new THREE.Vector3().crossVectors(right, fwd);
+    const tv = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * 0.95;
+    const th = tv * camera.aspect;
+    let dist = size.length() * 0.25;
+    for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
+      const v = new THREE.Vector3(x, y, z).sub(center);
+      const depth = v.dot(fwd);
+      dist = Math.max(dist, Math.abs(v.dot(right)) / th - depth, Math.abs(v.dot(up)) / tv - depth);
+    }
     camera.near = dist / 100;
     camera.far = dist * 100;
     camera.position.copy(center).addScaledVector(dir, dist);
