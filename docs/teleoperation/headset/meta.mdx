@@ -1,13 +1,13 @@
 ---
 title: Meta Quest user manual
 description: Meta Quest user manual · Gento Apex teleoperation
-source_revision: '2026-10-10'
+source_revision: '2026-11-01'
 source_ids:
 - apex-doc-center
 review_status: pending
 translation_status: pending
 sidebar_label: Meta Quest user manual
-source_zh_sha256: d58792598835237ec632c4fc8af61c87229b184c1567a89edd6083423e4e4c52
+source_zh_sha256: 15d20e1f0a40a7a7741ff1977a0290dc2247b9208806d7970c42bed66389e123
 ---
 <div className="bingru-theme" />
 
@@ -72,9 +72,9 @@ You can change the language by clicking the language dropdown button in the uppe
 
 ## Important Configurations
 
-### Robot End-effector Configuration
+### Teleoperation Mode Configuration
 
-This option allows you to freely switch the robotic arm's end-effector configuration, typically between a dexterous hand or a gripper. Depending on the manufacturer's actuator, the corresponding configuration on the XR teleoperation side must also be adjusted.
+This option switches the teleoperation mode. Each mode sets the tracking pipeline and the offset from the controllers to the robot arm's end effector, typically a dexterous hand or a gripper. Depending on the manufacturer's actuator, the corresponding configuration on the XR teleoperation side must also be adjusted.
 
 <figure>
     <img src="/img/apex/xr/teleop_endeffector.webp" alt="Connect to host and end-effector settings" />
@@ -237,9 +237,41 @@ In developer mode, you can check the communication details and specific logs bet
 - Test Host connection, Spatial Video, and Data connection status and disconnect/connect them individually.
 - See App log regarding to Host connection, Spatial Video, and Data.
 
-## Safety check
+## Configuration file
 
-[To be updated.]
+:::tip
+This feature is supported from app version 1.1.0.3.
+:::
+
+You can modify, add, or delete the `teleopModes` presets in the app's configuration file, at the Android path `/sdcard/Android/data/com.KernalMind.Apex_Teleop/files/PlayerPrefsConfig.json`. Only change `teleopModes`; keep every other setting at its factory value. Restart the app after editing the file to apply your changes.
+
+| Category | JSON parameters |
+| --- | --- |
+| Core | `ipAddress` • `userHeight` • `language` • `transportProtocol` |
+| Teleop modes | `teleopmode` • **`teleopModes`** |
+| Network ports | `PORT_PUB_L` • `PORT_PUB_R` • `PORT_REC_L` • `PORT_REC_R` • `PORT_PUB_BODY` • `tcpServerPort` • `webrtcServerPort` • `fastapiServerPort` |
+| Spatial video | `webrtcBandwidthLimit` • `isStereoVideo` • `activateWristVideo` |
+| Misc | `configIdentifier` • `forceOverwriteEveryStart` • `overwriteOnVersionMismatch` • `overwriteOnBuildGUIDMismatch` • `overwriteOnConfigIdentifierMismatch` • `autoSaveToPlayerPrefsInEditor` • `autoSaveToJSONInEditor` |
+
+`teleopModes` is a list of teleoperation mode and hand/controller offset presets. Each preset contains:
+
+- `displayLabel` (string): the mode name shown in the UI dropdown.
+- `trackingType` (int): the body tracking pipeline:
+  - `0`: dual-arm only. Body tracking is off, and only the hand or controller poses are streamed.
+  - `1`: Pico's official body tracking pipeline.
+  - `2`: Effortless Fullbody, a custom cross-platform, markerless full-body tracking pipeline.
+- `leftHand` / `rightHand` (object): mounting pose offsets for the left and right wrists:
+  - `positionOffset` (Vector3): `{ "x": 0.0, "y": 0.0, "z": 0.0 }`, the position offset in Unity coordinates, in meters.
+  - `rotationOffsetEuler` (Vector3): `{ "x": 0.0, "y": 0.0, "z": 0.0 }`, the Euler rotation offset in Unity coordinates, in degrees.
+
+To work out an offset, treat the controller's pivot point as the Unity origin. Apply the rotation first, then move by the position along the rotated local X, Y, and Z axes. The resulting target pose should be at your wrist.
+
+The [Controller Offset Adjustment Tool](https://gento-teleoperation-apex.github.io/Apex_doc_center/files/ControllerOffset.zip) helps you adjust the offset visually and calculate the pose values. Unzip it and open `ControllerOffset.html` in a browser on your computer.
+
+<figure>
+    <img src="/img/apex/xr/teleop-modes-example.webp" alt="Controller axes on a gloved left hand, with the offset pose sent at the wrist" />
+    <figcaption>How the teleopModes offsets work</figcaption>
+</figure>
 
 ## Lookup table for interactions
 
@@ -252,7 +284,7 @@ In developer mode, you can check the communication details and specific logs bet
   <tbody>
     <tr>
       <td>Left Hand</td><td>Menu Button</td><td>Maximize/Minimize Panel</td>
-      <td rowSpan={8}>
+      <td rowSpan={13}>
         <figure style={{margin: 0}}>
           <img src="/img/apex/xr/questtouchpluscontroller.webp" alt="Quest Touch Plus Controller" width={380} />
           <figcaption style={{textAlign: 'center'}}>Quest Touch Plus Controller</figcaption>
@@ -262,10 +294,15 @@ In developer mode, you can check the communication details and specific logs bet
     <tr><td>Left Hand</td><td>Y Button</td><td>Start teleoperation</td></tr>
     <tr><td>Left Hand</td><td>X Button</td><td>Exit teleoperation</td></tr>
     <tr><td>Right Hand</td><td>A Button</td><td>Robot pose reset</td></tr>
-    <tr><td>Right Hand</td><td>B Button</td><td>Start/Stop host recording</td></tr>
+    <tr><td>Right Hand</td><td>B Button</td><td>Start/Stop host recording. Long press to discard recording.</td></tr>
     <tr><td>Right Hand</td><td>Menu Button</td><td>Hold to reset XR origin</td></tr>
     <tr><td>Both Hands</td><td>Trigger</td><td>Click UI, Control Gripper</td></tr>
     <tr><td>Both Hands</td><td>Grip</td><td>Hold to control robot</td></tr>
+    <tr><td>Left Hand</td><td>Thumbstick</td><td>Chassis rotation</td></tr>
+    <tr><td>Right Hand</td><td>Thumbstick</td><td>Chassis translation</td></tr>
+    <tr><td>Left Hand</td><td>Thumbstick(Long press)</td><td>Enable full-body chassis control</td></tr>
+    <tr><td>Right Hand</td><td>Thumbstick(Long press)</td><td>Enable thumbstick chassis control</td></tr>
+    <tr><td>Both Hands</td><td>Thumbstick(Long press both)</td><td>Disable chassis movement</td></tr>
   </tbody>
 </table>
 
