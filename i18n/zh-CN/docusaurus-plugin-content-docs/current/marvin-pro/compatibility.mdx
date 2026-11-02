@@ -6,9 +6,10 @@ source_ids:
 - manual
 - software
 - vr
+- apex-doc-center
 review_status: pending
 translation_status: source
-source_zh_sha256: bfd4d941d477743a53e5d25e48ca3398253a8820ee0b0ecc41a99268ed9a6638
+source_zh_sha256: 33b796af1c27b37a5c008a6611bbc1e43fbcb7fad6946dc71e47e712aa73b98a
 ---
 安装或升级前，请记录机器人型号、机械臂配置、控制器固件、SDK 修订版、Apex 版本，以及相机和末端执行器配置。查看固件和 Apex 版本的方法见[远程访问与固件](../software/cameras-firmware.mdx)。
 
@@ -26,6 +27,29 @@ source_zh_sha256: bfd4d941d477743a53e5d25e48ca3398253a8820ee0b0ecc41a99268ed9a66
 SDK 与控制器的 **主版本和次版本** 必须一致。安装或升级 SDK 前，请先[查看控制器固件版本](../software/cameras-firmware.mdx)。
 
 9 月软件指南针对其称为“41”和“43”的控制器版本列出不同编译脚本。选择脚本前，请先[查看完整固件版本](../software/cameras-firmware.mdx)。本指南不替用户选择固件包。
+
+## 当前版本与早期版本
+
+| | 当前版本 | 早期版本 |
+| --- | --- | --- |
+| 主控 | 天准核心控制器（位于电箱内） | NVIDIA Jetson Orin |
+| 网络 | `6.6.7.x`：控制器 `6.6.7.100`，机械臂 `6.6.7.190` | `192.168.10.x`：Orin `.123`，机械臂 `.190`，路由器 `.1` |
+| 相机解串板 | 集成在机器人内部 | 独立板卡，安装在 Orin 底部 |
+| 头显 | Pico 或 Meta Quest | Meta Quest，部分设备为 Pico |
+| Apex Teleop 界面 | [当前版界面](../teleoperation/interface-pro.mdx) | [经典版界面](../teleoperation/interface-classic.mdx) |
+| 安装指南 | [接线](./wiring.mdx) | [Marvin Pro 早期版本（Orin）](./earlier-orin.mdx) |
+
+不要在 Orin 设备上安装当前天准版本的软件包，也不要套用天准版本的地址。
+
+## Apex 版本配套
+
+- 控制器端软件、Gento SDK、Teleop 服务、Apex 前端和头显客户端须来自同一交付版本。各版本号对应不同组件，不能互相比较。
+- 当前 Marvin Pro 文档基线为 `gento-apex 1.1.7.1` 配合 Gento SDK `4.7.1`。源码仍标注为未正式发布，实际安装版本以交付清单为准。
+- 安装包文件名随版本变化。例如 `pro-Teleoperation-apex_v1.1.7.1o_humble_arm64.deb` 安装后的 Debian 包名为 `gento-apex`。
+- 提供夹爪与末端执行器支持的 `gento-apex-tool` 必须与 `gento-apex` 版本一致。
+- 未经 Gento 技术支持确认安装包和操作步骤，不要跨版本升级机械臂控制器、伺服或相机固件。
+
+安装或升级 Apex，参见[安装与升级 Apex](../teleoperation/setup.mdx)。
 
 ## 更改正常运行的系统之前
 

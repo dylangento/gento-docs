@@ -6,10 +6,11 @@ source_ids:
 - skye-manual-en
 - skye-manual
 - support-notes
+- apex-doc-center
 review_status: pending
 translation_status: pending
 sidebar_label: 软件、SDK 与遥操作
-source_zh_sha256: d48be1221c84ca7ebbf0539984254130098e33e852a660110c08899a4e0b8701
+source_zh_sha256: 065456e428027e7a91d0ecb9652f143240c8e14b15702d3d052141c256765f41
 ---
 Skye 与 Luna 使用相同的软件：用 GentoPlatform 上位机手动控制，用 Gento SDK 编写程序，用 Apex 进行 VR 遥操作。建议先熟练使用 GentoPlatform；了解机器人的运行方式有助于后续代码开发。
 
@@ -116,9 +117,9 @@ GENTO_SDK/
 | 机器人控制 | `apex-robot.service` | ROS 控制与状态发布 |
 | 遥操作 | `apex-teleop.service` | IK、规划与指令复用 |
 
-安装、头显佩戴和操作方法请参见 Apex 文档。软件更新和各版本安装包见 [KernelMind_Apex_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Deb)。
+接线、追踪器佩戴和首次启动参见 [Skye 与 Luna：首次遥操作](../teleoperation/skye-luna.mdx)。安装或升级软件参见[安装与升级 Apex](../teleoperation/setup.mdx)。ROS 2 话题与服务见 [Skye 与 Luna ROS 2 接口](../software/ros2-skye-luna.mdx)。
 
-<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">打开 Apex 遥操作文档 ↗</a></div>
+<div className="doc-cta"><a className="button button--primary" href="../../teleoperation/skye-luna/">打开 Skye/Luna 遥操作指南</a></div>
 
 Orin 或 Thor 每次上电后，请先[启动相机](../software/cameras.mdx)，再开始遥操作。查看已安装的 Apex 版本请参见[查看 Apex 遥操作版本](../software/cameras-firmware.mdx#查看-apex-遥操作版本)。
 

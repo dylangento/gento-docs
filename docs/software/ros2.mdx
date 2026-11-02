@@ -5,15 +5,34 @@ source_revision: V1.0 · 2026-06-27
 source_ids:
 - manual
 - vr
+- apex-doc-center
 review_status: pending
 translation_status: pending
-source_zh_sha256: 1172813595651cc351cc8a82cec30603c35c73100ebf296c91f8b43917fbe14f
+source_zh_sha256: a2ccb06acadfa942eb11e0f95715ffecfe0727b445f11e2a4680b5c831c77c52
 ---
-In the Pro manual's Apex architecture, the robot-side computer runs ROS 2 nodes, motion control, camera capture, and recording services. The desktop application manages the connection and operator workflow.
+In the Apex architecture, the robot's onboard controller runs the ROS 2 nodes for robot control, teleoperation, cameras, and recording: a Tianzhun or Lingjing Thor controller on current robots, or an Orin on earlier ones. Apex Teleop on the host PC manages the connection and the operator workflow.
 
-## Interface documentation
+## Interface references
 
-Use the [Apex documentation center](https://gento-teleoperation-apex.github.io/Apex_doc_center/) and choose its Marvin Pro customer interface documentation for the installed release. Confirm topic names, message types, units, frames, and update behavior from that release before writing a client.
+| Robot or device | Reference |
+| --- | --- |
+| Marvin Pro | [Marvin Pro ROS 2 interfaces](./ros2-marvin-pro.mdx): namespace, safety rules, input arbitration, topics, services, network ports, and topic rates |
+| Skye and Luna | [Skye and Luna ROS 2 interfaces](./ros2-skye-luna.mdx): joint differences, whole-body commands, services, and the mobile base |
+| Head and wrist cameras | [Camera ROS topics](./cameras.mdx#ros-topics) |
+| RealSense cameras | [RealSense cameras (ROS 2)](./realsense.mdx) |
+| Topics allowed for recording and forwarding | [Topic whitelist](../teleoperation/advanced/topic-whitelist.mdx) |
+
+Confirm topic names, message types, units, frames, and update behavior on your installed release before writing a client. The output of `ros2 topic list -t` on the robot is authoritative.
+
+## Load the Apex ROS 2 environment
+
+Log in to the robot's controller (see [Connect to the Orin or Thor](./cameras-firmware.mdx#connect-to-the-orin-or-thor)) and load the environment in every new terminal:
+
+```bash
+source /etc/apex/apex_ros_env.sh
+```
+
+On Marvin Pro, Apex nodes run in the `tj` namespace by default, so core interfaces are under `/tj/...`. Applications written for the older `/control/...` and `/info/...` paths need updating.
 
 ## Keep interfaces distinct
 
@@ -27,4 +46,4 @@ ROS 2 integration does not imply that every SDK function is exposed as a topic o
 
 ## Before sending commands
 
-Confirm which process owns robot control, how control is handed over, and which coordinate frame and units the command uses. For the current topic, service, and message definitions, see the [Apex documentation center](https://gento-teleoperation-apex.github.io/Apex_doc_center/).
+Confirm which process owns robot control, how control is handed over, and which coordinate frame and units the command uses. Read the safety requirements and input arbitration rules in the interface reference for your robot, and [Operation modes and input sources](../teleoperation/operation-modes.mdx).

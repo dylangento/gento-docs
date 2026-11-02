@@ -4,13 +4,16 @@ description: Interfaces & network · Gento Luna
 source_revision: V2.1 · 2026-08
 source_ids:
 - luna-manual
+- apex-doc-center
 review_status: pending
 translation_status: pending
-source_zh_sha256: 30db1b3b7f4c3f8a6093141e57d934b88d2f15bcc1aaf3b30884ade6e65ebb98
+source_zh_sha256: a9e33c75d411f3c397c6f563c68e0efdb8cbfdec227432bbd095d946af7efc5b
 ---
 ## Rear control panel
 
 The rear panel brings together power input, control communication, data transfer, and safety interlock interfaces.
+
+![Luna rear control panel with the Ethernet cable and E-stop](/img/apex/gento/skye-luna/luna-rear-ports.webp)
 
 | Interface | Function |
 | --- | --- |
@@ -95,3 +98,13 @@ Set the debug computer to the 6.6.7.x subnet (for example 6.6.7.50) with netmask
 The domain controller supports remote desktop login. Login credentials are supplied with the robot; do not record them in shared documents. To use remote desktop without a monitor, see [Connect to the Orin or Thor](../software/cameras-firmware.mdx).
 
 Next: [GentoPlatform](./gentoplatform.mdx).
+
+## Teleoperation network
+
+For Apex teleoperation, the robot's onboard controller (Tianzhun 003 or Lingjing Thor) is at `6.6.7.100` by default. Connect the robot's rear Ethernet port, the host PC, and the headset (through its Type-C Ethernet adapter) to the same router or switch, on the same subnet, with no two devices sharing an address.
+
+:::warning Headset Ethernet port
+Use **port 1** with a Tianzhun controller and **port 2** with a Lingjing Thor controller. Don't swap them.
+:::
+
+For the wiring steps and checks, see [Skye and Luna: first teleoperation](../teleoperation/skye-luna.mdx#3-network-wiring).

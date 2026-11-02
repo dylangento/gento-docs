@@ -6,10 +6,17 @@ source_ids:
 - skye-manual-en
 - skye-manual
 - support-notes
+- apex-doc-center
 review_status: pending
 translation_status: pending
-source_zh_sha256: da4866609669aafd1541aea465126d612a6f63a9a7c99b401565cb9a7e580f87
+source_zh_sha256: 801e4c2a2b2c6321b6c66ec0601149e38b14839bfec93bf2fa021f9a7cecf126
 ---
+## 后背接口
+
+![Skye 后背接口：网线接入后背面板](/img/apex/gento/skye-luna/skye-rear-ports.webp)
+
+后背面板提供连接上位机和遥操作网络所用的网口。请以实际交付机器人的标识为准。
+
 ## 机械臂末端 8Pin 接口
 
 每条 Marvin 机械臂的末端法兰上都有一个 8Pin 接口，用于工具供电和通信。
@@ -91,3 +98,13 @@ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp     # Fast DDS
 电源板上还有两个预留外部信号接口（CANH 和 CANL）、一个 10Pin I/O 接口（RS-485 485A1/485B1，输入 IN1、IN3、IN4，输出 OUT2–OUT5），以及一个含 STOP_IN、24 V 和 GND 的接口。各接口位置见说明书 3.1.7 节。
 
 下一步：[软件、SDK 与遥操作](./software.mdx)。
+
+## 遥操作网络
+
+使用 Apex 遥操作时，机器人内置控制器（天准 003 或灵境 Thor）默认地址为 `6.6.7.100`。将机器人后背网口、上位机和头显（经 Type-C 网口转换器）接入同一路由器或交换机，处于同一网段，且任意两台设备不得使用相同 IP。
+
+:::warning 头显网口
+天准控制器使用 **1 号网口**，灵境 Thor 控制器使用 **2 号网口**，不要混接。
+:::
+
+接线步骤与检查项参见 [Skye 与 Luna：首次遥操作](../teleoperation/skye-luna.mdx#3-网络接线)。

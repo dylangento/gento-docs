@@ -4,9 +4,10 @@ description: SDK & teleoperation · Gento Luna
 source_revision: V2.1 · 2026-08
 source_ids:
 - luna-manual
+- apex-doc-center
 review_status: pending
 translation_status: pending
-source_zh_sha256: 5695f9c0ac5f053c15587f79b05fab79711676513db782737e17c5b4ac1e3700
+source_zh_sha256: 3a7eb3a3cf004b697f5189ef7be67c849b93c335e665418c804f8b67462f8f15
 ---
 Get comfortable with [GentoPlatform](./gentoplatform.mdx) first; understanding how the robot behaves makes code development easier.
 
@@ -96,16 +97,19 @@ Packages and documentation:
 - Server: [KernelMind_Apex_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Deb)
 - Front end: [KernelMind_Apex_Web_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Web_Deb)
 - Headset APK: [KernelMind_Apex_VR_Apk](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_VR_Apk)
-- [Apex documentation center](https://gento-teleoperation-apex.github.io/Apex_doc_center/)
+- Setup and first startup: [Skye and Luna: first teleoperation](../teleoperation/skye-luna.mdx)
+- Installing and updating: [Install or update Apex](../teleoperation/setup.mdx)
+- ROS 2 topics and services: [Skye and Luna ROS 2 interfaces](../software/ros2-skye-luna.mdx)
 
-<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">Open the Apex teleoperation docs ↗</a></div>
+<div className="doc-cta"><a className="button button--primary" href="../../teleoperation/skye-luna/">Open the Skye/Luna teleoperation guide</a></div>
 
-### Teleoperation steps
+### Teleoperation steps in brief
 
-1. After every Orin / Thor power-up, start the cameras: log in with `ssh nvidia@6.6.7.100`, run `cd /home/nvidia/cam_geac && ./rb_camera.sh init`, and wait about 20 seconds. See [Start and view the cameras](../software/cameras.mdx).
-2. Open the teleoperation front end, enter the controller IP, and connect. Start dnsmasq (for a wired headset) and **Robot**, and check that the URDF pose matches the real robot. Then start **Teleop**, and **Camera** and **Tool** as needed.
-3. Click **Start Robot** to reach Ready, then **Impedance Mode**, then **Home** to go to the teleoperation start pose. With a dexterous hand, switch **Input Mode** to **Teleop**.
-4. Put on and calibrate the body trackers. In the headset client, confirm height, IP, and end effector, then connect. When the front end's VR light turns green, press Y on the left controller to start, and hold the side grip to operate.
+1. After every Orin or Thor power-up, [start the cameras](../software/cameras.mdx).
+2. In Apex Teleop, connect to the controller, start the modules, then **Start Robot**, **Impedance Mode**, and **Home**.
+3. Put on and calibrate the trackers, connect the headset client, and start teleoperating.
+
+The full procedure, including tracker calibration and headset controls, is in [Skye and Luna: first teleoperation](../teleoperation/skye-luna.mdx).
 
 :::warning Teleoperation rules
 - Use a wired network; teleoperating over headset WiFi is not recommended.
@@ -115,6 +119,6 @@ Packages and documentation:
 - Stop immediately if the headset runs out of battery, loses power, or shuts down.
 :::
 
-Recording, playback, and logs are covered in the Apex documentation center. Before replaying on the real robot, clear the workspace and confirm the start pose matches the recording.
+Recording, playback, and logs are covered in [Apex Teleop: classic interface](../teleoperation/interface-classic.mdx). Before replaying on the real robot, clear the workspace and confirm the start pose matches the recording.
 
 Next: [maintenance & safety](./maintenance.mdx).

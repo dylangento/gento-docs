@@ -26,6 +26,7 @@ const config = {
         {label: 'Skye', to: '/skye/overview'},
       ]},
       {label: 'Software & SDKs', to: '/software/sdk-directory', position: 'left'},
+      {label: 'Teleoperation', to: '/teleoperation/', position: 'left'},
       {label: 'Resources', to: '/resources/downloads', position: 'left'},
       {label: 'Video demos', to: '/videos', position: 'left'},
       {type: 'localeDropdown', position: 'right'},

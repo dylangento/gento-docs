@@ -4,13 +4,16 @@ description: 接口与网络 · Gento Luna
 source_revision: V2.1 · 2026-08
 source_ids:
 - luna-manual
+- apex-doc-center
 review_status: pending
 translation_status: source
-source_zh_sha256: 30db1b3b7f4c3f8a6093141e57d934b88d2f15bcc1aaf3b30884ade6e65ebb98
+source_zh_sha256: a9e33c75d411f3c397c6f563c68e0efdb8cbfdec227432bbd095d946af7efc5b
 ---
 ## 后背控制面板
 
 后背控制面板集中了电源输入、控制通信、数据传输和安全互锁接口。
+
+![Luna 后背控制面板：网线与急停](/img/apex/gento/skye-luna/luna-rear-ports.webp)
 
 | 接口 | 功能 |
 | --- | --- |
@@ -95,3 +98,13 @@ AGV 底盘控制器、激光雷达、天机运动控制计算平台和外部调�
 域控制器支持远程桌面登录。登录凭据随机器提供，请勿在共享文档中记录。如需在无显示器时使用远程桌面，参见[连接 Orin 或 Thor](../software/cameras-firmware.mdx)。
 
 下一步：[GentoPlatform 上位机](./gentoplatform.mdx)。
+
+## 遥操作网络
+
+使用 Apex 遥操作时，机器人内置控制器（天准 003 或灵境 Thor）默认地址为 `6.6.7.100`。将机器人后背网口、上位机和头显（经 Type-C 网口转换器）接入同一路由器或交换机，处于同一网段，且任意两台设备不得使用相同 IP。
+
+:::warning 头显网口
+天准控制器使用 **1 号网口**，灵境 Thor 控制器使用 **2 号网口**，不要混接。
+:::
+
+接线步骤与检查项参见 [Skye 与 Luna：首次遥操作](../teleoperation/skye-luna.mdx#3-网络接线)。

@@ -42,5 +42,9 @@
   "item.label.Skye": {
     "message": "Skye",
     "description": "Navbar item with label Skye"
+  },
+  "item.label.Teleoperation": {
+    "message": "遥操作",
+    "description": "Navbar item with label Teleoperation"
   }
 }

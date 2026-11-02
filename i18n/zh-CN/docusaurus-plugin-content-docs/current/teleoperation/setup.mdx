@@ -1,17 +1,19 @@
 ---
-title: 安装 Apex 遥操作
-description: 安装 Apex 遥操作 · Gento Marvin Pro
+title: 安装与升级 Apex
+description: 安装与升级 Apex · Gento Marvin Pro
 source_revision: '2026-09-04'
 source_ids:
 - vr
 - manual
+- apex-doc-center
 review_status: pending
 translation_status: source
-source_zh_sha256: 9d7ba4f97d5a9c3aa6a3abb44c266d79d57ef4f5e8945e8f718912c0880d3a14
+source_zh_sha256: cd08bd265f2bf4a52441261e923351738fedd45df268fba78cb03b326e408132
+sidebar_label: 安装与升级
 ---
 9 月 4 日 VR 资源指南将软件分为机器人端、电脑端和头显端。Pro 手册说明，购买遥操套件时可能已预装软件。重新安装前，先[查看已安装版本](../software/cameras-firmware.mdx#查看-apex-遥操作版本)。
 
-<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">打开 Apex 遥操作文档 ↗</a></div>
+接线与首次启动参见 [Marvin Pro：首次遥操作](./marvin-pro.mdx)或 [Skye 与 Luna：首次遥操作](./skye-luna.mdx)。
 
 ![操作员使用 VR 头显遥操作 Marvin Pro](/img/marvin-pro/vr-teleoperation.webp)
 
@@ -29,10 +31,79 @@ source_zh_sha256: 9d7ba4f97d5a9c3aa6a3abb44c266d79d57ef4f5e8945e8f718912c0880d3a
 2. 按对应版本说明，在支持的计算单元上安装机器人端 Debian 包。
 3. 在操作电脑上安装 `kernelmind-apex` 上位机应用。
 4. 按资源指南，通过 SideQuest 将匹配的 VR APK 安装到头显。
-5. 根据 [Apex 文档中心](https://gento-teleoperation-apex.github.io/Apex_doc_center/)完成配置和连接。
+5. 安装头显应用：参见 [Meta Quest App 安装](./headset/meta-app-installation.mdx)或 [Pico App 安装](./headset/pico-app-installation.mdx)。
 
 机器人的 Orin 或 Thor 每次上电后，请先[启动相机](../software/cameras.mdx)，再开始遥操作。
 
 资源指南提到 Orin 和 Thor，但软件包架构本身不能证明某个版本同时支持两者，应核对发布说明。源资料还区分了早期与较新 Pro 硬件。
 
-下一步：[遥操作前检查](./operation.mdx)。
+## 版本配套
+
+- 机器人控制端、Gento SDK、Teleop 遥操服务、Apex 前端和头显客户端应使用同一交付批次的配套版本。
+- 当前 Pro 源码核对目标为 `gento-apex 1.1.7.1`，控制运行时使用 Gento SDK `4.7.1`；该目标在源码中仍标记为未正式发布，且不再以 MarvinSDK 作为控制运行时。客户现场版本以交付清单为准。
+- 安装包名称随版本变化，以交付文件和发布说明为准。
+- 末端执行器和 Camera 均按实际选配启用。
+
+Skye 与 Luna 需使用带 `g` 或 `gento` 标记的 Gento 控制器安装包，不要安装未标记的 Marvin Pro 安装包。各机型汇总见[软件分层](./index.mdx#软件分层)。
+
+## 升级 Marvin Pro
+
+### 升级前
+
+1. 记录当前 `gento-apex`、Gento SDK、Teleop 遥操服务、Apex 前端和头显客户端版本。
+2. 备份现场网络、机器人、相机和末端执行器配置。
+3. 停止 Robot、Teleop、Camera 和 Tool，确保机器人处于安全状态。
+4. 使用同一交付版本中的配套安装包，不混用不同发布批次。
+
+### 控制器端
+
+当前 Pro 源码核对目标为 `gento-apex 1.1.7.1`，使用 Gento SDK `4.7.1`；该目标在源码中仍标记为未正式发布。只有交付清单或技术支持明确指定该版本时，才将同一交付批次的安装包放到天准控制器，并先安装 SDK、再安装 Apex：
+
+```bash
+sudo apt install ./gento-sdk_4.7.1_arm64_ubuntu22.04.deb
+sudo apt install ./pro-Teleoperation-apex_v1.1.7.1o_humble_arm64.deb
+```
+
+安装包文件名使用 `pro-Teleoperation-apex`，安装后的 Debian 包名仍为 `gento-apex`。上方命令展示 `1.1.7.1` 的目标命名格式，并不表示该版本已经正式发布；带 `_testN` 后缀的文件是测试制品，仅在技术支持明确指定时使用。
+
+### 上位机端
+
+在上位机安装同一交付批次的 Teleop 遥操服务和 Apex 前端：
+
+```bash
+sudo apt install ./<apex-teleop-package>.deb
+```
+
+交付配置包含夹爪或其他末端执行器时，还需安装交付清单指定的 Tool 包。当前 Pro 源码随控制端构建的 `gento-apex-tool` 严格依赖同版本的 `gento-apex`，不得跨版本混装；单独交付的末端驱动软件可能采用自己的版本线，以对应末端执行器的交付说明为准。仅安装控制端主包时，Robot、Camera 和 Teleop 可以运行，但 Tool 模块及对应末端组件可能缺失。
+
+头显客户端安装和开发者模式操作见 [VR 头显](./index.mdx#vr-头显)。
+
+### 升级后验证
+
+1. 重新启动控制器和上位机软件。
+2. 核对网络、机器人型号、相机和末端执行器配置。
+3. 启动 Robot，确认 URDF 与实体姿态一致。
+4. 在空载、低风险环境完成 Impedance Mode、Home 和小幅遥操测试；如果机器人处于出厂打包姿态，必须先在 Robot Ready 后开启拖动模式，手动移到标准零位姿态并关闭拖动模式，禁止直接 Home。
+5. 检查录制、相机和日志功能。
+
+机器人控制器固件、伺服固件和相机固件不得自行跨版本升级，应使用技术支持确认的固件包和流程。
+
+## 升级 Skye 与 Luna
+
+升级前记录天准003控制端、Teleop 遥操服务、Apex 前端和 Pico 客户端版本，备份网络、机型、相机和追踪配置，并确保机器人安全停机。
+
+```bash
+sudo apt install ./<controller-package-from-delivery-manifest>.deb
+```
+
+Skye/Luna 必须使用带 `g` 或 `gento` 标识的 Gento 配套控制端安装包，不得安装 Marvin Pro 的无 `g` 包。
+
+当前源码核对快照为 `v1.0.6.95g-beta-10-g14cfc0d`，不等同于客户正式安装包版本。控制器端、Teleop 遥操服务、Apex 前端和 Pico 客户端必须使用同一交付批次的配套版本。升级后依次验证 Robot、3D 姿态、相机、Pico 连接和 Home，再按机型验证 Skye 的双臂/BODY/LIFT 或 Luna 的双臂/BODY 小幅动作。
+
+Pico 安装与开发者模式见 [Pico 头显操作说明](./headset/pico.mdx)。机器人控制器、伺服和追踪组件固件不得自行跨版本升级。
+
+## 升级早期 Orin 设备
+
+参见 Marvin Pro 早期版本页面中的[升级软件](../marvin-pro/earlier-orin.mdx#升级软件)。不要在 Orin 设备上安装天准版本安装包。
+
+下一步：[Marvin Pro：首次遥操作](./marvin-pro.mdx)或 [Skye 与 Luna：首次遥操作](./skye-luna.mdx)。

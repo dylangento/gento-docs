@@ -4,10 +4,11 @@ description: RealSense cameras (ROS 2) · Gento Marvin Pro, Luna, Skye
 source_revision: '2026-10-20'
 source_ids:
 - realsense-guide
+- apex-doc-center
 review_status: pending
 translation_status: pending
 sidebar_label: RealSense cameras (ROS 2)
-source_zh_sha256: 052a8f780302a4d34cb67d293473caa64495a069d474ebd46ca7805d2ffdc2b7
+source_zh_sha256: 6f63152eabc3699a108446a000abee99b38626291c2cd7d4b588f06c7ad1c3c5
 ---
 Marvin Pro, Luna, and Skye have Intel RealSense RGB-D cameras. This guide shows how to start a RealSense camera in ROS 2 and read its images, calibration, and frames, as a starting point for your own vision code.
 
@@ -129,6 +130,26 @@ ros2 topic echo /tf_static --once
 | TF | `/tf`, `/tf_static` | Transforms between camera and robot frames |
 
 The topic names start with `/camera/camera` because the launch file's default namespace and camera name are both `camera`. If you launch with a different `camera_namespace` or `camera_name`, the topic names change to match.
+
+## With Apex installed
+
+On a robot with Apex, the D435 is started by the Apex camera package with its own configuration file, `config/rgbd_cameras.yaml`, instead of `rs_launch.py`. It isn't part of the four-camera mosaic used for teleoperation.
+
+```bash
+source /etc/apex/apex_ros_env.sh
+ros2 launch gmsl_quadcam rgbd_cameras.launch.py
+```
+
+Its topics are under `/camera/d435/` rather than `/camera/camera/`:
+
+```text
+/camera/d435/color/image_raw
+/camera/d435/depth/image_rect_raw
+/camera/d435/color/camera_info
+/camera/d435/depth/camera_info
+```
+
+For the head and wrist camera mosaic, see [Apex camera service](./cameras.mdx#apex-camera-service-gmsl_quadcam).
 
 ## Troubleshooting
 

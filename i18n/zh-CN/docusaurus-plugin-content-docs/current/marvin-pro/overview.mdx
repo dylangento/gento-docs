@@ -6,11 +6,14 @@ source_ids:
 - manual
 - brochure
 - product-photos
+- apex-doc-center
 review_status: pending
 translation_status: source
-source_zh_sha256: fb10b1f112d76bf902dce740a13f5503a1a39b7913f613499f6cdb0cc823336a
+source_zh_sha256: 71ff347213b51ea63b2fa21d4c3063b089466eb6804a8807b06f09bd3aa5e38d
 ---
 Marvin Pro 是用于操作、遥操作和数据采集的固定式双臂平台。两条机械臂各有 7 个关节，共 14 个自由度，不包含末端执行器。胸腔和头部均为固定结构。
+
+Marvin Pro 配套 Gento Teleoperation Apex 遥操系统：操作员通过 VR 头显获得第一视角画面，手部动作实时映射到机械臂。当前版本使用天准核心控制器，相机解串板集成在机器人内部，标配的森云腕部相机通过手臂内部线束连接。使用 NVIDIA Jetson Orin 控制器的早期交付设备，参见 [Marvin Pro 早期版本（Orin）](./earlier-orin.mdx)。
 
 ![Marvin Pro 双臂平台：绿色、蓝色与灰色](/img/marvin-pro/colors.webp)
 
@@ -22,15 +25,52 @@ Marvin Pro 是用于操作、遥操作和数据采集的固定式双臂平台。
 | --- | --- |
 | 双力控机械臂 | 位置控制与阻抗控制操作 |
 | 固定支架与一体化电箱 | 机械支撑、供电与接口连接 |
-| 头部及腕部相机 | 环境观测与近距离操作视角 |
-| 机器人端计算单元 | 按配置运行 Apex 服务、相机采集与录制 |
-| 上位机应用和 VR 头显 | 配置、操作与遥操作 |
+| 机械臂控制器 | 接收运动指令，默认 IP 为 `6.6.7.190` |
+| 天准核心控制器（位于电箱内） | 运行 Apex、ROS 2 节点、相机采集与录制，默认 IP 为 `6.6.7.100` |
+| 48 V 主电源与 12 V 控制器电源 | 220 V 转 48 V 开关电源为机械臂供电；12 V 为控制器及外设供电 |
+| 急停按钮盒 | 现场紧急停止 |
+| 头部及腕部相机 | 环境观测与近距离操作视角；森云腕部相机线束走手臂内部 |
+| VR 头显与手柄 | 第一视角画面与操作输入，Pico 或 Meta Quest，以交付配置为准 |
+| 上位机 | 运行 Apex Teleop，或 Marvin Platform 及自研 SDK 程序 |
+| U 盘（卷标 `BAG_STORAGE`） | 存储遥操作录制数据 |
+
+![机械臂末端的森云腕部相机，线束从手臂内部引出](/img/apex/pro/new-id/senyun-camera.webp)
 
 产品折页列出的 M6 配置单臂额定负载为 6 kg，工作半径为 696 mm；M6 Lite 配置分别为 5 kg 和 615 mm。两者属于不同配置，参数不可混用。
+
+## 软件组成
+
+| 软件 | 运行位置 | 作用 |
+| --- | --- | --- |
+| Apex 控制器端 | 天准控制器 | ROS 2 节点、运动控制、相机与录制服务 |
+| Apex Teleop | 上位机 | 连接控制器、启动机器人、切换模式、录制与回放数据 |
+| Apex 头显客户端 | Pico 或 Meta Quest | 视频显示与遥操作输入 |
+| Marvin Platform 与运动控制 SDK | 上位机 | 直接控制机械臂及二次开发，参见[安装 Marvin Platform](../software/install-marvin-platform.mdx) |
+
+天准控制器运行 Ubuntu 22.04 与 ROS 2 Humble；上位机开发环境建议使用 Ubuntu 22.04（AMD64）。控制器端、上位机端和头显端安装包须来自同一交付版本，参见[版本兼容性](./compatibility.mdx)。
+
+## 默认网络
+
+| 设备 | 默认地址 |
+| --- | --- |
+| 天准控制器 | `6.6.7.100`，登录命令为 `ssh nvidia@6.6.7.100` |
+| 机械臂控制器 | `6.6.7.190` |
+| 上位机 | `6.6.7.xxx`，例如 `6.6.7.165` |
+| 头显 Apex 客户端 | 连接天准控制器 `6.6.7.100` |
+
+电脑网络设置参见[连接电脑](../software/connect-pc.mdx)。
+
+## 典型用途
+
+- 双臂机器人远程遥操作，包括危险环境下的代人作业
+- 示教数据采集：内置机器人数据与视频录制，并支持实机回放
+- 工厂智能化生产辅助
+
+Apex 提供基于 GMSL 相机的低延迟 VR 视频回传、实时动作追踪、阻抗/位置/待机等控制模式，以及增量遥操模式。Manus 数据手套配合 Wuji Hand、三键脚踏板为选配，参见[可选配件](./unboxing.mdx#可选配件)。
 
 ## 下一步
 
 - 新到货设备：阅读[开箱指南](./unboxing.mdx)。
 - 已完成安装：确认[版本兼容性](./compatibility.mdx)，然后[连接机器人](./first-connection.mdx)。
-- 二次开发：查看 [SDK 目录](../software/sdk-directory.mdx)。
-- 采集示范数据：从[遥操作安装](../teleoperation/setup.mdx)开始。
+- 二次开发：查看 [SDK 目录](../software/sdk-directory.mdx)和 [Marvin Pro ROS 2 接口](../software/ros2-marvin-pro.mdx)。
+- 遥操作与示范数据采集：按 [Marvin Pro：首次遥操作](../teleoperation/marvin-pro.mdx)操作。

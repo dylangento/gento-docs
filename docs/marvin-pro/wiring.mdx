@@ -4,33 +4,87 @@ description: Connections & first power-on · Gento Marvin Pro
 source_revision: V1.0 · 2026-06-27
 source_ids:
 - manual
+- apex-doc-center
 review_status: pending
 translation_status: pending
-source_zh_sha256: 6d727b7cc5c045d8881ee0098a87d8f14dffb0d7ec4f2be673b0d0551ba93b70
+source_zh_sha256: ddb7f7498d87257ffceeaab87893487a485ef47451052a276bf2547bd8679b7f
 ---
-Identify each port before connecting cables. The rear panel shown here is the integrated cabinet in the Pro V1.0 manual; compare it with your delivered unit.
+Identify each port before connecting cables. Current units use a Tianzhun core controller in the cabinet. The camera deserializer board is inside the robot and the Senyun wrist cameras are wired through the arms, so the only camera check on site is that each camera connector and its exposed cable are secure. For units with an Orin controller and a separate deserializer board, see [Earlier Marvin Pro (Orin)](./earlier-orin.mdx#wiring).
+
+Disconnect main power before wiring. Make sure every Ethernet, power, E-stop, and peripheral cable is firmly connected before you power on.
 
 ![Marvin Pro integrated cabinet rear panel](/img/marvin-pro/rear-panel.webp)
 
 | Label | Connection |
 | --- | --- |
-| AC IN | Supplied mains power cable |
-| ESTOP | Supplied E-stop harness |
-| ETHERNET1 / ETHERNET2 | Ethernet connection to the host computer |
-| USB1 / USB2 | USB peripherals |
-| HDMI | Display |
-| POWER | Main power switch |
+| `ACIN` | Supplied power cable |
+| `E-STOP` | Supplied E-stop box |
+| `ETHERNET1` / `ETHERNET2` | Host PC, headset Ethernet adapter, or site network |
+| `USB1` / `USB2` | `BAG_STORAGE` USB drive, debugging devices, or peripherals |
+| `HDMI` | Local display for debugging |
+| `POWER` | Main power switch |
+| `DC48V` / `DC12V` indicators | 48 V and 12 V supply status |
 
-## Connect the supplied cables
+The rear panel above is from the Pro V1.0 manual. Panel layouts vary between batches, so follow the labels on your delivered cabinet.
 
-With power off, connect the power cable to **AC IN** and turn its locking ring clockwise. Check that the supply matches the delivered system's rating; do not assume a U.S. unit accepts the brochure's AC 220 V supply without confirmation.
+## Connect power, E-stop, and USB drive
 
-Connect the E-stop's 8-pin harness to **ESTOP**, aligning the connector's red mark with the port notch. Connect Ethernet from **ETHERNET1** or **ETHERNET2** to the host computer.
+With the power off:
+
+1. Connect the power cable to `ACIN`. The connector is keyed: insert it the right way round, then turn its locking ring clockwise.
+2. Connect the E-stop box's 8-pin harness to `E-STOP`, lining up the red dots.
+3. Insert the USB drive into a USB port. Its volume label must be `BAG_STORAGE`: Apex records to it.
+4. Check that `POWER` is off before you connect the network and headset.
+
+![A delivered cabinet with the USB drive, power switch, E-stop, and power connections labeled](/img/apex/pro/new-id/electric-box-interfaces.webp)
+
+Check that the supply matches the delivered system's rating. Don't assume a U.S. unit accepts the brochure's AC 220 V supply without confirmation.
+
+## Connect the network
+
+The host PC, cabinet, and headset must be on the same `6.6.7.x` subnet, with no two devices sharing an address.
+
+1. Connect the host PC to `ETHERNET1` or `ETHERNET2` and set its network adapter to a `6.6.7.xxx` address, for example `6.6.7.165`. See [Connect your PC](../software/connect-pc.mdx).
+2. Connect the headset: run an Ethernet cable from the cabinet to the Ethernet-to-Type-C adapter, and plug the adapter into the headset's left-side Type-C port.
+3. Leave the headset's Wi-Fi off. Teleoperate over the wired network.
+
+:::warning Headset Ethernet port
+Connect the headset cable to **port 1** on a Tianzhun controller, or **port 2** on a Lingjing Thor controller. Don't swap them. Both controllers use `6.6.7.100` by default; if your site network was changed, follow the delivered configuration.
+:::
+
+| Device | Default address |
+| --- | --- |
+| Tianzhun controller | `6.6.7.100` |
+| Arm controller | `6.6.7.190`. Confirm it on first use and after replacing the controller |
+| Host PC | `6.6.7.xxx`, for example `6.6.7.165` |
+| Headset Apex client | Connects to `6.6.7.100` |
 
 ## First power-on
 
-After the pre-use checks and cable inspection, confirm the E-stop is released, then turn on the power switch. The manual describes a green indicator as successful startup. Next, [connect the software and inspect feedback](./first-connection.mdx) before commanding movement.
+After the [pre-use checks](./safety.mdx) and cable inspection, release the E-stop and work through these steps:
+
+| Step | Action | Check |
+| --- | --- | --- |
+| 1 | Connect the power cable, E-stop, and USB drive | Connectors the right way round, E-stop red dots aligned, USB drive labeled `BAG_STORAGE` |
+| 2 | Connect the host PC | Its adapter address is `6.6.7.xxx` |
+| 3 | Connect the headset | Through the Ethernet-to-Type-C adapter, on the correct port |
+| 4 | Turn on `POWER` | Wait for the system to boot. The `DC48V` and `DC12V` indicators light; the manual describes a green indicator as a successful start |
+| 5 | Start the cameras | After every power-up; see [Start the cameras](../software/cameras.mdx) |
+| 6 | Check the arm pose | If the arms hang beside the column, the robot is in its packing pose. Don't run Home (see below) |
+| 7 | Start teleoperation | The headset or host PC shows the camera view |
+
+If there's no camera image, check each wrist camera's connector and exposed cable, that the cameras were started, and the network.
+
+Before commanding any movement, [connect the software and inspect feedback](./first-connection.mdx).
+
+:::danger Don't run Home from the packing pose
+Marvin Pro ships with both arms hanging down beside the center column. Running Home from this pose can drive a wrist camera into the column. After unpacking, enable drag mode, move both arms by hand to the standard zero pose, and turn drag mode off before any Home command. See [First unpacking: exit the packing pose](../teleoperation/marvin-pro.mdx#4-first-unpacking-exit-the-packing-pose).
+:::
+
+![Marvin Pro in the factory packing pose, with both arms hanging beside the center column](/img/apex/pro/new-id/robot-body.webp)
 
 :::warning Wrist connector is a separate interface
 The cabinet E-stop connector and the arm's 8-pin end-effector connector have different purposes. Wrist voltage descriptions vary across the source material. Obtain the exact pinout and voltage for your arm before attaching external equipment.
 :::
+
+Next: [first connection](./first-connection.mdx).

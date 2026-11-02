@@ -5,26 +5,45 @@ source_revision: V1.0 · 2026-06-27
 source_ids:
 - manual
 - vr
+- apex-doc-center
 review_status: pending
 translation_status: source
-source_zh_sha256: 1172813595651cc351cc8a82cec30603c35c73100ebf296c91f8b43917fbe14f
+source_zh_sha256: a2ccb06acadfa942eb11e0f95715ffecfe0727b445f11e2a4680b5c831c77c52
 ---
-Pro 手册中的 Apex 架构由机器人端计算机运行 ROS 2 节点、运动控制、相机采集和录制服务。电脑端上位机管理连接及操作流程。
+在 Apex 架构中，机器人内置控制器运行机器人控制、遥操作、相机和录制相关的 ROS 2 节点：当前机型为天准或灵境 Thor 控制器，早期机型为 Orin。上位机上的 Apex Teleop 负责连接管理和操作流程。
 
 ## 接口文档
 
-进入 [Apex 文档中心](https://gento-teleoperation-apex.github.io/Apex_doc_center/)，选择与安装版本对应的 Marvin Pro 客户接口文档。编写客户端前，确认该版本的话题名称、消息类型、单位、坐标系和更新行为。
+| 机器人或设备 | 文档 |
+| --- | --- |
+| Marvin Pro | [Marvin Pro ROS 2 接口](./ros2-marvin-pro.mdx)：命名空间、安全要求、输入仲裁、话题、服务、网络端口与话题频率 |
+| Skye 与 Luna | [Skye 与 Luna ROS 2 接口](./ros2-skye-luna.mdx)：关节差异、全身控制指令、服务与移动底盘 |
+| 头部与腕部相机 | [相机 ROS 话题](./cameras.mdx#ros-话题) |
+| RealSense 相机 | [RealSense 相机（ROS 2）](./realsense.mdx) |
+| 允许录制与转发的话题 | [话题白名单](../teleoperation/advanced/topic-whitelist.mdx) |
 
-## 区分接口层级
+编写客户端前，请在已安装版本上确认话题名称、消息类型、单位、坐标系和更新方式。以机器人上 `ros2 topic list -t` 的输出为准。
+
+## 加载 Apex ROS 2 环境
+
+登录机器人控制器（参见[连接 Orin 或 Thor](./cameras-firmware.mdx#连接-orin-或-thor)），在每个新终端中加载环境：
+
+```bash
+source /etc/apex/apex_ros_env.sh
+```
+
+在 Marvin Pro 上，Apex 节点默认运行在 `tj` 命名空间下，核心接口位于 `/tj/...`。基于旧版 `/control/...`、`/info/...` 路径编写的程序需要更新。
+
+## 区分不同接口
 
 | 接口 | 作用 |
 | --- | --- |
-| Marvin 运动 SDK | 与机器人控制器通信 |
-| Apex ROS 2 接口 | 机器人端应用集成与状态反馈 |
-| Apex 电脑端应用 | 操作连接、模式选择及录制 |
+| Marvin 运动控制 SDK | 与机器人控制器通信 |
+| Apex ROS 2 接口 | 机器人端应用集成与遥测 |
+| Apex 上位机应用 | 操作员连接、模式选择与录制 |
 
-支持 ROS 2 不代表全部 SDK 功能都通过话题或服务开放。不要默认 Luna/Skye 的消息定义和控制器配置适用于 Marvin Pro。
+ROS 2 集成并不意味着 SDK 的每个功能都以话题或服务形式开放。不要假设 Luna/Skye 的消息定义或控制器设置适用于 Marvin Pro。
 
-## 下发指令前
+## 发送指令前
 
-确认控制权属于哪个进程、如何交接，以及指令使用的坐标系和单位。最新的话题、服务和消息定义，请参见 [Apex 文档中心](https://gento-teleoperation-apex.github.io/Apex_doc_center/)。
+确认由哪个进程控制机器人、控制权如何交接，以及指令使用的坐标系和单位。请阅读对应机器人接口文档中的安全要求和输入仲裁规则，以及[遥操作模式与输入源](../teleoperation/operation-modes.mdx)。

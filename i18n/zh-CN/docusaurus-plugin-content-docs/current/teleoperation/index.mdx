@@ -1,0 +1,68 @@
+---
+title: Apex 遥操作
+description: Apex 遥操作 · Gento Apex 遥操作
+source_revision: '2026-10-10'
+source_ids:
+- apex-doc-center
+review_status: pending
+translation_status: source
+sidebar_label: 概述
+source_zh_sha256: 6133248b429d8ac87dac32206289a5b7e5ad69846cc052f61f4e07acc6888afb
+---
+Gento Teleoperation Apex 是适用于 Marvin Pro、Skye 和 Luna 的 VR 遥操作系统。操作员通过 VR 头显看到实时第一视角画面，动作以低延迟映射到机器人。Apex 还可录制机器人数据与视频用于示教数据集，并提供 ROS 2 接口供二次开发。Manus 数据手套配合 Wuji Hand 为选配。
+
+## 从哪里开始
+
+| 机器人 | 入口 |
+| --- | --- |
+| Marvin Pro 当前版本（天准控制器） | 先完成[接线](../marvin-pro/wiring.mdx)，再按 [Marvin Pro：首次遥操作](./marvin-pro.mdx)操作 |
+| Marvin Pro 早期版本（Orin 控制器） | [Marvin Pro 早期版本（Orin）](../marvin-pro/earlier-orin.mdx) |
+| Skye 或 Luna | [Skye 与 Luna：首次遥操作](./skye-luna.mdx) |
+
+安装、检查或升级软件，参见[安装与升级 Apex](./setup.mdx)。机器人控制器每次上电后，请先[启动相机](../software/cameras.mdx)再开始遥操作。
+
+## 软件分层
+
+Apex 上位机软件用于连接机器人控制器、管理遥操模块、切换控制模式、查看相机画面，以及录制、回放和排查运行日志。交付软件由机器人控制端、Teleop 遥操服务和前端界面组成，三者版本号含义不同。
+
+| 软件层 | 当前文档基线 | 作用 |
+|---|---|---|
+| Marvin Pro 控制端 | `gento-apex 1.1.7.1` | 当前 Pro 源码核对目标，使用 Gento SDK `4.7.1`；源码中仍标记为未正式发布 |
+| Skye/Luna 控制端 | `v1.0.6.95g-beta-10-g14cfc0d` | 当前 Gento 源码核对快照；客户安装包以交付清单为准 |
+| Teleop 遥操服务与前端 | 随交付批次配套 | 处理遥操数据并提供上位机界面，不与控制端包版本混用 |
+| 头显客户端 | 随交付批次配套 | 提供视频显示和遥操输入 |
+
+版本会持续更新，以上编号用于说明当前文档基线，现场应使用同一交付批次的配套软件。
+
+## 各机型对应的 Apex Teleop 界面
+
+| 产品 | 使用界面 | 说明 |
+|---|---|---|
+| Marvin Pro（当前天准版本） | [当前版界面](./interface-pro.mdx) | 当前控制端源码核对目标为 `gento-apex 1.1.7.1`，尚未标记为正式发布 |
+| Marvin Pro（历史 Orin 版本） | [经典版界面](./interface-classic.mdx) | 面向已出货历史设备 |
+| Skye / Luna | [经典版界面](./interface-classic.mdx) | 当前源码核对快照为 `v1.0.6.95g-beta-10-g14cfc0d` |
+
+Marvin Pro 支持 Pico 和 Meta Quest 头显。Skye 与 Luna 全身遥操作使用 Pico 配合腰部和腿部追踪器。
+
+## VR 头显
+
+:::warning 有线头显接线
+头显连接天准控制器时使用 **1 号网口**，连接灵境 Thor 控制器时使用 **2 号网口**；两种控制器的默认连接地址均为 `6.6.7.100`。现场网络参数如有调整，以设备交付配置为准。
+:::
+
+| 头显 | 指南 |
+| --- | --- |
+| Meta Quest | [App 安装](./headset/meta-app-installation.mdx) · [用户手册](./headset/meta.mdx) |
+| Pico | [App 安装](./headset/pico-app-installation.mdx) · [用户手册](./headset/pico.mdx) |
+
+头显应用处理哪些数据，参见其[隐私政策](./headset/privacy-policy.mdx)。
+
+## 更多指南
+
+- [遥操模式与输入源](./operation-modes.mdx)：全身、双臂与移动底盘操作，以及 IK 输入源
+- [Data-Processing-Tool](./data-processing-tool.mdx)：将录制数据转换为 LeRobot 数据集
+- [VLA 入门](./vla/index.mdx)：基于录制数据训练和部署视觉-语言-动作模型
+- [故障排查与常见问题](./troubleshooting.mdx)
+- 进阶：[配置修改](./advanced/configuration.mdx)、[话题白名单](./advanced/topic-whitelist.mdx)，以及 [Marvin Pro](./advanced/pro-communication-diagnostics.mdx) 和 [Skye/Luna](./advanced/gento-communication-diagnostics.mdx) 通讯排查
+- ROS 2 接口：[Marvin Pro](../software/ros2-marvin-pro.mdx)、[Skye 与 Luna](../software/ros2-skye-luna.mdx)
+- 末端执行器：[ApexTool 夹爪](../integration/apex-tool.mdx)、[DM 夹爪 CAN 协议](../integration/dm-gripper-can.mdx)、[Wuji 二代灵巧手](../integration/wuji-hand-2.mdx)

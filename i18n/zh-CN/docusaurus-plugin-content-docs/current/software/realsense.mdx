@@ -4,10 +4,11 @@ description: RealSense 相机（ROS 2） · Gento Marvin Pro、Luna、Skye
 source_revision: '2026-10-20'
 source_ids:
 - realsense-guide
+- apex-doc-center
 review_status: pending
 translation_status: source
 sidebar_label: RealSense 相机（ROS 2）
-source_zh_sha256: 052a8f780302a4d34cb67d293473caa64495a069d474ebd46ca7805d2ffdc2b7
+source_zh_sha256: 6f63152eabc3699a108446a000abee99b38626291c2cd7d4b588f06c7ad1c3c5
 ---
 Marvin Pro、Luna 和 Skye 均配有 Intel RealSense RGB-D 相机。本指南介绍如何在 ROS 2 中启动 RealSense 相机，并查看图像、标定参数和坐标关系，可作为视觉开发的起点。
 
@@ -129,6 +130,26 @@ ros2 topic echo /tf_static --once
 | TF | `/tf`、`/tf_static` | 相机与机器人坐标转换 |
 
 话题名以 `/camera/camera` 开头，是因为启动文件默认的命名空间和相机名称都是 `camera`。如果启动时修改了 `camera_namespace` 或 `camera_name`，话题名也会随之改变。
+
+## 已安装 Apex 时
+
+已安装 Apex 的机器人上，D435 由 Apex 相机组件使用独立配置文件 `config/rgbd_cameras.yaml` 启动，而不是 `rs_launch.py`；它不参与遥操作所用的四路拼接画面。
+
+```bash
+source /etc/apex/apex_ros_env.sh
+ros2 launch gmsl_quadcam rgbd_cameras.launch.py
+```
+
+话题位于 `/camera/d435/` 下，而不是 `/camera/camera/`：
+
+```text
+/camera/d435/color/image_raw
+/camera/d435/depth/image_rect_raw
+/camera/d435/color/camera_info
+/camera/d435/depth/camera_info
+```
+
+头部与腕部相机的拼接画面参见 [Apex 相机服务](./cameras.mdx#apex-相机服务gmsl_quadcam)。
 
 ## 常见问题
 

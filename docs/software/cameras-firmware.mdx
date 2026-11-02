@@ -8,7 +8,7 @@ source_ids:
 review_status: pending
 translation_status: source
 sidebar_label: Remote access & firmware
-source_zh_sha256: bd0f2436b02c54672031d32e74e9bef72c07f4afdc6f4140f54f0f3994006111
+source_zh_sha256: 5ce3f5870577258a6c07beb55ff5d4ede885768f1d01c9c485163008ec32626d
 ---
 Routine jobs you run from your PC over the network. First [connect your PC to the robot](./connect-pc.mdx) and check that the robot answers a ping.
 
@@ -18,9 +18,14 @@ To start or view the cameras, see [Start and view the cameras](./cameras.mdx).
 
 ## Connect to the Orin or Thor
 
-On Marvin Pro, Luna, and Skye, the AI controller (NVIDIA Orin or Thor) is at `6.6.7.100`. Log in as `nvidia`, using the password supplied with your robot.
+On Marvin Pro, Luna, and Skye, the AI controller (NVIDIA Orin or Thor) is at `6.6.7.100`. The factory logins are below. If your robot was delivered with a different password, use that one.
 
-- **Terminal:** `ssh nvidia@6.6.7.100`
+| Controller | User | Default password |
+| --- | --- | --- |
+| Tianzhun (Orin) | `nvidia` | `nvidia` |
+| Lingjing Thor | `user` | `1` |
+
+- **Terminal:** `ssh nvidia@6.6.7.100` (Thor: `ssh user@6.6.7.100`)
 - **Remote desktop:** connect to `6.6.7.100` with [NoMachine](https://www.nomachine.com/download).
 
 ### Use NoMachine without a monitor

@@ -6,9 +6,10 @@ source_ids:
 - manual
 - software
 - vr
+- apex-doc-center
 review_status: pending
 translation_status: pending
-source_zh_sha256: bfd4d941d477743a53e5d25e48ca3398253a8820ee0b0ecc41a99268ed9a6638
+source_zh_sha256: 33b796af1c27b37a5c008a6611bbc1e43fbcb7fad6946dc71e47e712aa73b98a
 ---
 Record the robot model, arm variant, controller firmware, SDK revision, Apex version, and camera/end-effector configuration before installation or an update. [Remote access & firmware](../software/cameras-firmware.mdx) shows how to read the firmware and Apex versions.
 
@@ -26,6 +27,29 @@ Use `TJ_FX_ROBOT_CONTRL_SDK/master`, named in the September software guide and l
 The SDK and controller **major and minor** versions must match. [Check the controller firmware version](../software/cameras-firmware.mdx) before installing or updating the SDK.
 
 The September software guide has separate build scripts for controller versions it calls “41” and “43.” [Check the full firmware version](../software/cameras-firmware.mdx) before choosing a script. Installation instructions here do not select a firmware package for you.
+
+## Current and earlier hardware
+
+| | Current version | Earlier version |
+| --- | --- | --- |
+| Main controller | Tianzhun core controller, in the cabinet | NVIDIA Jetson Orin |
+| Network | `6.6.7.x`: controller `6.6.7.100`, arms `6.6.7.190` | `192.168.10.x`: Orin `.123`, arms `.190`, router `.1` |
+| Camera deserializer | Built into the robot | Separate board under the Orin |
+| Headset | Pico or Meta Quest | Meta Quest; some units Pico |
+| Apex Teleop interface | [Current interface](../teleoperation/interface-pro.mdx) | [Classic interface](../teleoperation/interface-classic.mdx) |
+| Setup guide | [Wiring](./wiring.mdx) | [Earlier Marvin Pro (Orin)](./earlier-orin.mdx) |
+
+Don't install current Tianzhun packages on an Orin unit or apply Tianzhun addresses to it.
+
+## Apex version matching
+
+- Install the controller software, Gento SDK, Teleop service, Apex frontend, and headset client from one delivery release. Their version numbers refer to different components, so don't compare them with each other.
+- The current Marvin Pro documentation baseline is `gento-apex 1.1.7.1` with Gento SDK `4.7.1`. The source still marks it as unreleased; your delivery manifest decides the installed version.
+- Package filenames change between releases. For example, `pro-Teleoperation-apex_v1.1.7.1o_humble_arm64.deb` installs the Debian package `gento-apex`.
+- `gento-apex-tool`, which adds gripper and end-effector support, must be the same version as `gento-apex`.
+- Don't update arm-controller, servo, or camera firmware across versions without a package and procedure confirmed by Gento support.
+
+To install or update Apex, see [Install or update Apex](../teleoperation/setup.mdx).
 
 ## Before changing a working setup
 

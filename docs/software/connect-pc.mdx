@@ -10,7 +10,7 @@ source_ids:
 review_status: pending
 translation_status: source
 sidebar_label: Connect your PC
-source_zh_sha256: fa2af733258b7008ed802146c812ae3e2fde991adb334a3c57764d68d4882a42
+source_zh_sha256: 905314e48411430e1333eb337ec7ee7262a83c39b57b2aac6e9a322c4f9a1ff6
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -34,6 +34,8 @@ Plug the cable directly from your PC into the robot's control box.
 | Marvin Pro | Integrated control box | `6.6.7.x` |
 | Luna | Integrated control box, panel port RJ45 1 | `6.6.7.x` |
 | Skye | Integrated control box | `6.6.7.x` |
+
+Earlier Marvin Pro systems with an Orin controller use `192.168.10.x`: the Orin is `192.168.10.123`, the arm controller `192.168.10.190`, and the router `192.168.10.1`. See [Earlier Marvin Pro (Orin)](../marvin-pro/earlier-orin.mdx#network).
 
 ## 2. Choose an address for your PC
 

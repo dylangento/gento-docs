@@ -4,9 +4,10 @@ description: Unpack & inspect · Gento Marvin Pro
 source_revision: V1.0 · 2026-06-27
 source_ids:
 - manual
+- apex-doc-center
 review_status: pending
 translation_status: pending
-source_zh_sha256: e75710f4df6b3cba2aa6a8f6df74f5f1b609cc75453270b36b3717bb06c90dd7
+source_zh_sha256: 7c997aef1c9a4c7fcd1dee72cd591b59ce0545034a64b48ea00753acdb80716c
 ---
 Have at least two people available to lower the ramp and move the robot out of the flight case. Keep the packing materials until inspection is complete.
 
@@ -23,8 +24,48 @@ Have at least two people available to lower the ramp and move the robot out of t
 
 ## Check the delivered equipment
 
-The manual's standard packing list includes the robot with head cameras, a teleoperation kit, two wrist cameras, two soft grippers, the integrated electrical cabinet, a power cable, and an E-stop. The teleoperation kit includes a USB/Ethernet hub, Ethernet cable, USB drive, VR headset, and headset case.
+The Pro manual's standard packing list includes the robot with head cameras, a teleoperation kit, two wrist cameras, two soft grippers, the integrated electrical cabinet, a power cable, and an E-stop. The teleoperation kit includes a USB/Ethernet hub, Ethernet cable, USB drive, VR headset, and headset case.
 
 Check these against your actual order and packing list: supplied end effectors and accessories may vary. Photograph damage or missing parts and contact Gento before proceeding.
+
+
+## Standard teleoperation accessories
+
+The Apex documentation lists these items for the current version. Pico or Meta Quest is supplied depending on your configuration.
+
+| Accessory | Qty | Notes |
+| --- | ---: | --- |
+| VR headset (Pico or Meta Quest) | 1 | First-person view |
+| Controllers, left and right | 1 each | Arm motion and gripper open/close |
+| Robot power cable | 1 | Connects to the cabinet's `ACIN` |
+| E-stop box | 1 | Connects to the cabinet's `E-STOP` |
+| Senyun wrist cameras | Standard | Mounted on the arm ends and wired before delivery |
+| Ethernet cables | Several | Wired, low-latency connections |
+| USB drive labeled `BAG_STORAGE` | 1 | Recordings are saved to `recorded_bags` on it |
+| Type-C data cable | 1 | ADB debugging and headset APK installation |
+| Type-C Ethernet adapter | 1 | Connects the headset to the wired network |
+
+![Robot power cable and E-stop box](/img/apex/pro/new-id/power-estop.webp)
+
+![Teleoperation kit: headset and controllers in their case, USB drive, headset charger, Ethernet-to-Type-C adapter, and Ethernet cables](/img/apex/pro/new-id/teleop-kit.webp)
+
+## Optional accessories
+
+| Accessory | Notes |
+| --- | --- |
+| Manus data gloves | Capture finger motion; used with Wuji Hand |
+| Wuji Hand | Dexterous hand that follows the gloves; see [Wuji Hand 2](../integration/wuji-hand-2.mdx) |
+| Three-key foot pedal | Moves the controller enable actions to your foot, for glove and dexterous-hand teleoperation. Not a standard item |
+
+| Pedal key | Function |
+| --- | --- |
+| Key 1 (left) | Enables both controllers together |
+| Key 3 (right) | Moves both arms to Home. Don't use it from the factory packing pose |
+
+![Three-key foot pedal connected to the controller board](/img/apex/pro/pro_accessories_foot_pedal.webp)
+
+:::danger Exit the packing pose before any Home command
+The robot ships with both arms hanging beside the center column. Before you use the pedal's Home key or any other Home function, follow [First unpacking: exit the packing pose](../teleoperation/marvin-pro.mdx#4-first-unpacking-exit-the-packing-pose).
+:::
 
 Next: [connections and power-on](./wiring.mdx).

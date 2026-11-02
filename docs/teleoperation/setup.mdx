@@ -1,17 +1,19 @@
 ---
-title: Install Apex teleoperation
-description: Install Apex teleoperation · Gento Marvin Pro
+title: Install or update Apex
+description: Install or update Apex · Gento Marvin Pro
 source_revision: '2026-09-04'
 source_ids:
 - vr
 - manual
+- apex-doc-center
 review_status: pending
 translation_status: pending
-source_zh_sha256: 9d7ba4f97d5a9c3aa6a3abb44c266d79d57ef4f5e8945e8f718912c0880d3a14
+source_zh_sha256: cd08bd265f2bf4a52441261e923351738fedd45df268fba78cb03b326e408132
+sidebar_label: Install or update
 ---
 The September 4 VR resource guide separates installation into robot-side, desktop, and headset packages. The Pro manual notes that purchased teleoperation kits may arrive with software preinstalled. [Check the installed version](../software/cameras-firmware.mdx#check-the-apex-teleoperation-version) before reinstalling.
 
-<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">Open the Apex teleoperation docs ↗</a></div>
+For wiring and first startup, see [Marvin Pro: first teleoperation](./marvin-pro.mdx) or [Skye and Luna: first teleoperation](./skye-luna.mdx).
 
 ![Operator teleoperating Marvin Pro with a VR headset](/img/marvin-pro/vr-teleoperation.webp)
 
@@ -29,10 +31,75 @@ The September 4 VR resource guide separates installation into robot-side, deskto
 2. Install the robot-side Debian packages on the supported compute unit, following that release's instructions.
 3. Install the `kernelmind-apex` desktop application on the operator computer.
 4. Install the matching VR APK on the headset using SideQuest, as described in the resource guide.
-5. Follow the [Apex documentation center](https://gento-teleoperation-apex.github.io/Apex_doc_center/) for configuration and connection.
+5. Install the headset app: see [Meta Quest app installation](./headset/meta-app-installation.mdx) or [Pico app installation](./headset/pico-app-installation.mdx).
 
 After every power-up of the robot's Orin or Thor, [start the cameras](../software/cameras.mdx) before you teleoperate.
 
 The resource guide mentions Orin and Thor. Package architecture alone is not proof that a particular release supports both; verify its release notes. The source material also distinguishes earlier and newer Pro hardware.
 
-Next: [pre-operation checks](./operation.mdx).
+## Version matching
+
+- Use the robot controller, Gento SDK, Teleop service, Apex frontend, and headset client from the same delivery release.
+- The current Pro source-review target is `gento-apex 1.1.7.1` with Gento SDK `4.7.1`. The source still marks this target as unreleased, and it no longer uses MarvinSDK as its control runtime. Follow the customer delivery manifest for the installed version.
+- Package filenames change by release; use the delivered files and release notes.
+- Enable Tool and Camera according to the installed options.
+
+Skye and Luna need a Gento controller package, marked with `g` or `gento`. Don't install an unmarked Marvin Pro package on them. For a summary by robot, see [Software layers](./index.mdx#software-layers).
+
+## Update Marvin Pro
+
+### Before updating
+
+1. Record the installed `gento-apex`, Gento SDK, Teleop service, Apex frontend, and headset client versions.
+2. Back up network, robot, camera, and end-effector configuration.
+3. Stop Robot, Teleop, Camera, and Tool and leave the robot safe.
+4. Use matching packages from one delivery release.
+
+### Controller
+
+The current Pro source-review target is `gento-apex 1.1.7.1` with Gento SDK `4.7.1`; the source still marks this target as unreleased. Only when the delivery manifest or technical support explicitly specifies this version should you copy packages from the same release to the Tianzhun controller, install the SDK first, and then install Apex:
+
+```bash
+sudo apt install ./gento-sdk_4.7.1_arm64_ubuntu22.04.deb
+sudo apt install ./pro-Teleoperation-apex_v1.1.7.1o_humble_arm64.deb
+```
+
+The artifact filename uses `pro-Teleoperation-apex`; the installed Debian package name remains `gento-apex`. The command above shows the target naming convention for `1.1.7.1` and does not mean that the version has been formally released. Files with a `_testN` suffix are test artifacts and must only be used when technical support explicitly requests them.
+
+### Host PC
+
+Install the Teleop service and Apex frontend from the same delivery release:
+
+```bash
+sudo apt install ./<apex-teleop-package>.deb
+```
+
+When the delivery includes a gripper or another end effector, install the Tool package specified in the delivery manifest. In the current Pro source, the controller companion package `gento-apex-tool` strictly depends on the same version of `gento-apex` and must not be mixed across versions. Separately delivered end-effector drivers may use their own release line; follow the corresponding end-effector delivery guide. Installing only the controller package may leave Robot, Camera, and Teleop available while Tool and its end-effector components are absent.
+
+For headset installation and developer mode, see [VR headset](./index.mdx#vr-headset).
+
+### Validation
+
+Restart the controller and host application, verify network/model/camera/tool configuration, start Robot, and confirm the URDF pose. Then test Impedance Mode, Home, and small motions in a clear workspace. If the robot is in the factory packing pose, wait until Robot is Ready, enable drag mode, manually move both arms to the standard zero pose, and disable drag mode; never Home directly. Also verify recording, video, and logs.
+
+Do not update the robot controller, servo, or camera firmware across versions without a package and procedure confirmed by technical support.
+
+## Update Skye and Luna
+
+Record the Tianzhun 003 controller, Teleop service, Apex frontend, and Pico client versions before updating. Back up network, model, camera, and tracking configuration and safely stop the robot.
+
+```bash
+sudo apt install ./<controller-package-from-delivery-manifest>.deb
+```
+
+Skye/Luna requires a matching Gento controller package marked with `g` or `gento`. Do not install an unmarked Marvin Pro package.
+
+The current source-review snapshot is `v1.0.6.95g-beta-10-g14cfc0d`; it is not the customer release-package version. The controller, Teleop service, Apex frontend, and Pico packages must come from the same delivery release. After updating, verify Robot, 3D pose, cameras, Pico, and Home. Then verify small arm/BODY/LIFT motions on Skye or arm/BODY motions on Luna.
+
+See the [Pico headset guide](./headset/pico.mdx) for installation and developer mode. Do not update robot-controller, servo, or tracker firmware across versions without technical support approval.
+
+## Update an earlier Orin unit
+
+See [Update the software](../marvin-pro/earlier-orin.mdx#update-the-software) on the earlier Marvin Pro page. Don't install Tianzhun packages on an Orin unit.
+
+Next: [Marvin Pro: first teleoperation](./marvin-pro.mdx) or [Skye and Luna: first teleoperation](./skye-luna.mdx).

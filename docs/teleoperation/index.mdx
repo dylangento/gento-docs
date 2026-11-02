@@ -1,0 +1,68 @@
+---
+title: Teleoperation with Apex
+description: Teleoperation with Apex · Gento Apex teleoperation
+source_revision: '2026-10-10'
+source_ids:
+- apex-doc-center
+review_status: pending
+translation_status: pending
+sidebar_label: Overview
+source_zh_sha256: 6133248b429d8ac87dac32206289a5b7e5ad69846cc052f61f4e07acc6888afb
+---
+Gento Teleoperation Apex is the VR teleoperation system for Marvin Pro, Skye, and Luna. The operator sees a live first-person view through a VR headset, and their motion is mapped to the robot with low latency. Apex also records robot data and video for demonstration datasets, and provides ROS 2 interfaces for your own applications. Manus data gloves with a Wuji Hand are optional.
+
+## Where to start
+
+| Your robot | Start here |
+| --- | --- |
+| Marvin Pro, current version (Tianzhun controller) | [Wiring](../marvin-pro/wiring.mdx), then [Marvin Pro: first teleoperation](./marvin-pro.mdx) |
+| Marvin Pro, earlier version (Orin controller) | [Earlier Marvin Pro (Orin)](../marvin-pro/earlier-orin.mdx) |
+| Skye or Luna | [Skye and Luna: first teleoperation](./skye-luna.mdx) |
+
+To install, check, or update the software, see [Install or update Apex](./setup.mdx). After every power-up of the robot's controller, [start the cameras](../software/cameras.mdx) before you teleoperate.
+
+## Software layers
+
+The Apex host software connects to the robot controller, manages teleoperation modules and control modes, displays camera streams, records and plays back data, and provides runtime logs. A delivered software set includes the robot controller layer, the Teleop service, and the frontend. Their version numbers refer to different components.
+
+| Software layer | Current documentation baseline | Purpose |
+|---|---|---|
+| Marvin Pro controller | `gento-apex 1.1.7.1` | Current Pro source-review target with Gento SDK `4.7.1`; the source still marks it as unreleased |
+| Skye/Luna controller | `v1.0.6.95g-beta-10-g14cfc0d` | Current Gento source-review snapshot; use the customer package listed in the delivery manifest |
+| Teleop service and frontend | Matched to the delivery release | Processes teleoperation data and provides the host interface; do not mix it with another controller release |
+| Headset client | Matched to the delivery release | Provides video and teleoperation input |
+
+Versions continue to evolve. These numbers identify the current documentation baseline; always use matching software from one delivery release.
+
+## Apex Teleop interface by robot
+
+| Product | Interface | Notes |
+|---|---|---|
+| Marvin Pro (current Tianzhun version) | [Current interface](./interface-pro.mdx) | Current controller source-review target is `gento-apex 1.1.7.1`, which is not yet marked as a formal release |
+| Marvin Pro (historical Orin version) | [Classic interface](./interface-classic.mdx) | For previously delivered systems |
+| Skye / Luna | [Classic interface](./interface-classic.mdx) | Current source-review snapshot is `v1.0.6.95g-beta-10-g14cfc0d` |
+
+Marvin Pro supports Pico and Meta Quest headsets. Skye and Luna full-body teleoperation uses Pico with waist and leg trackers.
+
+## VR headset
+
+:::warning Wired Headset Connection
+Use **Ethernet port 1** when connecting the headset to a Tianzhun controller and **Ethernet port 2** with a Lingjing Thor controller. Both controllers use `6.6.7.100` as the default connection address. Follow the delivered configuration if the site network parameters have been changed.
+:::
+
+| Headset | Guides |
+| --- | --- |
+| Meta Quest | [App installation](./headset/meta-app-installation.mdx) · [User manual](./headset/meta.mdx) |
+| Pico | [App installation](./headset/pico-app-installation.mdx) · [User manual](./headset/pico.mdx) |
+
+The headset app's [privacy policy](./headset/privacy-policy.mdx) describes what data it handles.
+
+## More guides
+
+- [Teleoperation modes and input sources](./operation-modes.mdx): full-body, dual-arm, and mobile-base operation, and IK sources
+- [Data-Processing-Tool](./data-processing-tool.mdx): turn recordings into LeRobot datasets
+- [VLA guide](./vla/index.mdx): train and deploy vision-language-action policies on recorded data
+- [Troubleshooting and FAQ](./troubleshooting.mdx)
+- Advanced: [configuration changes](./advanced/configuration.mdx), [topic whitelist](./advanced/topic-whitelist.mdx), and communication diagnostics for [Marvin Pro](./advanced/pro-communication-diagnostics.mdx) and [Skye/Luna](./advanced/gento-communication-diagnostics.mdx)
+- ROS 2 interfaces: [Marvin Pro](../software/ros2-marvin-pro.mdx) and [Skye and Luna](../software/ros2-skye-luna.mdx)
+- End effectors: [ApexTool grippers](../integration/apex-tool.mdx), [DM gripper CAN protocol](../integration/dm-gripper-can.mdx), and [Wuji Hand 2](../integration/wuji-hand-2.mdx)

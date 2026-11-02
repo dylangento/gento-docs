@@ -1,0 +1,118 @@
+---
+title: "Apex Teleop: Marvin Pro interface"
+description: "Apex Teleop: Marvin Pro interface · Gento Apex teleoperation"
+source_revision: '2026-10-10'
+source_ids:
+- apex-doc-center
+review_status: pending
+translation_status: pending
+sidebar_label: Apex Teleop (Marvin Pro)
+source_zh_sha256: c540583acb0c281e564cef0885ccc0281de61ae99a57d512dc2ce850ca73a291
+---
+This page applies to the current Marvin Pro with a Tianzhun controller. The current controller source-review target is `gento-apex 1.1.7.1` with Gento SDK `4.7.1`; the source still marks this target as unreleased. At customer sites, follow the delivery manifest and use the host application and headset client from the same release.
+
+## Interface overview
+
+![Current Marvin Pro Apex Teleop interface](/img/apex/software/apex-teleop/pro-main.webp)
+
+| Area | Purpose |
+|---|---|
+| Top status bar | Robot, Camera, Teleop, Net, VR, and Healthy states |
+| Controller IP | Enter the Tianzhun controller IP and press Enter |
+| 3D view | URDF model and live robot pose |
+| Module controls | Camera, Robot, Teleop, Tool, and dnsmasq controls |
+| Robot Mode | Set Ready, robot mode, input mode, Home, and gripper restart |
+| Data Record | Robot and camera data recording |
+| Data Playback | Recorded data selection and playback |
+| WebRTC | Four-tile camera stream |
+| Side navigation | Main, log, and settings pages |
+
+## First teleoperation sequence
+
+Follow [Marvin Pro: first teleoperation](./marvin-pro.mdx#3-start-apex-teleop-and-the-robot) for the sequence from connecting to the controller to teleoperating.
+
+:::danger Do not Home directly from the factory packing pose
+If both arms hang vertically close to the center column, the robot is still in its factory packing pose, and Home can drive a wrist camera into the column. First [exit the packing pose](./marvin-pro.mdx#4-first-unpacking-exit-the-packing-pose).
+:::
+
+## Module controls
+
+| Module | Required | Description |
+|---|---|---|
+| Robot | Yes | Connects the robot and publishes robot state |
+| Teleop | Yes | Starts the teleoperation chain |
+| dnsmasq | Yes | Provides network service for a wired headset |
+| Camera | Optional | Starts four-camera streaming and WebRTC |
+| Tool | Optional | Controls a configured gripper or end effector |
+
+Green indicates that a module is running. Dependent controls may remain unavailable until Robot is running and the robot is Ready.
+
+## Robot Mode
+
+### Robot control modes
+
+| Control | Description |
+|---|---|
+| Start Robot | Sets the robot Ready |
+| Standby Mode | Does not execute external motion commands |
+| Position Mode | Position control mode |
+| Impedance Mode | Compliant mode used for teleoperation |
+| Home | Moves to the configured teleoperation initial pose; from the factory packing pose, first enable drag mode, manually move to the standard zero pose, and disable drag mode before clicking Home |
+| Restart (Gripper) | Restarts a configured gripper |
+
+### Input modes
+
+| Mode | Description |
+|---|---|
+| None | No external motion input |
+| Teleop | Teleop/QP output; used for both headset teleoperation and VLA Cartesian control |
+| Custom | Joint targets from a customer application; not for VLA Cartesian control |
+
+See [Teleoperation Modes and Input Sources](./operation-modes.mdx) for mode relationships, IK switching order, and full-body/dual-arm/base procedures. Read [Customer integration interfaces](../software/ros2-marvin-pro.mdx) before using Custom mode.
+
+## Camera view
+
+![Four-tile camera view](/img/apex/software/apex-teleop/pro-camera.webp)
+
+The camera panel always uses a four-tile layout. In the example, `camera_sources: [0, 1, none, none]` enables two cameras, so the lower two tiles are black by design. This does not indicate a camera fault. Bitrate, packet loss, and FPS are shown at the bottom.
+
+## Recording
+
+1. Connect the USB drive, set its volume label to `BAG_STORAGE`, and confirm that it is mounted at `/media/<user>/BAG_STORAGE`.
+2. Click **Start Recording**.
+3. Keep Robot, Teleop, and any required Camera module running.
+4. Stop recording and wait for writing to finish before removing the drive.
+
+Recordings are stored by default in:
+
+```text
+/media/<user>/BAG_STORAGE/recorded_bags
+```
+
+Each `my_bag-*` task directory should contain at least `data/*.mcap`, `data/metadata.yaml`, and `video/cameras.mp4`. If files are missing or MCAP cannot be read, first check for an interrupted recording and verify that the USB drive is writable.
+
+To determine whether a topic is permitted for recording, playback, or frontend forwarding, see [Topic whitelist configuration and diagnostics](./advanced/topic-whitelist.mdx).
+
+## Playback
+
+1. Click **Select File** and choose a recording.
+2. Use **Play**, **Pause**, and **Stop**.
+3. Select the playback rate from **Speed**.
+
+Before physical playback, clear the workspace, verify the initial pose, and keep the emergency stop within reach.
+
+## Logs
+
+Open the log page from the left navigation and select a module from the upper-right list.
+
+![Robot module log](/img/apex/software/apex-teleop/pro-log-robot.webp)
+
+![Teleop module log](/img/apex/software/apex-teleop/pro-log-teleop.webp)
+
+| Control | Description |
+|---|---|
+| Module list | Switches between Robot, Teleop, and other module logs |
+| Locked | Holds the current scroll position |
+| Clear | Clears the currently displayed log |
+
+Record the fault time and inspect both Robot and Teleop logs. Do not diagnose a fault from status indicators alone.

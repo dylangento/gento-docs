@@ -1,0 +1,160 @@
+---
+title: "Marvin Pro: first teleoperation"
+description: "Marvin Pro: first teleoperation · Gento Apex teleoperation"
+source_revision: '2026-10-10'
+source_ids:
+- apex-doc-center
+review_status: pending
+translation_status: pending
+sidebar_label: Marvin Pro quick start
+source_zh_sha256: 3f88ed9f160cf2f1e5653f6c14ce3f758ce64af3c1338a1c65d2a35a2dbfd986
+---
+This page applies to the current Tianzhun-controller version and covers the minimum sequence from power-on to first teleoperation. For buttons, recording, playback, and logs, see [Current Marvin Pro Apex Teleop](./interface-pro.mdx).
+
+For units with an Orin controller, see [Earlier Marvin Pro (Orin)](../marvin-pro/earlier-orin.mdx#start-teleoperation).
+
+## 1. Before startup
+
+- Connect the robot, cabinet, host PC, and headset according to [Wiring](../marvin-pro/wiring.mdx).
+- Release the emergency stop and clear the robot workspace.
+- Put the host PC and Tianzhun controller on the same subnet.
+- Connect the headset to the same LAN.
+- Check whether the robot is still in its factory packing pose. **Do not click Home from the packing pose. A wrist camera may collide with the center column.**
+
+### Network
+
+The host PC, Tianzhun controller, and headset must be on the same `6.6.7.x` subnet. [Connect the network](../marvin-pro/wiring.mdx#connect-the-network) lists the default addresses. Check that the controller is reachable:
+
+```bash
+ping 6.6.7.100
+```
+
+No two devices may share an IP address. Before changing the site subnet, update and verify the robot controller, Tianzhun controller, host PC, and headset together.
+
+### Software
+
+Use the controller software, Gento SDK, Teleop service, Apex frontend, and headset client from one delivery release, and enable Tool and Camera according to the installed options. See [Apex version matching](../marvin-pro/compatibility.mdx#apex-version-matching).
+
+### Cameras
+
+The UI always displays four tiles. A disabled `camera_sources` entry appears black. For example, `0, 1, none, none` enables only the first two views and is a valid configuration.
+
+Back up the configuration and contact support before changing camera IDs, wiring, or calibration. Do not edit camera configuration while the robot is operating.
+
+## 2. Connect to the controller
+
+Select the address and account for the controller installed in the device. These are factory defaults; use the delivery configuration if the IP address, username, or password has been changed.
+
+| Controller | Default IP | Username | Default password |
+|---|---|---|---|
+| Tianzhun | `6.6.7.100` | `nvidia` | `nvidia` |
+| Lingjing Thor | `6.6.7.100` | `user` | `1` |
+
+Tianzhun controller:
+
+```bash
+ping 6.6.7.100
+ssh nvidia@6.6.7.100
+```
+
+Lingjing Thor controller:
+
+```bash
+ping 6.6.7.100
+ssh user@6.6.7.100
+```
+
+Enter the corresponding default password on the first SSH connection. If the delivered device already uses a changed password, do not attempt to restore the factory default.
+
+After controller power-on, if the delivered system contains `~/cam_geac`, initialize the cameras according to the delivered configuration (see [Start the cameras](../software/cameras.mdx)):
+
+```bash
+cd ~/cam_geac
+./rb_camera.sh init
+```
+
+Start the Apex backend service:
+
+```bash
+sudo systemctl start apex-backend.service
+sudo systemctl status apex-backend.service --no-pager
+```
+
+> Disable `X11-Forwarding` in MobaXterm to avoid camera timeout or headset video issues.
+
+## 3. Start Apex Teleop and the robot
+
+1. Open Apex Teleop.
+2. Enter the Tianzhun controller IP in the upper-right field and press **Enter**.
+3. Start **Robot**.
+4. Confirm that the URDF pose matches the physical robot.
+5. Start **Teleop** and **dnsmasq**.
+6. Start **Camera** when video is required. Start **Tool** only when an end effector is configured.
+7. Click **Start Robot** in the lower-left card.
+
+![Current Marvin Pro Apex Teleop](/img/apex/software/apex-teleop/pro-main.webp)
+
+## 4. First unpacking: exit the packing pose
+
+:::danger Do not Home directly from the packing pose
+The robot is delivered with both arms hanging vertically close to the center column. Calling Home directly from this pose can cause a wrist camera to collide with the column. After first unpacking, or whenever the robot has been manually returned to the packing pose, enable drag mode and manually move both arms to the standard zero pose shown below.
+:::
+
+![Marvin Pro standard zero pose](/img/apex/pro/new-id-standard-zero-pose.webp)
+
+1. Confirm that the **Robot** module is green and that **Start Robot** has been clicked. Drag mode can only be enabled after the robot reaches Ready state.
+2. Open a terminal and enable drag mode:
+
+```bash
+source /etc/apex/apex_ros_env.sh
+ros2 service call /tj/control/set_drag \
+  marvin_msgs/srv/Int "{data: 1}"
+```
+
+The command must return `success: true`. If the service is unavailable or the call fails, do not move the arms. Check the Robot module, robot connection, and Ready state first.
+
+3. Slowly drag both arms away from the center column and adjust them to the standard zero pose shown above. Maintain safe clearance between the wrist cameras, arms, and center column throughout the movement.
+4. As soon as the adjustment is complete, disable drag mode:
+
+```bash
+ros2 service call /tj/control/set_drag \
+  marvin_msgs/srv/Int "{data: 0}"
+```
+
+Continue only after the command returns `success: true`. Keep the emergency stop within reach throughout the operation. This section does not need to be repeated when the robot has already left the packing pose and its Home path is known to be safe.
+
+## 5. Enter the teleoperation pose
+
+1. Confirm that the robot has left the packing pose, both arms are in the standard zero pose, and drag mode is disabled.
+2. Select **Impedance Mode**.
+3. Click **Home** and wait until the frontend reports completion and the robot is stable at the teleoperation initial pose. When Home is called through the ROS service, a successful response only means that the trajectory started; continue only after `/tj/info/go_home_status` reports `succeeded`.
+4. Set **Input Mode** to **Teleop**. To verify the IK source or switch through services, see [Teleoperation Modes and Input Sources](./operation-modes.mdx).
+
+## 6. Connect the headset
+
+Marvin Pro supports Pico and Meta Quest:
+
+- [Pico headset guide](./headset/pico.mdx)
+- [Meta Quest headset guide](./headset/meta.mdx)
+
+Connect the headset cable, open the Apex headset client, and connect to the controller. Confirm the VR state in Apex Teleop, then begin with small motions in a clear workspace.
+
+Marvin Pro supports [Pico](./headset/pico.mdx) and [Meta Quest](./headset/meta.mdx). The headset must be on the same LAN as the Tianzhun controller. Enter the Tianzhun address, not the headset's own address, in the headset client.
+
+## 7. Quick checks
+
+| Symptom | Check |
+|---|---|
+| Cannot connect from the IP field | IP, subnet, cable, and controller network |
+| Robot does not start | E-stop, robot power, controller link, and Robot log |
+| URDF does not follow the robot | Robot module and robot model configuration |
+| Teleop unavailable | Robot running and Ready state |
+| Headset cannot connect | dnsmasq, headset cable, connection IP, and VR state |
+| Camera is black | Camera module, camera initialization, and `camera_sources` |
+| `argus_camera` fails with `Failed to create CaptureSession` | The Camera service is holding the cameras; see [this fix](../software/cameras.mdx#if-argus_camera-fails-with-failed-to-create-capturesession) |
+| No teleoperation motion | Impedance Mode, Home completion, and Teleop input mode |
+| First startup from the packing pose | Do not Home directly; after Robot is Ready, enable drag mode, manually move both arms to the standard zero pose, and disable drag mode |
+| Drag mode cannot be enabled | Check that Robot is running, Start Robot has completed, and `/tj/control/set_drag` returns success |
+| Home path approaches the center column | Stop immediately and use the emergency stop if needed; verify that the robot has left the packing pose, drag mode is disabled, and the starting pose is safe |
+
+For further diagnosis, see [Apex Teleop logs](./interface-pro.mdx#logs).

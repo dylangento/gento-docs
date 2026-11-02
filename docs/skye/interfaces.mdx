@@ -6,10 +6,17 @@ source_ids:
 - skye-manual-en
 - skye-manual
 - support-notes
+- apex-doc-center
 review_status: pending
 translation_status: source
-source_zh_sha256: da4866609669aafd1541aea465126d612a6f63a9a7c99b401565cb9a7e580f87
+source_zh_sha256: 801e4c2a2b2c6321b6c66ec0601149e38b14839bfec93bf2fa021f9a7cecf126
 ---
+## Rear interfaces
+
+![Skye rear interfaces: Ethernet cable connected to the rear panel](/img/apex/gento/skye-luna/skye-rear-ports.webp)
+
+The rear panel carries the Ethernet ports used for the host PC and teleoperation network. Follow the labels on your delivered robot.
+
 ## Arm end 8-pin interface
 
 The end flange of each Marvin arm has an 8-pin connector for tool power and communication.
@@ -91,3 +98,13 @@ The arm servo drives report an overvoltage error above 58 V and an undervoltage 
 The power board also has two reserved external signal interfaces (CANH and CANL), a 10-pin I/O connector (RS-485 485A1/485B1, inputs IN1, IN3, and IN4, outputs OUT2–OUT5), and a connector with STOP_IN, 24 V, and GND. Section 3.1.7 of the manual shows where each connector is.
 
 Next: [software, SDK & teleoperation](./software.mdx).
+
+## Teleoperation network
+
+For Apex teleoperation, the robot's onboard controller (Tianzhun 003 or Lingjing Thor) is at `6.6.7.100` by default. Connect the robot's rear Ethernet port, the host PC, and the headset (through its Type-C Ethernet adapter) to the same router or switch, on the same subnet, with no two devices sharing an address.
+
+:::warning Headset Ethernet port
+Use **port 1** with a Tianzhun controller and **port 2** with a Lingjing Thor controller. Don't swap them.
+:::
+
+For the wiring steps and checks, see [Skye and Luna: first teleoperation](../teleoperation/skye-luna.mdx#3-network-wiring).

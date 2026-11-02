@@ -8,7 +8,7 @@ source_ids:
 review_status: pending
 translation_status: pending
 sidebar_label: 远程访问与固件
-source_zh_sha256: bd0f2436b02c54672031d32e74e9bef72c07f4afdc6f4140f54f0f3994006111
+source_zh_sha256: 5ce3f5870577258a6c07beb55ff5d4ede885768f1d01c9c485163008ec32626d
 ---
 以下日常操作均在电脑上通过网络完成。请先[连接用户电脑](./connect-pc.mdx)，并确认能 ping 通机器人。
 
@@ -18,9 +18,14 @@ Windows 10/11 可在 PowerShell 中使用 `ssh`，Ubuntu 可在任意终端中�
 
 ## 连接 Orin 或 Thor
 
-Marvin Pro、Luna 和 Skye 的 AI 控制器（NVIDIA Orin 或 Thor）地址为 `6.6.7.100`。以 `nvidia` 用户登录，密码见机器人随附资料。
+Marvin Pro、Luna 和 Skye 的 AI 控制器（NVIDIA Orin 或 Thor）地址为 `6.6.7.100`。出厂默认账号如下；如交付时已修改密码，请使用交付的密码。
 
-- **终端：** `ssh nvidia@6.6.7.100`
+| 控制器 | 用户名 | 默认密码 |
+| --- | --- | --- |
+| 天准（Orin） | `nvidia` | `nvidia` |
+| 灵境 Thor | `user` | `1` |
+
+- **终端：** `ssh nvidia@6.6.7.100`（Thor：`ssh user@6.6.7.100`）
 - **远程桌面：** 使用 [NoMachine](https://www.nomachine.com/download) 连接 `6.6.7.100`。
 
 ### 无显示器使用 NoMachine

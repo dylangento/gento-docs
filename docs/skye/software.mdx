@@ -6,10 +6,11 @@ source_ids:
 - skye-manual-en
 - skye-manual
 - support-notes
+- apex-doc-center
 review_status: pending
 translation_status: source
 sidebar_label: Software, SDK & teleop
-source_zh_sha256: d48be1221c84ca7ebbf0539984254130098e33e852a660110c08899a4e0b8701
+source_zh_sha256: 065456e428027e7a91d0ecb9652f143240c8e14b15702d3d052141c256765f41
 ---
 Skye uses the same software as Luna: GentoPlatform for hands-on control, the Gento SDK for your own programs, and Apex for VR teleoperation. Get comfortable with GentoPlatform first; understanding how the robot behaves makes code development easier.
 
@@ -116,9 +117,9 @@ With the Apex teleoperation kit, an operator controls Skye from a VR headset wit
 | Robot control | `apex-robot.service` | ROS control and state publishing |
 | Teleoperation | `apex-teleop.service` | IK, planning, and command multiplexing |
 
-For setup, wearing the headset, and operation, use the Apex documentation. Updates and installation packages are in [KernelMind_Apex_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Deb).
+For wiring, wearing the trackers, and first startup, see [Skye and Luna: first teleoperation](../teleoperation/skye-luna.mdx). To install or update the software, see [Install or update Apex](../teleoperation/setup.mdx). The ROS 2 topics and services are listed in [Skye and Luna ROS 2 interfaces](../software/ros2-skye-luna.mdx).
 
-<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">Open the Apex teleoperation docs ↗</a></div>
+<div className="doc-cta"><a className="button button--primary" href="../../teleoperation/skye-luna/">Open the Skye/Luna teleoperation guide</a></div>
 
 After every power-up of the Orin or Thor, [start the cameras](../software/cameras.mdx) before you teleoperate. To check the installed Apex version, see [Check the Apex teleoperation version](../software/cameras-firmware.mdx#check-the-apex-teleoperation-version).
 

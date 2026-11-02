@@ -4,9 +4,10 @@ description: SDK 与遥操作 · Gento Luna
 source_revision: V2.1 · 2026-08
 source_ids:
 - luna-manual
+- apex-doc-center
 review_status: pending
 translation_status: source
-source_zh_sha256: 5695f9c0ac5f053c15587f79b05fab79711676513db782737e17c5b4ac1e3700
+source_zh_sha256: 3a7eb3a3cf004b697f5189ef7be67c849b93c335e665418c804f8b67462f8f15
 ---
 建议先熟练使用 [GentoPlatform](./gentoplatform.mdx)，了解机器人的操作逻辑后再进行代码开发。
 
@@ -96,16 +97,19 @@ ping 6.6.7.100  # 域控制器
 - 服务端：[KernelMind_Apex_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Deb)
 - 前端：[KernelMind_Apex_Web_Deb](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_Web_Deb)
 - 头显 APK：[KernelMind_Apex_VR_Apk](https://github.com/Gento-Teleoperation-Apex/KernelMind_Apex_VR_Apk)
-- 遥操文档中心：[Apex 文档中心](https://gento-teleoperation-apex.github.io/Apex_doc_center/)
+- 接线与首次启动：[Skye 与 Luna：首次遥操作](../teleoperation/skye-luna.mdx)
+- 安装与升级：[安装与升级 Apex](../teleoperation/setup.mdx)
+- ROS 2 话题与服务：[Skye 与 Luna ROS 2 接口](../software/ros2-skye-luna.mdx)
 
-<div className="doc-cta"><a className="button button--primary" href="https://gento-teleoperation-apex.github.io/Apex_doc_center/" target="_blank" rel="noopener noreferrer">打开 Apex 遥操作文档 ↗</a></div>
+<div className="doc-cta"><a className="button button--primary" href="../../teleoperation/skye-luna/">打开 Skye/Luna 遥操作指南</a></div>
 
-### 遥操步骤
+### 遥操步骤概要
 
-1. 每次 Orin / Thor 上电后先启动相机：执行 `ssh nvidia@6.6.7.100` 登录，再执行 `cd /home/nvidia/cam_geac && ./rb_camera.sh init`，等待约 20 秒。参见[启动与查看相机](../software/cameras.mdx)。
-2. 打开遥操前端，输入控制器 IP 并连接；启动 dnsmasq（有线头显）、**Robot**，确认 URDF 姿态与实体一致；再启动 **Teleop**，按需启动 **Camera** 和 **Tool**。
-3. 点击 **Start Robot** 进入 Ready，点击 **Impedance Mode**，再点击 **Home** 回到遥操初始位。使用灵巧手时将 **Input Mode** 切换为 **Teleop**。
-4. 佩戴并校正体感追踪器，在头显客户端确认身高、IP 和末端执行器后连接。前端 VR 指示灯变绿后，按左手柄 Y 键开启遥操，按住手柄侧键进行操作。
+1. 每次 Orin 或 Thor 上电后，先[启动相机](../software/cameras.mdx)。
+2. 在 Apex Teleop 中连接控制器并启动各模块，依次点击 **Start Robot**、**Impedance Mode** 和 **Home**。
+3. 佩戴并校正追踪器，连接头显客户端后开始遥操作。
+
+完整步骤（包括追踪器校正与头显操作）参见 [Skye 与 Luna：首次遥操作](../teleoperation/skye-luna.mdx)。
 
 :::warning 遥操须知
 - 优先使用有线网络，不建议头显通过 WiFi 遥操。
@@ -115,6 +119,6 @@ ping 6.6.7.100  # 域控制器
 - 头显没电、异常断电或关机后立即停止遥操。
 :::
 
-录制、回放和日志查看见遥操文档中心。实机回放前必须清空工作空间，并确认起始姿态与录制数据一致。
+录制、回放和日志查看参见 [Apex Teleop 经典版界面](../teleoperation/interface-classic.mdx)。实机回放前必须清空工作空间，并确认起始姿态与录制数据一致。
 
 下一步：[维护与安全](./maintenance.mdx)。

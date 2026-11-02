@@ -4,9 +4,10 @@ description: 开箱与检查 · Gento Marvin Pro
 source_revision: V1.0 · 2026-06-27
 source_ids:
 - manual
+- apex-doc-center
 review_status: pending
 translation_status: source
-source_zh_sha256: e75710f4df6b3cba2aa6a8f6df74f5f1b609cc75453270b36b3717bb06c90dd7
+source_zh_sha256: 7c997aef1c9a4c7fcd1dee72cd591b59ce0545034a64b48ea00753acdb80716c
 ---
 放下卸货板和将机器人移出航空箱时，至少安排两人操作。检查完成前请保留包装材料。
 
@@ -26,5 +27,45 @@ source_zh_sha256: e75710f4df6b3cba2aa6a8f6df74f5f1b609cc75453270b36b3717bb06c90d
 手册标准清单包括带头部相机的机器人、遥操套件、两台腕部相机、两个柔性夹爪、一体化电箱、电源线和急停按钮。遥操套件包括 USB/网口 Hub、网线、U 盘、VR 头显及收纳包。
 
 请以实际订单和装箱单为准，末端执行器和配件可能因配置不同而变化。如有缺件或损坏，拍照并联系 Gento 后再继续。
+
+
+## 遥操作标准配件
+
+Apex 文档列出的当前版本标准配件如下。头显为 Pico 或 Meta Quest，以交付配置为准。
+
+| 配件 | 数量 | 说明 |
+| --- | ---: | --- |
+| VR 头显（Pico 或 Meta Quest） | 1 | 第一视角画面 |
+| 手柄（左/右） | 各 1 | 控制机械臂运动与夹爪开合 |
+| 机器人电源线 | 1 | 连接电箱 `ACIN` |
+| 急停按钮盒 | 1 | 连接电箱 `E-STOP` |
+| 森云腕部相机 | 标配 | 安装在机械臂末端，出厂完成线束连接 |
+| 网线 | 若干 | 有线连接，保证低延迟 |
+| U 盘（卷标 `BAG_STORAGE`） | 1 | 录制数据保存在其中的 `recorded_bags` 目录 |
+| Type-C 数据线 | 1 | ADB 调试与头显 APK 安装 |
+| Type-C 转网口转换器 | 1 | 头显有线接入网络 |
+
+![机器人电源线与急停按钮盒](/img/apex/pro/new-id/power-estop.webp)
+
+![遥操包：收纳包内的头显与手柄、U 盘、头显充电器、网线转 Type-C 转换器及网线](/img/apex/pro/new-id/teleop-kit.webp)
+
+## 可选配件
+
+| 配件 | 说明 |
+| --- | --- |
+| Manus 数据手套 | 捕获手指动作，配合 Wuji Hand 使用 |
+| Wuji Hand | 跟随手套动作的灵巧手，参见 [Wuji Hand 2](../integration/wuji-hand-2.mdx) |
+| 三键脚踏板 | 将手柄使能操作改为脚踩，用于动捕手套与灵巧手遥操作；非标配 |
+
+| 踏板按键 | 功能 |
+| --- | --- |
+| 按键 1（左） | 左右手柄同时使能 |
+| 按键 3（右） | 双臂回到 Home 点；出厂打包姿态下禁止使用 |
+
+![三键脚踏板连接控制板示意](/img/apex/pro/pro_accessories_foot_pedal.webp)
+
+:::danger 执行任何 Home 前先退出打包姿态
+机器人出厂时双臂贴近中间立柱自然下垂。使用踏板 Home 键或其他 Home 功能前，请先按[首次拆箱：先退出打包姿态](../teleoperation/marvin-pro.mdx#4-首次拆箱先退出打包姿态)操作。
+:::
 
 下一步：[接线与首次上电](./wiring.mdx)。

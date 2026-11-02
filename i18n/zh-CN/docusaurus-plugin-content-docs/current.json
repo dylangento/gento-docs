@@ -15,10 +15,6 @@
     "message": "软件与开发",
     "description": "The label for category 'Software & development' in sidebar 'docs'"
   },
-  "sidebar.docs.category.Teleoperation & data": {
-    "message": "遥操作与数据",
-    "description": "The label for category 'Teleoperation & data' in sidebar 'docs'"
-  },
   "sidebar.docs.category.Integration & support": {
     "message": "集成与支持",
     "description": "The label for category 'Integration & support' in sidebar 'docs'"
@@ -34,5 +30,29 @@
   "sidebar.docs.category.Skye": {
     "message": "Skye",
     "description": "The label for category 'Skye' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Teleoperation (Apex)": {
+    "message": "遥操作（Apex）",
+    "description": "The label for category 'Teleoperation (Apex)' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.ROS 2": {
+    "message": "ROS 2",
+    "description": "The label for category 'ROS 2' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.VR headset client": {
+    "message": "VR 头显客户端",
+    "description": "The label for category 'VR headset client' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.VLA guide": {
+    "message": "VLA 入门",
+    "description": "The label for category 'VLA guide' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Advanced configuration & diagnostics": {
+    "message": "进阶配置及检测",
+    "description": "The label for category 'Advanced configuration & diagnostics' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.End effectors": {
+    "message": "末端执行器",
+    "description": "The label for category 'End effectors' in sidebar 'docs'"
   }
 }
