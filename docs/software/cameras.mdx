@@ -8,7 +8,7 @@ source_ids:
 review_status: pending
 translation_status: source
 sidebar_label: Cameras
-source_zh_sha256: 9bbb2ddd393f9493348974bce2546ed813b78fe944166215b119e57c342eee18
+source_zh_sha256: 026e486563f1e86d1e9af59566084e4cd1bdbf6fb6693c9b956e9aba4b04ef99
 ---
 On robots with onboard AI compute (NVIDIA Orin or Thor), including Marvin Pro, Luna, and Skye, the head and wrist cameras run on the Orin or Thor. Start them after every power-up, before you teleoperate or record data.
 
@@ -20,7 +20,16 @@ On robots with onboard AI compute (NVIDIA Orin or Thor), including Marvin Pro, L
    ssh nvidia@6.6.7.100
    ```
 
-2. Start the cameras:
+2. Start the cameras. The script's folder depends on the robot.
+
+   Luna V3.0, which has the S56 stereo camera:
+
+   ```bash
+   cd ~/s56+shw5g/cam_geac
+   ./rb_camera.sh init
+   ```
+
+   Other robots:
 
    ```bash
    cd /home/nvidia/cam_geac
