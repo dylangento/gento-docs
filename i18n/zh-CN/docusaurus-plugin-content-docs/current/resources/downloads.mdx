@@ -23,10 +23,11 @@ source_ids:
 review_status: pending
 translation_status: source
 toc_max_heading_level: 2
-source_zh_sha256: f3e7771944b772ca557700efabb569d9df841970f9ba75a290d8ec8238374729
+source_zh_sha256: 50b5918a87a399b922e1957542cf544e1d712b1b6561a996b9a503f696fe5506
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import LunaUrdfPicker from '@site/src/components/LunaUrdfPicker';
 
 按产品下载手册、指南和仿真模型。资料尽量同时提供英文版和中文版。文件在 Google Drive 中打开，可在线查看或下载。
 
@@ -182,16 +183,15 @@ import TabItem from '@theme/TabItem';
 
 ### 仿真模型（URDF）
 
+先选择臂长，再选择腕部相机和末端执行器，即可得到对应的 Luna 资源包。
+
+<LunaUrdfPicker />
+
 | 资源包 | 内容 | 下载 |
 | --- | --- | --- |
-| Gento Luna V3.0 · M6S Lite 750，含夹爪 | URDF 与网格，含 SHW5G 腕部相机和夹爪 · 2026 年 10 月 26 日 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1yWBZnaCzElF5psip1wp5lxPJ7UNYoiJ7/view" target="_blank" rel="noopener noreferrer">ZIP</a> <a className="dl-btn dl-btn--preview" href="/zh-CN/resources/models/?model=luna-v3-750-gripper">3D 预览</a></span> |
-| Gento Luna V3.0 · M6S Lite 615，含夹爪 | URDF 与网格，含 SHW5G 腕部相机和夹爪 · 2026 年 10 月 26 日 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1gqT-Fzs4dPosda6RzwRZKhS8T5q1oqtN/view" target="_blank" rel="noopener noreferrer">RAR</a> <a className="dl-btn dl-btn--preview" href="/zh-CN/resources/models/?model=luna-v3-615-gripper">3D 预览</a></span> |
-| Gento Luna V3.0 · M6S Lite 615，不含夹爪 | URDF 与网格 · 2026 年 10 月 26 日 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1PNYfa0C6czClKVJM9CA52kP-CWC-5iIK/view" target="_blank" rel="noopener noreferrer">ZIP</a> <a className="dl-btn dl-btn--preview" href="/zh-CN/resources/models/?model=luna-v3-615">3D 预览</a></span> |
-| Gento Luna V3.0 · 680，不含夹爪 | URDF 与网格 · 2026 年 10 月 26 日 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1VfQy3eeedHhlVIMbD4kSwhFQ3-mgxDg6/view" target="_blank" rel="noopener noreferrer">RAR</a> <a className="dl-btn dl-btn--preview" href="/zh-CN/resources/models/?model=luna-v3-680">3D 预览</a></span> |
-| Gento Luna 旧版（V3.0 之前） | URDF 与网格 · 2026 年 4 月 28 日 | <a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1l5AmXHnBZa0iCbyQcTi3E6hrLGKC0rMG/view" target="_blank" rel="noopener noreferrer">ZIP</a> |
 | KernelMind Omni-Gripper 描述包 | 夹爪 URDF 与 STL 网格 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1uumHMypBTYnfrF0okSoHlY6C6gDfeyIK/view" target="_blank" rel="noopener noreferrer">ZIP</a> <a className="dl-btn dl-btn--preview" href="/zh-CN/resources/models/?model=omni-gripper">3D 预览</a></span> |
 
-<p className="dl-note">当前 Luna 请使用 V3.0 模型；旧版模型仅适用于 V3.0 之前交付的机器人。RAR 压缩包在 Windows 上可用 7-Zip 解压，在 Ubuntu 上可用 <code>unrar</code> 解压。模型用于仿真与可视化。使用前请核对关节限位、坐标系及负载设置是否与交付机器人一致。</p>
+<p className="dl-note">Sharpa 灵巧手和 Wuji 二代灵巧手资源包适用于 Luna V2.0，其余资源包均适用于 Luna V3.0。RAR 压缩包在 Windows 上可用 7-Zip 解压，在 Ubuntu 上可用 <code>unrar</code> 解压。模型用于仿真与可视化。使用前请核对关节限位、坐标系及负载设置是否与交付机器人一致。</p>
 
 </TabItem>
 <TabItem value="skye" label="Skye">

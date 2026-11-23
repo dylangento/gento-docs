@@ -23,10 +23,11 @@ source_ids:
 review_status: pending
 translation_status: pending
 toc_max_heading_level: 2
-source_zh_sha256: f3e7771944b772ca557700efabb569d9df841970f9ba75a290d8ec8238374729
+source_zh_sha256: 50b5918a87a399b922e1957542cf544e1d712b1b6561a996b9a503f696fe5506
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import LunaUrdfPicker from '@site/src/components/LunaUrdfPicker';
 
 Download manuals, guides, and simulation models for each Gento product. Each document has an English and a Chinese edition where available. Files open on Google Drive, where you can view or download them.
 
@@ -182,16 +183,15 @@ Download manuals, guides, and simulation models for each Gento product. Each doc
 
 ### Simulation models (URDF)
 
+Choose the arm length, then the wrist camera and end effector, to get the matching Luna package.
+
+<LunaUrdfPicker />
+
 | Package | Contents | Download |
 | --- | --- | --- |
-| Gento Luna V3.0 · M6S Lite 750, with gripper | URDF and meshes, SHW5G wrist camera and gripper · Oct 26, 2026 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1yWBZnaCzElF5psip1wp5lxPJ7UNYoiJ7/view" target="_blank" rel="noopener noreferrer">ZIP</a> <a className="dl-btn dl-btn--preview" href="/resources/models/?model=luna-v3-750-gripper">View in 3D</a></span> |
-| Gento Luna V3.0 · M6S Lite 615, with gripper | URDF and meshes, SHW5G wrist camera and gripper · Oct 26, 2026 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1gqT-Fzs4dPosda6RzwRZKhS8T5q1oqtN/view" target="_blank" rel="noopener noreferrer">RAR</a> <a className="dl-btn dl-btn--preview" href="/resources/models/?model=luna-v3-615-gripper">View in 3D</a></span> |
-| Gento Luna V3.0 · M6S Lite 615, without gripper | URDF and meshes · Oct 26, 2026 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1PNYfa0C6czClKVJM9CA52kP-CWC-5iIK/view" target="_blank" rel="noopener noreferrer">ZIP</a> <a className="dl-btn dl-btn--preview" href="/resources/models/?model=luna-v3-615">View in 3D</a></span> |
-| Gento Luna V3.0 · 680, without gripper | URDF and meshes · Oct 26, 2026 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1VfQy3eeedHhlVIMbD4kSwhFQ3-mgxDg6/view" target="_blank" rel="noopener noreferrer">RAR</a> <a className="dl-btn dl-btn--preview" href="/resources/models/?model=luna-v3-680">View in 3D</a></span> |
-| Gento Luna, earlier version (before V3.0) | URDF and meshes · Apr 28, 2026 | <a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1l5AmXHnBZa0iCbyQcTi3E6hrLGKC0rMG/view" target="_blank" rel="noopener noreferrer">ZIP</a> |
 | KernelMind Omni-Gripper description | Gripper URDF and STL meshes | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1uumHMypBTYnfrF0okSoHlY6C6gDfeyIK/view" target="_blank" rel="noopener noreferrer">ZIP</a> <a className="dl-btn dl-btn--preview" href="/resources/models/?model=omni-gripper">View in 3D</a></span> |
 
-<p className="dl-note">Use the V3.0 models for the current Luna, and the earlier model only for robots delivered before V3.0. RAR archives open with 7-Zip on Windows or <code>unrar</code> on Ubuntu. Models are for simulation and visualization. Check joint limits, frames, and payload settings against your delivered robot before relying on them.</p>
+<p className="dl-note">The Sharpa hand and Wuji Hand 2 packages are for Luna V2.0; all other packages are for Luna V3.0. RAR archives open with 7-Zip on Windows or <code>unrar</code> on Ubuntu. Models are for simulation and visualization. Check joint limits, frames, and payload settings against your delivered robot before relying on them.</p>
 
 </TabItem>
 <TabItem value="skye" label="Skye">

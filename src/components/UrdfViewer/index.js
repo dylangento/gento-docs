@@ -1,6 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import MODELS from './models.json';
+import LunaOptions from './LunaOptions';
+import {ARMS, LEGACY_IDS, LUNA_LABELS, chooseLuna, isLuna} from './luna';
 
 const LABELS = {
   en: {
@@ -64,7 +66,8 @@ export default function UrdfViewer() {
 
   useEffect(() => {
     let cancelled = false;
-    const q = new URLSearchParams(window.location.search).get('model');
+    const raw = new URLSearchParams(window.location.search).get('model');
+    const q = LEGACY_IDS[raw] || raw;
     if (q && MODELS.some((m) => m.id === q)) setModelId(q);
     import('./scene')
       .then(({createViewer}) => {
@@ -96,6 +99,14 @@ export default function UrdfViewer() {
   }, [ready, modelId]);
 
   const current = MODELS.find((x) => x.id === modelId) || MODELS[0];
+  const lt = LUNA_LABELS[i18n.currentLocale] || LUNA_LABELS.en;
+  // Luna is listed once per arm length; the camera and end effector are chosen with the buttons below.
+  const selectValue = isLuna(current) ? `luna@${current.arm}` : modelId;
+  const onSelect = (v) => {
+    if (!v.startsWith('luna@')) return setModelId(v);
+    const base = isLuna(current) ? current : {camera: 'none', effector: 'none'};
+    return setModelId(chooseLuna({arm: v.slice(5), camera: base.camera, effector: base.effector}, 'arm').id);
+  };
   const setJoint = (name, v) => {
     setValues((s) => ({...s, [name]: v}));
     if (viewer.current) viewer.current.setJoint(name, v);
@@ -110,12 +121,14 @@ export default function UrdfViewer() {
       <div className="urdf-viewer__bar">
         <label className="urdf-viewer__select">
           <span>{t.model}</span>
-          <select value={modelId} onChange={(e) => setModelId(e.target.value)}>
+          <select value={selectValue} onChange={(e) => onSelect(e.target.value)}>
             {PRODUCTS.filter(([p]) => MODELS.some((m) => m.product === p)).map(([p, name]) => (
               <optgroup key={p} label={name}>
-                {MODELS.filter((m) => m.product === p).map((m) => (
-                  <option key={m.id} value={m.id}>{zh ? m.zh : m.en}</option>
-                ))}
+                {p === 'luna'
+                  ? ARMS.map((a) => <option key={a} value={`luna@${a}`}>{lt.model(a)}</option>)
+                  : MODELS.filter((m) => m.product === p).map((m) => (
+                      <option key={m.id} value={m.id}>{zh ? m.zh : m.en}</option>
+                    ))}
               </optgroup>
             ))}
           </select>
@@ -125,6 +138,12 @@ export default function UrdfViewer() {
           <button type="button" className="urdf-viewer__btn" onClick={() => viewer.current && viewer.current.resetView()}>{t.resetView}</button>
         </span>
       </div>
+      {isLuna(current) && (
+        <div className="urdf-viewer__luna">
+          <LunaOptions model={current} onChange={(m) => setModelId(m.id)} showArm={false} locale={i18n.currentLocale} />
+          <p className="urdf-viewer__luna-name">{zh ? current.zh : current.en}</p>
+        </div>
+      )}
       <div className="urdf-viewer__main">
         <div className="urdf-viewer__view">
           <div className="urdf-viewer__stage" ref={stage}>
