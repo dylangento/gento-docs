@@ -82,6 +82,15 @@
     "drive": ""
   },
   {
+    "id": "marvin-x86-control-box",
+    "product": "marvin",
+    "kind": "cad",
+    "en": "x86 control box (CAD)",
+    "zh": "x86 控制箱（CAD）",
+    "path": "marvin-x86-control-box/model.urdf",
+    "drive": "1B3x-Wl5FrfezWJK6dD_jqd5OOnfyML6v"
+  },
+  {
     "id": "luna-615",
     "product": "luna",
     "version": "V3.0",
