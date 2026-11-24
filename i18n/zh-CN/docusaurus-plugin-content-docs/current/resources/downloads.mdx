@@ -23,11 +23,11 @@ source_ids:
 review_status: pending
 translation_status: source
 toc_max_heading_level: 2
-source_zh_sha256: 50b5918a87a399b922e1957542cf544e1d712b1b6561a996b9a503f696fe5506
+source_zh_sha256: 3e411b3e14e22e559c949674bac97de47411309f9a1a5525c4fa0dfc90c0500c
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import LunaUrdfPicker from '@site/src/components/LunaUrdfPicker';
+import UrdfPicker from '@site/src/components/UrdfPicker';
 
 按产品下载手册、指南和仿真模型。资料尽量同时提供英文版和中文版。文件在 Google Drive 中打开，可在线查看或下载。
 
@@ -183,15 +183,15 @@ import LunaUrdfPicker from '@site/src/components/LunaUrdfPicker';
 
 ### 仿真模型（URDF）
 
-先选择臂长，再选择腕部相机和末端执行器，即可得到对应的 Luna 资源包。
+请先选择版本：V3.0 为当前 Luna，V2.0 仅适用于按 V2.0 交付的机器人。再选择臂长、腕部相机和末端执行器，即可得到对应的资源包。
 
-<LunaUrdfPicker />
+<UrdfPicker product="luna" />
 
 | 资源包 | 内容 | 下载 |
 | --- | --- | --- |
 | KernelMind Omni-Gripper 描述包 | 夹爪 URDF 与 STL 网格 | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1uumHMypBTYnfrF0okSoHlY6C6gDfeyIK/view" target="_blank" rel="noopener noreferrer">ZIP</a> <a className="dl-btn dl-btn--preview" href="/zh-CN/resources/models/?model=omni-gripper">3D 预览</a></span> |
 
-<p className="dl-note">Sharpa 灵巧手和 Wuji 二代灵巧手资源包适用于 Luna V2.0，其余资源包均适用于 Luna V3.0。RAR 压缩包在 Windows 上可用 7-Zip 解压，在 Ubuntu 上可用 <code>unrar</code> 解压。模型用于仿真与可视化。使用前请核对关节限位、坐标系及负载设置是否与交付机器人一致。</p>
+<p className="dl-note">RAR 压缩包在 Windows 上可用 7-Zip 解压，在 Ubuntu 上可用 <code>unrar</code> 解压。模型用于仿真与可视化。使用前请核对关节限位、坐标系及负载设置是否与交付机器人一致。</p>
 
 </TabItem>
 <TabItem value="skye" label="Skye">
@@ -211,6 +211,10 @@ import LunaUrdfPicker from '@site/src/components/LunaUrdfPicker';
 | 底盘资料 | 在线文档 | <a className="dl-btn dl-btn--file" href="https://qcnw5a899aor.feishu.cn/wiki/JgsFwABn6iopcjkJDAXcG57hnbh" target="_blank" rel="noopener noreferrer">飞书 ↗</a> |
 
 ### 仿真模型（URDF）
+
+先选择臂长，再选择腕部相机和末端执行器，即可得到对应的 Skye V4.0 资源包。下方的 Skye V2.0 模型仅适用于按 V2.0 交付的机器人。
+
+<UrdfPicker product="skye" />
 
 | 资源包 | 内容 | 下载 |
 | --- | --- | --- |

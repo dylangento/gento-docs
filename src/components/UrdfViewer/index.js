@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import MODELS from './models.json';
-import LunaOptions from './LunaOptions';
-import {ARMS, LEGACY_IDS, LUNA_LABELS, chooseLuna, isLuna} from './luna';
+import VariantOptions from './VariantOptions';
+import {LEGACY_IDS, VARIANT_LABELS, armsOf, chooseVariant, isVariant, versionsOf} from './variants';
 
 const LABELS = {
   en: {
@@ -17,10 +17,10 @@ const LABELS = {
   },
 };
 const GROUP_LABELS = {
-  en: {leftArm: 'Left arm', rightArm: 'Right arm', body: 'Body', base: 'Mobile base', head: 'Head', leftGripper: 'Left gripper', rightGripper: 'Right gripper', gripper: 'Gripper', other: 'Other'},
-  'zh-CN': {leftArm: '左臂', rightArm: '右臂', body: '躯干', base: '移动底盘', head: '头部', leftGripper: '左夹爪', rightGripper: '右夹爪', gripper: '夹爪', other: '其他'},
+  en: {leftArm: 'Left arm', rightArm: 'Right arm', body: 'Body', base: 'Mobile base', head: 'Head', leftGripper: 'Left gripper', rightGripper: 'Right gripper', gripper: 'Gripper', leftHand: 'Left hand', rightHand: 'Right hand', hand: 'Hand', other: 'Other'},
+  'zh-CN': {leftArm: '左臂', rightArm: '右臂', body: '躯干', base: '移动底盘', head: '头部', leftGripper: '左夹爪', rightGripper: '右夹爪', gripper: '夹爪', leftHand: '左手', rightHand: '右手', hand: '手', other: '其他'},
 };
-const GROUP_ORDER = ['leftArm', 'rightArm', 'body', 'base', 'head', 'leftGripper', 'rightGripper', 'gripper', 'other'];
+const GROUP_ORDER = ['leftArm', 'rightArm', 'body', 'base', 'head', 'leftGripper', 'rightGripper', 'gripper', 'leftHand', 'rightHand', 'hand', 'other'];
 
 const sideOf = (s) => {
   if (/(^|[^a-z])left|(^|_)l(\d|_|$)/.test(s)) return 'left';
@@ -35,6 +35,7 @@ function groupOf(name) {
   if (/head|neck/.test(s)) return 'head';
   const g = s.match(/^(.*?)gripper/);
   if (g) return sideOf(g[1]) ? `${sideOf(g[1])}Gripper` : 'gripper';
+  if (/(^|_)(thumb|index|middle|ring|pinky|little)(_|$)/.test(s)) return sideOf(s) ? `${sideOf(s)}Hand` : 'hand';
   if (/finger|claw|chipper/.test(s)) return 'gripper';
   const arm = s.match(/^arm_([lr])(\d+)_joint$/);
   if (arm && Number(arm[2]) >= 8) return arm[1] === 'l' ? 'leftGripper' : 'rightGripper';
@@ -99,13 +100,15 @@ export default function UrdfViewer() {
   }, [ready, modelId]);
 
   const current = MODELS.find((x) => x.id === modelId) || MODELS[0];
-  const lt = LUNA_LABELS[i18n.currentLocale] || LUNA_LABELS.en;
-  // Luna is listed once per arm length; the camera and end effector are chosen with the buttons below.
-  const selectValue = isLuna(current) ? `luna@${current.arm}` : modelId;
+  const vt = VARIANT_LABELS[i18n.currentLocale] || VARIANT_LABELS.en;
+  // Products with several configurations (Luna, Skye) are listed once per version and arm length;
+  // the camera and end effector are chosen with the buttons below the menu.
+  const selectValue = isVariant(current) ? `${current.product}@${current.version}@${current.arm}` : modelId;
   const onSelect = (v) => {
-    if (!v.startsWith('luna@')) return setModelId(v);
-    const base = isLuna(current) ? current : {camera: 'none', effector: 'none'};
-    return setModelId(chooseLuna({arm: v.slice(5), camera: base.camera, effector: base.effector}, 'arm').id);
+    if (!v.includes('@')) return setModelId(v);
+    const [product, version, arm] = v.split('@');
+    const base = isVariant(current) && current.product === product ? current : {camera: 'none', effector: 'none'};
+    return setModelId(chooseVariant(product, {version, arm, camera: base.camera, effector: base.effector}, 'arm').id);
   };
   const setJoint = (name, v) => {
     setValues((s) => ({...s, [name]: v}));
@@ -124,11 +127,12 @@ export default function UrdfViewer() {
           <select value={selectValue} onChange={(e) => onSelect(e.target.value)}>
             {PRODUCTS.filter(([p]) => MODELS.some((m) => m.product === p)).map(([p, name]) => (
               <optgroup key={p} label={name}>
-                {p === 'luna'
-                  ? ARMS.map((a) => <option key={a} value={`luna@${a}`}>{lt.model(a)}</option>)
-                  : MODELS.filter((m) => m.product === p).map((m) => (
-                      <option key={m.id} value={m.id}>{zh ? m.zh : m.en}</option>
-                    ))}
+                {versionsOf(p).flatMap((v) => armsOf(p, v).map((a) => (
+                  <option key={`${v}@${a}`} value={`${p}@${v}@${a}`}>{vt.model(name, v, a)}</option>
+                )))}
+                {MODELS.filter((m) => m.product === p && !isVariant(m)).map((m) => (
+                  <option key={m.id} value={m.id}>{zh ? m.zh : m.en}</option>
+                ))}
               </optgroup>
             ))}
           </select>
@@ -138,10 +142,10 @@ export default function UrdfViewer() {
           <button type="button" className="urdf-viewer__btn" onClick={() => viewer.current && viewer.current.resetView()}>{t.resetView}</button>
         </span>
       </div>
-      {isLuna(current) && (
-        <div className="urdf-viewer__luna">
-          <LunaOptions model={current} onChange={(m) => setModelId(m.id)} showArm={false} locale={i18n.currentLocale} />
-          <p className="urdf-viewer__luna-name">{zh ? current.zh : current.en}</p>
+      {isVariant(current) && (
+        <div className="urdf-viewer__variant">
+          <VariantOptions model={current} onChange={(m) => setModelId(m.id)} showVersion={false} showArm={false} locale={i18n.currentLocale} />
+          <p className="urdf-viewer__variant-name">{zh ? current.zh : current.en}</p>
         </div>
       )}
       <div className="urdf-viewer__main">

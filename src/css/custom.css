@@ -331,21 +331,21 @@ html[data-theme='dark'] .home-hero__stage {background:linear-gradient(180deg,#1a
 }
 @media(max-width:700px) {.urdf-viewer__stage {height:360px;} .urdf-viewer__select {flex-wrap:wrap;}}
 
-/* Luna URDF picker (src/components/LunaUrdfPicker, and the 3D preview): arm length, then wrist camera and end effector */
-.luna-opts {display:flex;flex-direction:column;gap:.6rem;}
-.luna-opts__row {display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .75rem;}
-.luna-opts__label {min-width:7.5rem;font-size:.85rem;font-weight:600;color:var(--gento-muted);}
-.luna-opts__choices {display:flex;flex-wrap:wrap;gap:.4rem;}
-.luna-opts__btn {padding:.35rem .9rem;border:1px solid var(--gento-line);border-radius:999px;background:transparent;color:var(--ifm-font-color-base);font:inherit;font-size:.88rem;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s,color .15s;}
-.luna-opts__btn:hover {border-color:var(--ifm-color-primary);}
-.luna-opts__btn:focus-visible {outline:3px solid var(--gento-green);outline-offset:2px;}
-.luna-opts__btn[aria-pressed="true"] {background:var(--ifm-color-primary);border-color:var(--ifm-color-primary);color:var(--ifm-background-color);}
-.luna-opts__btn[data-unavailable]:not([aria-pressed="true"]) {opacity:.55;}
-.luna-picker {margin:1rem 0 1.25rem;padding:1.1rem 1.2rem;border:1px solid var(--gento-line);border-radius:16px;}
-.luna-picker__result {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--gento-line);}
-.luna-picker__text {display:flex;flex-direction:column;gap:.25rem;min-width:0;}
-.luna-picker__name {font-size:1rem;}
-.luna-picker__meta {font-size:.82rem;color:var(--gento-muted);overflow-wrap:anywhere;}
-.urdf-viewer__luna {margin:0 0 .9rem;}
-.urdf-viewer__luna-name {margin:.6rem 0 0;font-size:.88rem;color:var(--gento-muted);}
-@media(max-width:480px) {.luna-opts__label {min-width:100%;}}
+/* URDF configuration picker (src/components/UrdfPicker, and the 3D preview for Luna and Skye): arm length, then wrist camera and end effector */
+.urdf-opts {display:flex;flex-direction:column;gap:.6rem;}
+.urdf-opts__row {display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .75rem;}
+.urdf-opts__label {min-width:7.5rem;font-size:.85rem;font-weight:600;color:var(--gento-muted);}
+.urdf-opts__choices {display:flex;flex-wrap:wrap;gap:.4rem;}
+.urdf-opts__btn {padding:.35rem .9rem;border:1px solid var(--gento-line);border-radius:999px;background:transparent;color:var(--ifm-font-color-base);font:inherit;font-size:.88rem;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s,color .15s;}
+.urdf-opts__btn:hover {border-color:var(--ifm-color-primary);}
+.urdf-opts__btn:focus-visible {outline:3px solid var(--gento-green);outline-offset:2px;}
+.urdf-opts__btn[aria-pressed="true"] {background:var(--ifm-color-primary);border-color:var(--ifm-color-primary);color:var(--ifm-background-color);}
+.urdf-opts__btn[data-unavailable]:not([aria-pressed="true"]) {opacity:.55;}
+.urdf-picker {margin:1rem 0 1.25rem;padding:1.1rem 1.2rem;border:1px solid var(--gento-line);border-radius:16px;}
+.urdf-picker__result {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--gento-line);}
+.urdf-picker__text {display:flex;flex-direction:column;gap:.25rem;min-width:0;}
+.urdf-picker__name {font-size:1rem;}
+.urdf-picker__meta {font-size:.82rem;color:var(--gento-muted);overflow-wrap:anywhere;}
+.urdf-viewer__variant {margin:0 0 .9rem;}
+.urdf-viewer__variant-name {margin:.6rem 0 0;font-size:.88rem;color:var(--gento-muted);}
+@media(max-width:480px) {.urdf-opts__label {min-width:100%;}}

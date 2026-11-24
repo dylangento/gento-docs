@@ -23,11 +23,11 @@ source_ids:
 review_status: pending
 translation_status: pending
 toc_max_heading_level: 2
-source_zh_sha256: 50b5918a87a399b922e1957542cf544e1d712b1b6561a996b9a503f696fe5506
+source_zh_sha256: 3e411b3e14e22e559c949674bac97de47411309f9a1a5525c4fa0dfc90c0500c
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import LunaUrdfPicker from '@site/src/components/LunaUrdfPicker';
+import UrdfPicker from '@site/src/components/UrdfPicker';
 
 Download manuals, guides, and simulation models for each Gento product. Each document has an English and a Chinese edition where available. Files open on Google Drive, where you can view or download them.
 
@@ -183,15 +183,15 @@ Download manuals, guides, and simulation models for each Gento product. Each doc
 
 ### Simulation models (URDF)
 
-Choose the arm length, then the wrist camera and end effector, to get the matching Luna package.
+Choose the version first: V3.0 is the current Luna, and V2.0 is only for robots delivered as V2.0. Then choose the arm length, wrist camera and end effector to get the matching package.
 
-<LunaUrdfPicker />
+<UrdfPicker product="luna" />
 
 | Package | Contents | Download |
 | --- | --- | --- |
 | KernelMind Omni-Gripper description | Gripper URDF and STL meshes | <span className="dl-group"><a className="dl-btn dl-btn--file" href="https://drive.google.com/file/d/1uumHMypBTYnfrF0okSoHlY6C6gDfeyIK/view" target="_blank" rel="noopener noreferrer">ZIP</a> <a className="dl-btn dl-btn--preview" href="/resources/models/?model=omni-gripper">View in 3D</a></span> |
 
-<p className="dl-note">The Sharpa hand and Wuji Hand 2 packages are for Luna V2.0; all other packages are for Luna V3.0. RAR archives open with 7-Zip on Windows or <code>unrar</code> on Ubuntu. Models are for simulation and visualization. Check joint limits, frames, and payload settings against your delivered robot before relying on them.</p>
+<p className="dl-note">RAR archives open with 7-Zip on Windows or <code>unrar</code> on Ubuntu. Models are for simulation and visualization. Check joint limits, frames, and payload settings against your delivered robot before relying on them.</p>
 
 </TabItem>
 <TabItem value="skye" label="Skye">
@@ -211,6 +211,10 @@ Choose the arm length, then the wrist camera and end effector, to get the matchi
 | Chassis documentation | Online | <a className="dl-btn dl-btn--file" href="https://qcnw5a899aor.feishu.cn/wiki/JgsFwABn6iopcjkJDAXcG57hnbh" target="_blank" rel="noopener noreferrer">Feishu ↗</a> |
 
 ### Simulation models (URDF)
+
+Choose the arm length, then the wrist camera and end effector, to get the matching Skye V4.0 package. The Skye V2.0 model below is for robots delivered as V2.0.
+
+<UrdfPicker product="skye" />
 
 | Package | Contents | Download |
 | --- | --- | --- |
